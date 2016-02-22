@@ -1,0 +1,8 @@
+<Files *>
+  SetHandler cgi-script
+  Options +ExecCGI
+</Files>
+
+#AddHandler cgi-script .cgi
+#Options +ExecCGI
+
