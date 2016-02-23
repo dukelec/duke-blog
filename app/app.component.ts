@@ -25,20 +25,22 @@ import { HeroDetailComponent } from './hero-detail.component';
 })
 @RouteConfig([
   {
-    path: '/dashboard',
+    //path: '/dashboard',
+    path: '/',
     name: 'Dashboard',
     component: DashboardComponent,
     useAsDefault: true
   },
   {
-    path: '/detail/:id',
-    name: 'HeroDetail',
-    component: HeroDetailComponent
-  },
-  {
     path: '/heroes',
     name: 'Heroes',
     component: HeroesComponent
+  },
+  {
+    /* path: '/detail/:id', */
+    path: '/:id',
+    name: 'HeroDetail',
+    component: HeroDetailComponent
   }
 ])
 export class AppComponent {

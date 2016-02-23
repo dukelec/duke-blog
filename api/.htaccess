@@ -1,3 +1,6 @@
+# Notice how Files says that you can have it in .htaccess, but Location doesn't...
+# http://stackoverflow.com/questions/6667894/htaccess-location-not-allowed-here
+
 <Files *>
   SetHandler cgi-script
   Options +ExecCGI

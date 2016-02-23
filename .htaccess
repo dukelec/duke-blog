@@ -1,9 +1,43 @@
-RewriteEngine On  
-  # If an existing asset or directory is requested go to it as it is
-  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
-  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
-  RewriteRule ^ - [L]
+# url patterns:
+# http://blog.dukelec.com : for all indexs
+# http://blog.dukelec.com/article-title-xxx
+# http://blog.dukelec.com/article-title-xxx-1
+# http://blog.dukelec.com/article-title-xxx-2
+# http://blog.dukelec.com/article-title-xxx-yuet
+# http://blog.dukelec.com/article-title-xxx-hk
+# http://blog.dukelec.com/article-title-xxx-cn
+# http://blog.dukelec.com/article-title-xxx-en
+# http://blog.dukelec.com/api/xxx # /app/xxx /node_modules/xxx
+# http://blog.dukelec.com/files/file.xxx
+# http://blog.dukelec.com/article-title-xxx/file.xxx (not support now)
 
-  # If the requested resource doesn't exist, use index.html
-  RewriteRule ^ /index.html
 
+RewriteEngine On
+#RewriteLog "/var/log/apache2/rewrite.log"
+#RewriteLogLevel 3
+
+# If an existing asset or directory is requested go to it as it is
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+RewriteRule ^ - [L]
+
+#RewriteRule /abc/(.*)$ /files/$1 [L]
+#RewriteRule ^([^/]+)/([^/]+)$ ./files/$1/$2 [L,QSA]
+#RewriteRule ^([^/]+)/([^/]+)$ files/$1/$2 [L,QSA,C]
+RewriteRule ^([^/]+)/(.+)$ db/articles/$1/$2 [L]
+#RewriteRule ^(abc)/([0-9]+/.+)$ file/$1/$2 [L]
+
+# If the requested resource doesn't exist, use index.html
+RewriteRule ^ /index.html
+
+RedirectMatch 404 /\.git
+#RedirectMatch 404 /db
+
+# Disable Indexing
+#Options -Indexes
+
+# htpasswd -bc /usr/lib64/apache2/.htpasswd duke Charlene
+#AuthUserFile .htpasswd
+#AuthName "Admin's Login Area"
+#AuthType Basic
+#require valid-user

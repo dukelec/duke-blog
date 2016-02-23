@@ -1,7 +1,12 @@
-import { bootstrap }    from 'angular2/platform/browser';
+import { bootstrap } from 'angular2/platform/browser';
+import { APP_BASE_HREF, ROUTER_PROVIDERS } from 'angular2/router';
+import { provide } from 'angular2/core';
 import { AppComponent } from './app.component';
 
-bootstrap(AppComponent);
+bootstrap(AppComponent, [
+  ROUTER_PROVIDERS,
+  provide(APP_BASE_HREF, { useValue: '/' })
+]);
 
 /*
 Copyright 2016 Google Inc. All Rights Reserved.

@@ -1,0 +1,5 @@
+cat index | awk '$3 ~ en'
+
+# reverse the order of lines:
+tac index
+
