@@ -4,33 +4,34 @@ export interface Hero {
 }
 
 export interface Article {
-  date: string;
   url: string;
   title: string;
-  lang: string;
+  date: string; // date object?
+  attributes: string; // languages + categories + tags + permissions...
+  count: number;
+  format: string;
   summary: string;
-  categories: string;
-  tags: string;
-  purview: string;
-  counter: number;
   body: string; // empty in list mode
 }
 
 export interface Reply {
   date: string;
-  author_type: string;
-  author: string;
+  registered: boolean;
+  name: string;
+  email: string;
+  site: string;
+  format: string;
   body: string;
 }
 
 export interface Account {
-  email: string;
   name: string;
-  purviews: string;
+  email: string;
+  permissions: string;
   site: string;
   message: string;
   note: string;
-  //bad_guy: string;
+  //bad_guy: string; // use blacklist instead
 }
 
 

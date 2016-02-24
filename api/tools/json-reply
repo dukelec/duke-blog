@@ -1,0 +1,38 @@
+#!/bin/bash
+
+function json_escape(){
+  echo -n "$1" | python2.7 -c 'import json,sys; print json.dumps(sys.stdin.read())'
+}
+
+set -e
+
+url="$1"       # url name
+id="$2"        # reply id
+
+db_top="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../../db")"
+article_dir="$db_top/articles/$url/_content"
+reply_top="$db_top/articles/$url/comments"
+reply_dir="$reply_top/$id/_content"
+
+[[ "$url" == "" ]] && { echo '{"error":"no url specified"}'; exit 1; }
+[[ ! -d "$article_dir" ]] && { echo '{"error":"url folder not found"}'; exit 1; }
+[[ ! -d "$reply_dir" ]] && { echo '{"error":"reply folder not found"}'; exit 1; }
+
+date=$(git config --file="$reply_dir/metadata" base.date)
+registered=$(git config --file="$reply_dir/metadata" base.registered)
+name=$(git config --file="$reply_dir/metadata" base.name)
+email=$(git config --file="$reply_dir/metadata" base.email)
+site=$(git config --file="$reply_dir/metadata" base.site)
+format=$(git config --file="$reply_dir/metadata" base.format)
+body=$(cat "$reply_dir/body")
+
+echo    "{\"date\":\"$date\","
+echo    "\"registered\":\"$registered\","
+echo    "\"name\":\"$name\","
+echo    "\"email\":\"$email\","
+echo    "\"site\":$(json_escape "$site"),"
+echo    "\"format\":\"$format\","
+echo -n "\"body\":$(json_escape "$body")}"
+
+exit 0
+

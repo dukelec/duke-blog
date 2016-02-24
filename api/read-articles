@@ -1,0 +1,53 @@
+#!/usr/local/bin/haserl
+Content-Type: application/json
+
+<%
+
+#set -e
+
+email="$GET_email" #email, TODO: add auth
+start="$GET_start"
+count="$GET_count"
+filters="$GET_filters"
+filters=(${filters//,/ }) #convert to array
+
+[[ "$start" == "" ]] && start="0"
+((start < 0 || start > 100)) && start="0"
+[[ "$count" == "" ]] && count="20"
+((count < 0 || count > 100)) && count="100"
+
+permissions=$(git config --file="$accounts_top/$email" base.permissions || echo "dflt")
+permissions=(${permissions//,/ })
+
+db_top="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../db")"
+accounts_top="$db_top/accounts"
+articles_top="$db_top/articles"
+
+index="$(tac "$articles_top/index")"
+
+for i in "${!filters[@]}"; do
+  index="$(echo "$index" | awk "$(echo "\$2 ~ \"${filters[i]}\"")" )"
+done
+
+for i in "${!permissions[@]}"; do
+  p="P_${permissions[i]}"
+  index="$(echo "$index" | awk "$(echo "\$2 ~ \"$p\"")" )"
+done
+
+#TODO: fix bug caused by start+count>total, same problem for read-replys
+index="$(echo "$index" | head -n $((start+count)) | tail -n $count)"
+
+echo -n "["
+virgin="true"
+while read -r line; do
+  [[ "$line" == "" ]] && break #avoid "$index" empty issue
+  [[ "$virgin" == "true" ]] && virgin="false" || echo ","
+  ./tools/json-article "${line% *}"
+done <<< "$index"
+
+echo "]"
+
+exit 0
+
+%>
+

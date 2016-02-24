@@ -1,5 +1,14 @@
-cat index | awk '$3 ~ en'
+ formats: URL attributes
+  P_ for permissions: P_dflt
+  L_ for languages: L_en, L_hk, L_cn
+  C_ for categories: C_diy, C_web
+  T_ for tags: T_about
+search by language: tac index | awk '$2 ~ "L_en"' | head -n 20
 
-# reverse the order of lines:
-tac index
+search not include:
+tac index | awk '$2 !~ "L_en"'
+index="$(echo "$index" | awk "$(echo "\$2 "\!"~ \"$p\"")" )" #put ! ouside ", and add \ to escape
 
+
+$ date --iso-8601=seconds
+2016-02-24T16:44:04+0800
