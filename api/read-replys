@@ -11,8 +11,8 @@ start="$GET_start"
 count="$GET_count"
 
 [[ "$start" == "" ]] && start="0"
-((start < 0 || start > 100)) && start="0"
 [[ "$count" == "" ]] && count="20"
+((start < 0 || start > 100)) && start="0"
 ((count < 0 || count > 100)) && count="100"
 
 db_top="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../db")"
@@ -36,6 +36,10 @@ for i in "${!permissions[@]}"; do
 done
 
 [[ "$have_permission" != "true" ]] && { echo '{"error":"permission denide"}'; exit 1; }
+
+total="$(ls -1 $reply_top | wc -l)"
+((start > total)) && start=$((total))
+((count > total - start)) && count=$((total - start))
 
 index=($(ls "$reply_top" | head -n $((start+count)) | tail -n $count))
 

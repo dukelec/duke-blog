@@ -12,8 +12,8 @@ filters="$GET_filters"
 filters=(${filters//,/ }) #convert to array
 
 [[ "$start" == "" ]] && start="0"
-((start < 0 || start > 100)) && start="0"
 [[ "$count" == "" ]] && count="20"
+((start < 0 || start > 100)) && start="0"
 ((count < 0 || count > 100)) && count="100"
 
 permissions=$(git config --file="$accounts_top/$email" base.permissions || echo "dflt")
@@ -34,7 +34,10 @@ for i in "${!permissions[@]}"; do
   index="$(echo "$index" | awk "$(echo "\$2 ~ \"$p\"")" )"
 done
 
-#TODO: fix bug caused by start+count>total, same problem for read-replys
+total="$(echo "$index" | wc -l)"
+((start > total)) && start=$((total))
+((count > total - start)) && count=$((total - start))
+
 index="$(echo "$index" | head -n $((start+count)) | tail -n $count)"
 
 echo -n "["

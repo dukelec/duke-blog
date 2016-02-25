@@ -26,7 +26,8 @@ site=$(git config --file="$reply_dir/metadata" base.site)
 format=$(git config --file="$reply_dir/metadata" base.format)
 body=$(cat "$reply_dir/body")
 
-echo    "{\"date\":\"$date\","
+echo    "{\"id\":\"$id\","
+echo    "\"date\":\"$date\","
 echo    "\"registered\":\"$registered\","
 echo    "\"name\":\"$name\","
 echo    "\"email\":\"$email\","

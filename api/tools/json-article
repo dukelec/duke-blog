@@ -23,7 +23,8 @@ format=$(git config --file="$article_dir/metadata" base.format)
 summary=$(git config --file="$article_dir/metadata" base.summary)
 body=$(cat "$article_dir/body")
 
-echo    "{\"title\":$(json_escape "$title"),"
+echo    "{\"url\":\"$url\","
+echo    "\"title\":$(json_escape "$title"),"
 echo    "\"date\":\"$date\","
 echo    "\"attributes\":\"$attributes\"," #TODO: filter sensitive data
 echo    "\"count\":\"$count\","
