@@ -7,6 +7,9 @@ set -e
 
 url="$GET_url"
 email="$GET_email"
+password="$GET_password"
+
+[[ "$email" != "" ]] && { ./tools/auth "$email" "$password" || exit 1; }
 
 db_top="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../db")"
 accounts_top="$db_top/accounts"

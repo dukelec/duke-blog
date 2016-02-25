@@ -3,12 +3,15 @@ Content-Type: application/json
 
 <%
 
-#set -e
+set -e
 
 url="$GET_url"
-email="$GET_email" #email, TODO: add auth
+email="$GET_email"
+password="$GET_password"
 start="$GET_start"
 count="$GET_count"
+
+[[ "$email" != "" ]] && { ./tools/auth "$email" "$password" || exit 1; }
 
 [[ "$start" == "" ]] && start="0"
 [[ "$count" == "" ]] && count="20"

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+
+date="$1"
+string="$2"
+
+[[ "$data" == "" ]] && exit 1
+[[ "$string" == "" ]] && exit 1
+
+string=${string,,} #to lowercase
+
+captcha_dir="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../.cache/captcha")"
+cd "$captcha_dir"
+
+# delete file older than 1 min
+find . -mmin +1 -type f -delete
+
+files=($(ls))
+
+for i in "${!files[@]}"; do
+  [[ "$date-$string" == "${files[i]}" ]] && { rm -f "$date-$string"; exit 0; }
+done
+
+exit 1
+

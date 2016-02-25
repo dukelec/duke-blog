@@ -1,0 +1,25 @@
+#!/usr/local/bin/haserl
+Content-Type: application/json
+
+<%
+
+set -e
+
+captcha_length=5
+
+date=$(date --iso-8601=seconds)
+
+#string=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 5 | head -n 1)
+string=$(dd if=/dev/urandom bs=100 count=1 2>/dev/null | tr -dc 'a-zA-Z0-9' | fold -w 5 | head -n 1)
+[[ "$string" == "" ]] && string="T" #avoid random data not sufficient
+
+base64_img=$(./tools/base64-captcha $string)
+string=${string,,} #to lowercase; ${string^^} for uppercase
+
+touch ".cache/captcha/$date-$string" # restore by: ${filename%-*} and ${filename##*-}
+
+echo "{\"date\":\"$date\","
+echo "\"image\":\"$base64_img\"}"
+
+%>
+

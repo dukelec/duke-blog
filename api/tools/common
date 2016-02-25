@@ -1,0 +1,16 @@
+
+function json_escape () {
+  echo -n "$1" | python2.7 -c 'import json,sys; print json.dumps(sys.stdin.read())'
+}
+
+function mask_email () {
+  email="$1"
+  name="${email%@*}"
+  domain="${email#*@}"
+  domain1="${domain%%.*}"
+  domain2="${domain#*.}"
+  ((${#name} >= 4)) && name=${name::2}~${name:$((${#name}-1))}
+  ((${#domain1} >= 4)) && domain1=${domain1::2}~${domain1:$((${#domain1}-1))}
+  echo "${name}@${domain1}.${domain2}"
+}
+

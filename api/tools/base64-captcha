@@ -1,0 +1,17 @@
+#!/usr/bin/python
+
+import sys
+import base64
+from io import BytesIO
+from captcha.image import ImageCaptcha
+
+image = ImageCaptcha()
+data = image.generate(sys.argv[1])
+base64_bytes = base64.b64encode(data.getbuffer())
+print(base64_bytes.decode())
+
+#python -c 'import sys;\
+#           from captcha.image import ImageCaptcha;\
+#           image = ImageCaptcha();\
+#           image.write(sys.argv[1], sys.argv[2])' "$1" "$2"
+

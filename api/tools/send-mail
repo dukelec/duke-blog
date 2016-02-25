@@ -1,0 +1,5 @@
+#!/bin/bash
+
+"$(dirname "${BASH_SOURCE[0]}")/smtp-cli" --verbose --host=smtp.gmail.com --enable-auth --user noreply@dukelec.com \
+  --from noreply@dukelec.com --to duke@dukelec.com --data e.txt
+
