@@ -1,0 +1,13 @@
+#!/usr/local/bin/haserl
+Content-Type: application/json
+
+<%
+
+set -e
+
+source "./tools/common"
+
+echo "{\"allow_anonymous\":\"$allow_anonymous\","
+echo "\"other\":\"none\"}"
+
+%>

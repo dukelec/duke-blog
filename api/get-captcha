@@ -5,7 +5,8 @@ Content-Type: application/json
 
 set -e
 
-captcha_length=5
+source "./tools/common"
+#captcha_length=5 #from config.ini
 
 date=$(date --iso-8601=seconds)
 
@@ -22,4 +23,3 @@ echo "{\"date\":\"$date\","
 echo "\"image\":\"$base64_img\"}"
 
 %>
-

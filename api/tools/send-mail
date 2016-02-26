@@ -1,5 +1,23 @@
 #!/bin/bash
 
-"$(dirname "${BASH_SOURCE[0]}")/smtp-cli" --verbose --host=smtp.gmail.com --enable-auth --user noreply@dukelec.com \
-  --from noreply@dukelec.com --to duke@dukelec.com --data e.txt
+set -e
 
+source "$(dirname "${BASH_SOURCE[0]}")/common"
+
+smtp_to="$1" #format: "Duke Fong <duke@dukelec.com>"
+password="$2" #the code send to user
+
+[[ "$smtp_to" == "" ]] && exit 1
+[[ "$smtp_body" == "" ]] && exit 1
+[[ "$password" == "" ]] && exit 1
+
+smtp_body=$(eval "echo \"$smtp_body\"")
+
+"$(dirname "${BASH_SOURCE[0]}")/smtp-cli" --ipv4 --host="$smtp_host" --enable-auth \
+  --user="$smtp_user" --pass="$smtp_password" --missing-modules-ok \
+  --from="$smtp_name <$smtp_user>" --to="$smtp_to" \
+  --subject="$smtp_subject" --body-plain="$smtp_body"
+
+exit $?
+
+#TODO: write to log file
