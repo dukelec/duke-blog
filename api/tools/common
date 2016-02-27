@@ -14,12 +14,13 @@ function mask_email () {
   echo "${name}@${domain1}.${domain2}"
 }
 
-config_file="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../../config.ini")"
-allow_anonymous=$(git config --file="$config_file" reply.allow-anonymous || echo "false")
-captcha_length=$(git config --file="$config_file" captcha.length || echo "5")
-smtp_host=$(git config --file="$config_file" smtp.host)
-smtp_user=$(git config --file="$config_file" smtp.user)
-smtp_password=$(git config --file="$config_file" smtp.password)
-smtp_name=$(git config --file="$config_file" smtp.name)
-smtp_subject=$(git config --file="$config_file" smtp.subject)
-smtp_body=$(git config --file="$config_file" smtp.body)
+function check_attribute_overlap () {
+  permissions="$1"
+  attributes="$2"
+  permissions=(${permissions//,/ })
+  for i in "${!permissions[@]}"; do
+    p="P_${permissions[i]}"
+    [[ "$attributes" =~ "$p" ]] && return 0
+  done
+  return 1
+}

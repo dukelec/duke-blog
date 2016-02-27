@@ -4,12 +4,13 @@ Content-Type: application/json
 <%
 
 set -e
+source "$(dirname "${BASH_SOURCE[0]}")/tools/common"
 
-url="$GET_url"
-email="$GET_email"
-password="$GET_password"
-start="$GET_start"
-count="$GET_count"
+url="$GET_url$POST_url"
+email="$GET_email$POST_email"
+password="$GET_password$POST_password"
+start="$GET_start$POST_start"
+count="$GET_count$POST_count"
 
 [[ "$email" != "" ]] && { ./tools/auth "$email" "$password" || exit 1; }
 
@@ -23,22 +24,13 @@ accounts_top="$db_top/accounts"
 article_dir="$db_top/articles/$url/_content"
 reply_top="$db_top/articles/$url/comments"
 
-[[ "$url" == "" ]] && { echo '{"error":"no url specified"}'; exit 1; }
-[[ ! -d "$reply_top" ]] && { echo '{"error":"reply folder not found"}'; exit 1; }
+[[ "$url" == "" ]] && { echo 'no url specified'; exit 1; }
+[[ ! -d "$reply_top" ]] && { echo 'reply folder not found'; exit 1; }
 
+#default "dflt" if no email specified
 permissions=$(git config --file="$accounts_top/$email" base.permissions || echo "dflt")
-permissions=(${permissions//,/ })
-
 attributes=$(git config --file="$article_dir/metadata" base.attributes)
-
-have_permission="false"
-
-for i in "${!permissions[@]}"; do
-  p="P_${permissions[i]}"
-  [[ "$attributes" =~ "$p" ]] && { have_permission="true"; break; }
-done
-
-[[ "$have_permission" != "true" ]] && { echo '{"error":"permission denide"}'; exit 1; }
+check_attribute_overlap "$permissions" "$attributes" || { echo 'permission denied'; exit 1; }
 
 total="$(ls -1 $reply_top | wc -l)"
 ((start > total)) && start=$((total))
@@ -46,14 +38,13 @@ total="$(ls -1 $reply_top | wc -l)"
 
 index=($(ls "$reply_top" | head -n $((start+count)) | tail -n $count))
 
-echo -n "["
+echo -n '{"replys":['
 for i in "${!index[@]}"; do
   ./tools/json-reply "$url" "${index[i]}"
   [[ $((i+1)) != ${#index[@]} ]] && echo ","
 done
-echo "]"
-
+echo '],'
+echo '"status":"success"}'
 exit 0
 
 %>
-

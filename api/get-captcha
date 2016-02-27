@@ -5,14 +5,12 @@ Content-Type: application/json
 
 set -e
 
-source "./tools/common"
-#captcha_length=5 #from config.ini
+config_file="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../config.ini")"
+captcha_length=$(git config --file="$config_file" captcha.length)
 
 date=$(date --iso-8601=seconds)
-
-#string=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 5 | head -n 1)
-string=$(dd if=/dev/urandom bs=100 count=1 2>/dev/null | tr -dc 'a-zA-Z0-9' | fold -w 5 | head -n 1)
-[[ "$string" == "" ]] && string="T" #avoid random data not sufficient
+string=$(tr -dc A-Za-z0-9 2>/dev/null < /dev/urandom | head -c $captcha_length) #avoid stderr Broken pipe message
+[[ "${#string}" != "$captcha_length" ]] && exit 1
 
 base64_img=$(./tools/base64-captcha $string)
 string=${string,,} #to lowercase; ${string^^} for uppercase
@@ -20,6 +18,8 @@ string=${string,,} #to lowercase; ${string^^} for uppercase
 touch ".cache/captcha/$date-$string" # restore by: ${filename%-*} and ${filename##*-}
 
 echo "{\"date\":\"$date\","
-echo "\"image\":\"$base64_img\"}"
+echo "\"image\":\"$base64_img\","
+echo "\"status\":\"success\"}"
+exit 0
 
 %>

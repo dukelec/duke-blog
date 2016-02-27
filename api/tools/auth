@@ -6,7 +6,6 @@ password="$2"
 db_top="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../../db")"
 accounts_top="$db_top/accounts"
 
-saved_password=$(git config --file="$accounts_top/$email" base.password) || { echo '{"error":"auth failed"}'; exit 1; }
-[[ "$password" != "$saved_password" ]] && { echo '{"error":"auth failed"}'; exit 1; }
+saved_password=$(git config --file="$accounts_top/$email" base.password) || { echo 'auth failed'; exit 1; }
+[[ "$password" != "$saved_password" ]] && { echo 'auth failed'; exit 1; }
 exit 0
-

@@ -3,11 +3,12 @@ Content-Type: application/json
 
 <%
 
-set -e
-
-source "./tools/common"
+config_file="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../config.ini")"
+allow_anonymous=$(git config --file="$config_file" reply.allow-anonymous) || exit 1
 
 echo "{\"allow_anonymous\":\"$allow_anonymous\","
-echo "\"other\":\"none\"}"
+echo "\"other\":\"none\","
+echo "\"status\":\"success\"}"
+exit 0
 
 %>

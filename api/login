@@ -1,0 +1,16 @@
+#!/usr/local/bin/haserl
+Content-Type: application/json
+
+<%
+
+email="$GET_email$POST_email"
+password="$GET_password$POST_password"
+
+[[ "$email" == "" || "$password" == "" ]] && { echo 'email or password empty'; exit 1; }
+
+./tools/auth "$email" "$password" || exit 1
+
+echo '{"status":"success"}'
+exit 0
+
+%>

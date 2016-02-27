@@ -1,8 +1,7 @@
 #!/bin/bash
 
-source "$(dirname "${BASH_SOURCE[0]}")/common"
-
 set -e
+source "$(dirname "${BASH_SOURCE[0]}")/common"
 
 url="$1"       # url name
 show_body="$2" # true or not
@@ -10,8 +9,8 @@ show_body="$2" # true or not
 db_top="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../../db")"
 article_dir="$db_top/articles/$url/_content"
 
-[[ "$url" == "" ]] && { echo '{"error":"no url specified"}'; exit 1; }
-[[ ! -d "$article_dir" ]] && { echo '{"error":"url folder not found"}'; exit 1; }
+[[ "$url" == "" ]] && { echo 'no url specified'; exit 1; }
+[[ ! -d "$article_dir" ]] && { echo 'url folder not found'; exit 1; }
 
 title=$(git config --file="$article_dir/metadata" base.title)
 date=$(git config --file="$article_dir/metadata" base.date)
@@ -36,4 +35,3 @@ else
 fi
 
 exit 0
-
