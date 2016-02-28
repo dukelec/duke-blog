@@ -3,11 +3,23 @@ Content-Type: application/json
 
 <%
 
+set -e
+
+user="$GET_user$POST_user"
+password="$GET_password$POST_password"
+
+[[ "$user" != "" ]] && { ./tools/auth "$user" "$password" || exit 1; }
+
 config_file="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../config.ini")"
-allow_anonymous=$(git config --file="$config_file" reply.allow-anonymous) || exit 1
+allow_anonymous=$(git config --file="$config_file" reply.allow-anonymous)
+allow_edit=$(git config --file="$config_file" reply.allow-edit)
+require_captcha=$(git config --file="$config_file" reply.require-captcha)
+admin_account=$(git config --file="$config_file" admin.account)
 
 echo "{\"allow_anonymous\":\"$allow_anonymous\","
-echo "\"other\":\"none\","
+echo "\"allow_edit\":\"$allow_edit\","
+echo "\"require_captcha\":\"$require_captcha\","
+[[ "$admin_account" == "$user" ]] && echo "\"is_admin\":\"true\","
 echo "\"status\":\"success\"}"
 exit 0
 

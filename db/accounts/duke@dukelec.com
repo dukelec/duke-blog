@@ -2,7 +2,7 @@
 	name = Duke Fong
 	permissions = dflt
 	site = dukelec.com
-	password = 343424_hash
+	password = XXXX
 	verified = true
 	message = lalala
 	note = ...

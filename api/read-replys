@@ -7,12 +7,12 @@ set -e
 source "$(dirname "${BASH_SOURCE[0]}")/tools/common"
 
 url="$GET_url$POST_url"
-email="$GET_email$POST_email"
+user="$GET_user$POST_user"
 password="$GET_password$POST_password"
 start="$GET_start$POST_start"
 count="$GET_count$POST_count"
 
-[[ "$email" != "" ]] && { ./tools/auth "$email" "$password" || exit 1; }
+[[ "$user" != "" ]] && { ./tools/auth "$user" "$password" || exit 1; }
 
 [[ "$start" == "" ]] && start="0"
 [[ "$count" == "" ]] && count="20"
@@ -27,16 +27,16 @@ reply_top="$db_top/articles/$url/comments"
 [[ "$url" == "" ]] && { echo 'no url specified'; exit 1; }
 [[ ! -d "$reply_top" ]] && { echo 'reply folder not found'; exit 1; }
 
-#default "dflt" if no email specified
-permissions=$(git config --file="$accounts_top/$email" base.permissions || echo "dflt")
+#default "dflt" if no user specified
+permissions=$(git config --file="$accounts_top/$user" base.permissions || echo "dflt")
 attributes=$(git config --file="$article_dir/metadata" base.attributes)
 check_attribute_overlap "$permissions" "$attributes" || { echo 'permission denied'; exit 1; }
 
-total="$(ls -1 $reply_top | wc -l)"
+total="$(ls --hide="*_tmp" -1 $reply_top | wc -l)"
 ((start > total)) && start=$((total))
 ((count > total - start)) && count=$((total - start))
 
-index=($(ls "$reply_top" | head -n $((start+count)) | tail -n $count))
+index=($(ls --hide="*_tmp" "$reply_top" | head -n $((start+count)) | tail -n $count))
 
 echo -n '{"replys":['
 for i in "${!index[@]}"; do

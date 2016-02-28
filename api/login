@@ -3,12 +3,12 @@ Content-Type: application/json
 
 <%
 
-email="$GET_email$POST_email"
+user="$GET_user$POST_user"
 password="$GET_password$POST_password"
 
-[[ "$email" == "" || "$password" == "" ]] && { echo 'email or password empty'; exit 1; }
+[[ "$user" == "" || "$password" == "" ]] && { echo 'user or password empty'; exit 1; }
 
-./tools/auth "$email" "$password" || exit 1
+./tools/auth "$user" "$password" || exit 1
 
 echo '{"status":"success"}'
 exit 0

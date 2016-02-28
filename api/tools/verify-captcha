@@ -2,13 +2,11 @@
 
 set -e
 
-date="$1"
-string="$2"
+captcha="$1" #format: data-string
 
-[[ "$date" == "" ]] && exit 1
-[[ "$string" == "" ]] && exit 1
+[[ "$captcha" == "" ]] && exit 1
 
-string=${string,,} #to lowercase
+captcha=${captcha^^} #to uppercase
 
 captcha_dir="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../.cache/captcha")"
 config_file="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../../config.ini")"
@@ -22,7 +20,8 @@ find . -mmin +$captcha_timeout -type f -delete
 files=($(ls))
 
 for i in "${!files[@]}"; do
-  [[ "$date-$string" == "${files[i]}" ]] && { rm -f "$date-$string"; exit 0; }
+  [[ "$captcha" == "${files[i]}" ]] && { rm -f "$captcha"; exit 0; }
 done
 
 exit 1
+

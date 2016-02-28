@@ -1,0 +1,109 @@
+#!/usr/local/bin/haserl
+Content-Type: application/json
+
+<%
+
+set -e
+source "$(dirname "${BASH_SOURCE[0]}")/tools/common"
+config_file="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../config.ini")"
+allow_anonymous=$(git config --file="$config_file" reply.allow-anonymous)
+allow_edit=$(git config --file="$config_file" reply.allow-edit)
+require_captcha=$(git config --file="$config_file" reply.require-captcha)
+
+url="$GET_url$POST_url"
+user="$GET_user$POST_user"
+password="$GET_password$POST_password"
+captcha="$GET_captcha$POST_captcha"
+
+email="$GET_email$POST_email"
+name="$GET_name$POST_name"
+site="$GET_site$POST_site"
+
+action="$GET_action$POST_action" #new, edit, or delete
+id="$GET_id$POST_id"
+format="$GET_format$POST_format"
+body="$GET_body$POST_body"
+
+db_top="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../db")"
+accounts_top="$db_top/accounts"
+article_dir="$db_top/articles/$url/_content"
+reply_top="$db_top/articles/$url/comments"
+
+[[ "$require_captcha" == "true" ]] && { ./tools/verify-captcha "$captcha" || { echo "captcha verify failed"; exit 1; }; }
+[[ "$url" == "" ]] && { echo 'url not specified'; exit 1; }
+[[ "$user" == "" && ( "$email" == "" || "$name" == "" ) ]] && { echo "email or name is empty"; exit 1; }
+[[ "$action" != "delete" && ( "$format" == "" || "$body" == "" ) ]] && { echo "format or body empty"; exit 1; }
+[[ "$user" != "" ]] && { ./tools/auth "$user" "$password" || exit 1; }
+[[ "$user" == "" && "$allow_anonymous" != "true" ]] && { echo "anonymous not allow"; exit 1; }
+[[ "$action" != "new" && "$action" != "edit" && "$action" != "delete" ]] && { echo "unknown action: $action"; exit 1; }
+[[ "$action" != "new" && "$user" == "" ]] && { echo "action not allow for anonymous"; exit 1; }
+[[ "$action" != "new" && "$allow_edit" != "true" ]] && { echo "edit not allow"; exit 1; }
+[[ "$id" =~ "_tmp" ]] && { echo "id invalid"; exit 1; }
+[[ "$id" != "" ]] && [[ ! -d "$reply_top/$id/_content" ]] && { echo "id: $id not exist"; exit 1; }
+[[ ! -d "$article_dir" ]] && { echo 'article not found'; exit 1; }
+[[ ! -d "$reply_top" ]] && { mkdir "$reply_top" || { echo 'reply top folder create failed'; exit 1; }; }
+
+#default "dflt" if no user specified
+permissions=$(git config --file="$accounts_top/$user" base.permissions || echo "dflt")
+attributes=$(git config --file="$article_dir/metadata" base.attributes)
+check_attribute_overlap "$permissions" "$attributes" || { echo 'permission denied'; exit 1; }
+
+if [[ "$action" == "new" ]]; then
+  if [[ "$id" != "" ]]; then
+    #new sub reply
+		last_id=$(ls -1 "$reply_top" | grep "${id}\." | tail -1)
+		last_id="${last_id#${id}.}"
+		last_id="${last_id%%_*}"
+		last_id="${last_id%%.*}"
+		last_bk_id=$(ls -1 "$reply_top/.backup" | grep "${id}\." | tail -1)
+		last_bk_id="${last_bk_id#${id}.}"
+		last_bk_id="${last_bk_id%%_*}"
+		last_bk_id="${last_bk_id%%.*}"
+		((last_bk_id > last_id)) && last_id="$last_bk_id"
+		id="${id}.$((last_id+1))_tmp" #hidden
+  else
+		last_id=$(ls -1 "$reply_top" | tail -1)
+		last_id="${last_id%_tmp}"
+		last_id="${last_id%%.*}"
+		last_bk_id=$(ls -1 "$reply_top/.backup" | tail -1)
+		last_bk_id="${last_bk_id%%_*}"
+		last_bk_id="${last_bk_id%%.*}"
+		((last_bk_id > last_id)) && last_id="$last_bk_id"
+		id="$((last_id+1))_tmp" #hidden
+  fi
+  
+	mkdir -p "$reply_top/$id/_content" || { echo "creat new reply dir failed"; exit 1; }
+fi
+
+if [[ "$action" == "edit" || "$action" == "delete" ]]; then
+  #backup
+	[[ "$id" == "" ]] && { echo "id is empty"; exit 1; }
+  [[ ! -d "$reply_top/.backup" ]] && { mkdir "$reply_top/.backup" || { echo "creat .backup dir failed"; exit 1; }; }
+  backup_num="$(ls -1 "$reply_top/.backup" | grep ${id}_ | tail -1)"
+  backup_num=${backup_num##*_}
+  backup_num=$((backup_num+1))
+  cp -r "$reply_top/$id" "$reply_top/.backup/${id}_$backup_num"
+	[[ "$action" == "delete" ]] && { rm -rf "$reply_top/$id" && echo '{"status":"success"}' || { echo "rm -rf reply failed"; exit $?; }; }
+fi
+
+#echo "id: $id"
+reply_dir="$reply_top/$id/_content"
+
+echo "$body" > "$reply_dir/body"
+git config --file="$reply_dir/metadata" base.date "$(date --iso-8601=seconds)"
+if [[ "$user" == "" ]]; then
+	git config --file="$reply_dir/metadata" base.email "$email"
+	git config --file="$reply_dir/metadata" base.registered "false"
+	git config --file="$reply_dir/metadata" base.name "$name"
+	git config --file="$reply_dir/metadata" base.site "$site"
+else
+	git config --file="$reply_dir/metadata" base.email "$user"
+	git config --file="$reply_dir/metadata" base.registered "true"
+fi
+git config --file="$reply_dir/metadata" base.format "$format"
+
+echo '{"status":"success"}'
+exit 0
+
+%>
+
