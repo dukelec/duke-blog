@@ -1,0 +1,66 @@
+#!/usr/local/bin/haserl
+Content-Type: application/json
+
+<%
+
+set -e
+source "$(dirname "${BASH_SOURCE[0]}")/tools/common"
+config_file="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../config.ini")"
+default_password_length=$(git config --file="$config_file" account.default-password-length)
+
+action="$GET_action$POST_action"
+user="$GET_user$POST_user"
+password="$GET_password$POST_password"
+new_password="$GET_new_password$POST_new_password"
+
+[[ "$action" != "login" && "$action" != "register" && "$action" != "modify" ]] && { echo "unknown action: $action"; exit 1; }
+[[ "$user" == "" ]] && { echo 'user is empty'; exit 1; }
+[[ "$action" != "register" ]] && { ./tools/auth "$user" "$password" || exit 1; }
+
+db_top="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../db")"
+accounts_top="$db_top/accounts"
+
+if [[ "$action" == "login" ]]; then
+  name=$(git config --file="$accounts_top/$user" base.name)
+  permissions=$(git config --file="$accounts_top/$user" base.permissions)
+  site=$(git config --file="$accounts_top/$user" base.site)
+  message=$(git config --file="$accounts_top/$user" base.message)
+	
+  echo "{\"name\":$(json_escape "$name"),"
+  echo "\"permissions\":$(json_escape "$permissions"),"
+  echo "\"site\":$(json_escape "$site"),"
+  echo "\"message\":$(json_escape "$message"),"
+  echo "\"status\":\"success\"}"
+  exit 0
+fi
+
+name="$GET_name$POST_name"
+site="$GET_site$POST_site"
+message="$GET_message$POST_message"
+captcha="$GET_captcha$POST_captcha"
+
+#TODO: do email address valid check, same as site and name...
+
+[[ "$name" == "" ]] && { echo 'name is empty'; exit 1; }
+
+if [[ "$action" == "register" ]]; then
+	[[ -f "$accounts_top/$user" ]] && { echo "user already exist"; exit 1; }
+  ./tools/verify-captcha "$captcha" || { echo "captcha verify failed"; exit 1; }
+  [[ "$new_password" == "" ]] && new_password=$(tr -dc A-Za-z0-9 2>/dev/null < /dev/urandom | head -c $default_password_length)
+  ./tools/send-mail "$name <$user>" "$new_password" || { echo "mail send failed"; exit 1; }
+  
+  git config --file="$accounts_top/$user" base.permissions "dflt" || { echo "can't creat $user file"; exit 1; }
+  git config --file="$accounts_top/$user" base.verified "false"
+  git config --file="$accounts_top/$user" base.note "none"
+fi
+
+git config --file="$accounts_top/$user" base.name "$name" || { echo "can't creat $user file"; exit 1; }
+git config --file="$accounts_top/$user" base.site "$site"
+[[ "$new_password" != "" ]] && git config --file="$accounts_top/$user" base.password "$new_password"
+git config --file="$accounts_top/$user" base.message "$message"
+
+echo '{"status":"success"}'
+exit 0
+
+%>
+

@@ -5,7 +5,6 @@ set -e
 captcha="$1" #format: data-string
 
 [[ "$captcha" == "" ]] && exit 1
-
 captcha=${captcha^^} #to uppercase
 
 captcha_dir="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../.cache/captcha")"
@@ -15,7 +14,7 @@ cd "$captcha_dir"
 captcha_timeout=$(git config --file="$config_file" captcha.timeout)
 
 # delete file older than n min
-find . -mmin +$captcha_timeout -type f -delete
+find . -mmin +$captcha_timeout -type f -name "[!.]*" -delete
 
 files=($(ls))
 

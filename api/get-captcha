@@ -9,6 +9,7 @@ config_file="$(busybox realpath "$(dirname "${BASH_SOURCE[0]}")/../config.ini")"
 captcha_length=$(git config --file="$config_file" captcha.length)
 
 date=$(date --iso-8601=seconds)
+date="${date%%+*}" #avoid "+" for url
 string=$(tr -dc A-Za-z0-9 2>/dev/null < /dev/urandom | head -c $captcha_length) #avoid stderr Broken pipe message
 [[ "${#string}" != "$captcha_length" ]] && exit 1
 
@@ -17,6 +18,9 @@ string=${string^^} #to uppercase; ${string,,} for lowercase
 
 [[ ! -d ".cache/captcha" ]] && { mkdir -p ".cache/captcha" || { echo "create .cache/captcha failed"; exit 1; }; }
 touch ".cache/captcha/$date-$string" || { echo "create .cache/captcha/$date-$string failed"; exit 1; }
+
+#for test use
+echo "$base64_img" | base64 -d > ".cache/captcha/$date-$string"
 
 echo "{\"date\":\"$date\","
 echo "\"image\":\"$base64_img\","

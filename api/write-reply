@@ -102,6 +102,12 @@ else
 fi
 git config --file="$reply_dir/metadata" base.format "$format"
 
+#set user verified
+if [[ "$user" != "" ]]; then
+  is_verified=$(git config --file="$accounts_top/$user" base.verified)
+  [[ "$is_verified" != "true" ]] && git config --file="$accounts_top/$user" base.verified "true"
+fi
+
 echo '{"status":"success"}'
 exit 0
 

@@ -18,7 +18,7 @@ smtp_body=$(eval "echo \"$smtp_body\"")
 "$(dirname "${BASH_SOURCE[0]}")/smtp-cli" --ipv4 --host="$smtp_host" --enable-auth \
   --user="$smtp_user" --pass="$smtp_password" --missing-modules-ok \
   --from="$smtp_name <$smtp_user>" --to="$smtp_to" \
-  --subject="$smtp_subject" --body-plain="$smtp_body"
+  --subject="$smtp_subject" --body-plain="$smtp_body" 2>&1
 
 exit $?
 
