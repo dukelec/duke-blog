@@ -19,8 +19,13 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._blogService.getArticles()
-      .then(articles => this.articles = articles.slice(1,5));
+    this._blogService.getArticles().subscribe(
+      data => { this.articles = data.articles},
+      err => console.error(err),
+      () => console.log('done loading articles')
+    );
+    //this._blogService.getArticles()
+    //  .then(articles => this.articles = articles.slice(1,5));
   }
 
   gotoArticle(article: Article) {

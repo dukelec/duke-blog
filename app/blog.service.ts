@@ -1,11 +1,16 @@
 import { Article, Reply, Account } from './blog';
 import { Injectable } from 'angular2/core';
+import { Http, Response } from 'angular2/http';
+import 'rxjs/Rx';
+
 
 @Injectable()
 export class BlogService {
+
+  constructor(private http:Http) { }
+
   getArticles() {
-    return Promise.resolve([]);
-    //return Promise.resolve(HEROES);
+    return this.http.get('/api/read-articles').map((res:Response) => res.json());
   }
 
   // See the "Take it slow" appendix
@@ -25,6 +30,7 @@ export class BlogService {
   }
   */
 }
+
 
 /*
 Copyright 2016 Google Inc. All Rights Reserved.
