@@ -1,16 +1,16 @@
 import { Component, OnInit } from 'angular2/core';
-import {RouteParams} from 'angular2/router';
+import { RouteParams } from 'angular2/router';
 
-import { Hero } from './hero';
-import { HeroService } from './hero.service';
+import { Article, Reply, Account } from './blog';
+import { BlogService } from './blog.service';
 
 @Component({
   selector: 'my-hero-detail',
-  templateUrl: 'app/hero-detail.component.html',
-  styleUrls: ['app/hero-detail.component.css'],
+  templateUrl: 'app/article.component.html',
+  styleUrls: ['app/article.component.css'],
   inputs: ['hero']
 })
-export class HeroDetailComponent implements OnInit {
+export class ArticleComponent implements OnInit {
   hero: Hero;
 
   constructor(

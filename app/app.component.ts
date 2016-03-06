@@ -1,50 +1,42 @@
 import { Component } from 'angular2/core';
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
 
-import { HeroService } from './hero.service';
-import { DashboardComponent } from './dashboard.component';
-import { HeroesComponent } from './heroes.component';
-import { HeroDetailComponent } from './hero-detail.component';
+import { BlogService } from './blog.service';
+import { IndexComponent } from './index.component';
+import { ArticleComponent } from './article.component';
 
 @Component({
   selector: 'my-app',
   template: `
-    <h1>{{title}}</h1>
-    <nav>
-      <a [routerLink]="['Dashboard']">Dashboard</a>
+    <h1>Duke's Blog</h1>
+    <!--nav>
+      <a [routerLink]="['Index']">Index</a>
       <a [routerLink]="['Heroes']">Heroes</a>
-    </nav>
+    </nav-->
     <router-outlet></router-outlet>
   `,
   styleUrls: ['app/app.component.css'],
   directives: [ROUTER_DIRECTIVES],
   providers: [
     ROUTER_PROVIDERS,
-    HeroService
+    BlogService
   ]
 })
 @RouteConfig([
   {
-    //path: '/dashboard',
     path: '/',
-    name: 'Dashboard',
-    component: DashboardComponent,
+    name: 'Index',
+    component: IndexComponent,
     useAsDefault: true
   },
   {
-    path: '/heroes',
-    name: 'Heroes',
-    component: HeroesComponent
-  },
-  {
-    /* path: '/detail/:id', */
-    path: '/:id',
-    name: 'HeroDetail',
-    component: HeroDetailComponent
+    path: '/:url',
+    name: 'Article',
+    component: ArticleComponent
   }
 ])
 export class AppComponent {
-  title = 'Tour of Heroes';
+  //title = 'Duke Blog;
 }
 
 
