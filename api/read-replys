@@ -38,7 +38,8 @@ total="$(ls --hide="*_tmp" -1 $reply_top | wc -l)"
 
 index=($(ls --hide="*_tmp" "$reply_top" | head -n $((start+count)) | tail -n $count))
 
-echo -n '{"replys":['
+echo    "{\"total\":\"$total\","
+echo -n '"replys":['
 for i in "${!index[@]}"; do
   ./tools/json-reply "$url" "${index[i]}"
   [[ $((i+1)) != ${#index[@]} ]] && echo ","
