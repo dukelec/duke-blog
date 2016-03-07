@@ -12,6 +12,8 @@ import { BlogService } from './blog.service';
 })
 export class ArticleComponent implements OnInit {
   article: Article;
+  replys: Reply[] = [];
+  new_reply: Reply = {};
 
   constructor(
     private _blogService: BlogService,
@@ -24,6 +26,23 @@ export class ArticleComponent implements OnInit {
       data => { this.article = data.article},
       err => console.error(err),
       () => console.log('done loading article')
+    );
+    this._blogService.getReplys(url).subscribe(
+      data => { this.replys = data.replys},
+      err => console.error(err),
+      () => console.log('done loading replys')
+    );
+  }
+
+  writeReply() {
+    let url = this._routeParams.get('url');
+    this.new_reply.url = url;
+    this.new_reply.format = 'plain';
+    this.new_reply.action = 'new';
+    this._blogService.writeReply(this.new_reply).subscribe(
+      data => alert('done write reply: ' + data),
+      err => console.error(err),
+      () => console.log('done write reply')
     );
   }
 

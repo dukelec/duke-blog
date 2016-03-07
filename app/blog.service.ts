@@ -1,8 +1,17 @@
 import { Article, Reply, Account } from './blog';
 import { Injectable } from 'angular2/core';
-import { Http, Response } from 'angular2/http';
+import { Http, Response, Headers } from 'angular2/http';
 import 'rxjs/Rx';
 
+function transformRequest (obj) {
+    var str = [];
+    for(var p in obj) {
+      if (obj[p] === undefined)
+        obj[p] = "";
+      str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+    }
+    return str.join("&");
+}
 
 @Injectable()
 export class BlogService {
@@ -13,17 +22,21 @@ export class BlogService {
     return this.http.get('/api/read-articles').map((res:Response) => res.json());
   }
 
-  // See the "Take it slow" appendix
-  /*
-  getHeroesSlowly() {
-    return new Promise<Hero[]>(resolve =>
-      setTimeout(()=>resolve(HEROES), 2000) // 2 seconds
-    );
-  }
-  */
-
 	getArticle(url: string) {
     return this.http.get('/api/read-article?url=' + url).map((res:Response) => res.json());
+  }
+
+	getReplys(url: string) {
+    return this.http.get('/api/read-replys?url=' + url).map((res:Response) => res.json());
+  }
+
+	writeReply(reply: Reply) {
+    var body = transformRequest(reply);
+    var headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    return this.http.post('/api/write-reply',
+        body,
+        {headers:headers}).map((res:Response) => res.json());
   }
 }
 

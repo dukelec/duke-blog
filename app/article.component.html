@@ -8,6 +8,25 @@
     <input [(ngModel)]="article.title" placeholder="title" />
   </div>
   <button (click)="goBack()">Back</button>
+
+  <div *ngFor="#reply of replys"  >
+		<div>
+			<h4>{{reply.id}}</h4>
+		</div>
+	</div>
+
+  <div>
+    <label>name: </label>
+    <input [(ngModel)]="new_reply.name" placeholder="name" />
+    <label>email: </label>
+    <input [(ngModel)]="new_reply.email" placeholder="email" />
+    <label>body: </label>
+    <input [(ngModel)]="new_reply.body" placeholder="body" />
+    <label>captcha: </label>
+    <input [(ngModel)]="new_reply.captcha" placeholder="captcha" />
+  </div>
+  <button (click)="writeReply()">Write reply</button>
+
 </div>
 
 <!--
