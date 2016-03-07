@@ -22,13 +22,9 @@ export class BlogService {
   }
   */
 
-  /*
-	getHero(id: number) {
-    return Promise.resolve(HEROES).then(
-      heroes => heroes.filter(hero => hero.id === id)[0]
-    );
+	getArticle(url: string) {
+    return this.http.get('/api/read-article?url=' + url).map((res:Response) => res.json());
   }
-  */
 }
 
 

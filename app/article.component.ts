@@ -8,20 +8,23 @@ import { BlogService } from './blog.service';
   selector: 'my-hero-detail',
   templateUrl: 'app/article.component.html',
   styleUrls: ['app/article.component.css'],
-  inputs: ['hero']
+  inputs: ['article']
 })
 export class ArticleComponent implements OnInit {
-  hero: Hero;
+  article: Article;
 
   constructor(
-    private _heroService: HeroService,
+    private _blogService: BlogService,
     private _routeParams: RouteParams) {
   }
 
   ngOnInit() {
-    let id = +this._routeParams.get('id');
-    this._heroService.getHero(id)
-      .then(hero => this.hero = hero);
+    let url = this._routeParams.get('url');
+    this._blogService.getArticle(url).subscribe(
+      data => { this.article = data.article},
+      err => console.error(err),
+      () => console.log('done loading article')
+    );
   }
 
   goBack() {
