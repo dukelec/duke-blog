@@ -1,5 +1,6 @@
 import { Component, OnInit, DynamicComponentLoader, ElementRef } from 'angular2/core';
 import { RouteParams } from 'angular2/router';
+import { Title } from 'angular2/platform/browser';
 
 import { JoinPipe, JoinStr2Date, Codeblock, escapeHtml, attributes2Array } from './helper';
 import { Article, Reply, Account } from './blog';
@@ -28,9 +29,11 @@ export class ArticleComponent implements OnInit {
     private _blogService: BlogService,
     private _routeParams: RouteParams,
     dcl: DynamicComponentLoader,
-    elementRef: ElementRef) {
+    elementRef: ElementRef,
+    title: Title ) {
       this.dcl = dcl;
       this.elementRef = elementRef;
+      this.title = title;
   }
 
   ngOnInit() {
@@ -38,6 +41,8 @@ export class ArticleComponent implements OnInit {
     this._blogService.getArticle(url).subscribe(
       data => {
         this.article = data.article;
+
+        this.title.setTitle(this.article.title + " - Duke's Blog");
 
         let attrs = attributes2Array(this.article.attributes);
         this.article.permissions = attrs.permissions;

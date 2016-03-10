@@ -1,5 +1,6 @@
 import { Component, OnInit } from 'angular2/core';
 import { Router } from 'angular2/router';
+import { Title } from 'angular2/platform/browser';
 
 import { JoinPipe, JoinStr2Date, attributes2Array } from './helper';
 import { Article, Reply, Account } from './blog';
@@ -17,7 +18,9 @@ export class IndexComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _blogService: BlogService) {
+    private _blogService: BlogService,
+    title: Title ) {
+      title.setTitle("Duke's Blog");
   }
 
   ngOnInit() {

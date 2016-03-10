@@ -1,6 +1,7 @@
 import { Component } from 'angular2/core';
 import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
 import { HTTP_PROVIDERS } from 'angular2/http';
+import { Title } from 'angular2/platform/browser';
 
 import { BlogService } from './blog.service';
 import { IndexComponent } from './index.component';
@@ -17,6 +18,7 @@ import { ArticleComponent } from './article.component';
   providers: [
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
+    Title,
     BlogService
   ]
 })
