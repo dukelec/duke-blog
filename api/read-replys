@@ -25,7 +25,7 @@ article_dir="$db_top/articles/$url/_content"
 reply_top="$db_top/articles/$url/comments"
 
 [[ "$url" == "" ]] && { echo 'no url specified'; exit 1; }
-[[ ! -d "$reply_top" ]] && { echo 'reply folder not found'; exit 1; }
+[[ ! -d "$reply_top" ]] && { mkdir "$reply_top" || { echo 'creat reply folder failed'; exit 1; }; }
 
 #default "dflt" if no user specified
 permissions=$(git config --file="$accounts_top/$user" base.permissions || echo "dflt")
