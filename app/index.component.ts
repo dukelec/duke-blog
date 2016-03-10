@@ -1,13 +1,15 @@
 import { Component, OnInit } from 'angular2/core';
 import { Router } from 'angular2/router';
 
+import { JoinPipe, JoinStr2Date, attributes2Array } from './helper';
 import { Article, Reply, Account } from './blog';
 import { BlogService } from './blog.service';
 
 @Component({
   selector: 'my-dashboard',
   templateUrl: 'app/index.component.html',
-  styleUrls: ['app/index.component.css']
+  styleUrls: ['app/index.component.css'],
+  pipes: [JoinPipe, JoinStr2Date]
 })
 export class IndexComponent implements OnInit {
 
@@ -20,12 +22,19 @@ export class IndexComponent implements OnInit {
 
   ngOnInit() {
     this._blogService.getArticles().subscribe(
-      data => { this.articles = data.articles},
-      err => console.error(err),
-      () => console.log('done loading articles')
+      data => {
+        this.articles = data.articles;
+        for (let a in this.articles) {
+          let article = this.articles[a];
+          let attrs = attributes2Array(article.attributes);
+          article.permissions = attrs.permissions;
+          article.languages = attrs.languages;
+          article.categories = attrs.categories;
+          article.tags = attrs.tags;
+        }
+      },
+      err => console.error(err)
     );
-    //this._blogService.getArticles()
-    //  .then(articles => this.articles = articles.slice(1,5));
   }
 
   gotoArticle(article: Article) {

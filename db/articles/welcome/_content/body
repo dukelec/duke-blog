@@ -3,9 +3,8 @@ start
 <codeblock language="sh">
   if (name === '{{name}}') {
     console.log("Hello, " + name);
+    if (a & b);
   }
 </codeblock>
 end
-<script>
-alert("dsfdf");
-</script>
+

@@ -34,8 +34,7 @@ export class BlogService {
     var body = transformRequest(reply);
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    return this.http.post('/api/write-reply',
-        body,
+    return this.http.post('/api/write-reply', body,
         {headers:headers}).map((res:Response) => res.json());
   }
 }

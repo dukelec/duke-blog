@@ -9,11 +9,7 @@ import { ArticleComponent } from './article.component';
 @Component({
   selector: 'my-app',
   template: `
-    <h1>Duke's Blog</h1>
-    <!--nav>
-      <a [routerLink]="['Index']">Index</a>
-      <a [routerLink]="['Heroes']">Heroes</a>
-    </nav-->
+    <h1 [routerLink]="['Index']">Duke's Blog</h1>
     <router-outlet></router-outlet>
   `,
   styleUrls: ['app/app.component.css'],

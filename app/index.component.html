@@ -1,8 +1,11 @@
 <h3>Top Articles</h3>
-<div class="grid grid-pad">
-	<div *ngFor="#article of articles" (click)="gotoArticle(article)" class="col-1-4" >
-		<div class="module hero">
-			<h4>{{article.title}}</h4>
+<div class="">
+	<div *ngFor="#article of articles" class="" >
+		<div class="">
+			<h4 (click)="gotoArticle(article)">{{article.title}}</h4>
+			<p><small>Languages: {{article.languages | join: ', '}} | Categories: {{article.categories | join: ', '}} | Tags: {{article.tags | join: ', '}} |
+			        {{article.date | str2date | date: 'medium'}} | Count: {{article.count}}</small></p>
+			<summary>{{article.summary}}</summary>
 		</div>
 	</div>
 </div>

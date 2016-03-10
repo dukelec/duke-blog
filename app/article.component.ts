@@ -1,46 +1,26 @@
 import { Component, OnInit, DynamicComponentLoader, ElementRef } from 'angular2/core';
 import { RouteParams } from 'angular2/router';
 
+import { JoinPipe, JoinStr2Date, Codeblock, escapeHtml, attributes2Array } from './helper';
 import { Article, Reply, Account } from './blog';
 import { BlogService } from './blog.service';
-
-function escapeHtml(unsafe) {
-    return unsafe
-         .replace(/&/g, "&amp;")
-         .replace(/</g, "&lt;")
-         .replace(/>/g, "&gt;")
-         .replace(/"/g, "&quot;")
-         .replace(/'/g, "&#039;")
-         .replace(/{{/g, "<span>{</span>{");
- }
-
-//simple codeblock
-@Component({
-  selector: 'codeblock',
-  template: '<ng-content></ng-content>'
-})
-class Codeblock  {
-  constructor(elementRef: ElementRef) {
-      this.elementRef = elementRef;
-  }
-  ngAfterContentInit() {
-    s = this.elementRef.nativeElement.innerHTML;
-    if (s.charAt(0) === '\n')
-      s = s.substr(1);
-    this.elementRef.nativeElement.innerHTML = '<pre>' + s + '</pre>';
-  }
-}
 
 
 @Component({
   selector: 'my-hero-detail',
   templateUrl: 'app/article.component.html',
   styleUrls: ['app/article.component.css'],
+  pipes: [JoinPipe, JoinStr2Date],
   inputs: ['article']//,
   //directives: [Angular2Component]
 })
 export class ArticleComponent implements OnInit {
-  article: Article = {};
+  article: Article = {
+    permissions: [],
+    languages: [],
+    categories: [],
+    tags: []
+  };
   replys: Reply[] = [];
   new_reply: Reply = {};
 
@@ -59,9 +39,16 @@ export class ArticleComponent implements OnInit {
       data => {
         this.article = data.article;
 
+        let attrs = attributes2Array(this.article.attributes);
+        this.article.permissions = attrs.permissions;
+        this.article.languages = attrs.languages;
+        this.article.categories = attrs.categories;
+        this.article.tags = attrs.tags;
+
         template = this.article.body;
         if (this.article.format !== "html")
           template = '<pre>' + escapeHtml(template) + '<pre>';
+        template = template.replace(/{{/g, "<span>{</span>{");
         @Component({
           selector: 'compiled-component',
           template: template;
@@ -71,30 +58,34 @@ export class ArticleComponent implements OnInit {
         };
         this.dcl.loadIntoLocation(CompiledComponent, this.elementRef, 'container');
       },
-      err => console.error(err),
-      () => console.log('done loading article')
+      err => console.error(err)
     );
     this._blogService.getReplys(url).subscribe(
       data => { this.replys = data.replys},
-      err => console.error(err),
-      () => console.log('done loading replys')
+      err => console.error(err)
     );
   }
 
   writeReply() {
+    if (!this.new_reply.name || !this.new_reply.email || !this.new_reply.body) {
+      alert("name, email and body are required!");
+      return;
+    }
+
     let url = this._routeParams.get('url');
     this.new_reply.url = url;
     this.new_reply.format = 'plain';
     this.new_reply.action = 'new';
     this._blogService.writeReply(this.new_reply).subscribe(
-      data => alert('done write reply: ' + data),
-      err => console.error(err),
-      () => console.log('done write reply')
+      data => {
+        if (data.status === "success") {
+          alert('Comment post successed, please wait for review.');
+          this.new_reply = {}; //cleanup
+        } else
+          alert('Server return error: ' + data)
+      },
+      err => alert('Error: ' + err)
     );
-  }
-
-  goBack() {
-    window.history.back();
   }
 }
 

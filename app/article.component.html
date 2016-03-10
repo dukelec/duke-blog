@@ -1,32 +1,28 @@
 
-  <h2>{{article.title}} details!</h2>
-  <div [innerHTML]="article.title"></div>
-  <div>
-    <label>url: </label>{{article.url}}</div>
-  <div>
-    <label>name: </label>
-    <input [(ngModel)]="article.title" placeholder="title" />
-  </div>
-  <div #container></div>
-  <button (click)="goBack()">Back</button>
+<h2>{{article.title}}</h2>
+<p><small>Languages: {{article.languages | join: ', '}} | Categories: {{article.categories | join: ', '}} | Tags: {{article.tags | join: ', '}} |
+        {{article.date | str2date | date: 'medium'}} | Count: {{article.count}}</small></p>
+<div #container></div>
+<br/>
 
-  <div *ngFor="#reply of replys"  >
-		<div>
-			<h4>{{reply.id}}</h4>
-		</div>
+<h4>Comments:</h4>
+<div *ngFor="#reply of replys"  >
+	<div>
+		<p><small>#{{reply.id}}, {{reply.date}}, {{reply.name}} &lt;{{reply.email}}&gt; wrote:</small></p>
+		<p>{{reply.body}}</p>
 	</div>
+</div>
+<br/>
 
-  <div>
-    <label>name: </label>
-    <input [(ngModel)]="new_reply.name" placeholder="name" />
-    <label>email: </label>
-    <input [(ngModel)]="new_reply.email" placeholder="email" />
-    <label>body: </label>
-    <input [(ngModel)]="new_reply.body" placeholder="body" />
-    <label>captcha: </label>
-    <input [(ngModel)]="new_reply.captcha" placeholder="captcha" />
-  </div>
-  <button (click)="writeReply()">Write reply</button>
+<h4>Post a Comment:</h4>
+<div>
+  <label>name: </label><input [(ngModel)]="new_reply.name" placeholder="name" /><br/>
+  <label>email: </label><input [(ngModel)]="new_reply.email" placeholder="email" /><br/>
+  <label>body: </label><br/>
+  <textarea [(ngModel)]="new_reply.body" placeholder="body" rows="4" cols="50"></textarea><br/>
+  <!--label>captcha: </label><input [(ngModel)]="new_reply.captcha" placeholder="captcha" /><br/-->
+</div>
+<button (click)="writeReply()">Submit Comment</button>
 
 <!--
 Copyright 2016 Google Inc. All Rights Reserved.
