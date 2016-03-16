@@ -50,13 +50,13 @@ export class ArticleComponent implements OnInit {
         this.article.categories = attrs.categories;
         this.article.tags = attrs.tags;
 
-        template = this.article.body;
+        let template = this.article.body;
         if (this.article.format !== "html")
           template = '<pre>' + escapeHtml(template) + '<pre>';
         template = template.replace(/{{/g, "<span>{</span>{");
         @Component({
           selector: 'compiled-component',
-          template: template;
+          template: template,
           directives: [Codeblock]
         })
         class CompiledComponent {
