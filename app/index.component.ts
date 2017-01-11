@@ -1,53 +1,47 @@
-import { Component, OnInit } from 'angular2/core';
-import { Router } from 'angular2/router';
-import { Title } from 'angular2/platform/browser';
+import { Title } from '@angular/platform-browser';
+
+import { Component, OnInit, ElementRef } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { JoinPipe, JoinStr2Date, attributes2Array } from './helper';
-import { Article, Reply, Account } from './blog';
+//import { Article, Reply, Account } from './blog';
 import { BlogService } from './blog.service';
 
 @Component({
-  selector: 'my-dashboard',
   templateUrl: 'app/index.component.html',
-  styleUrls: ['app/index.component.css'],
-  pipes: [JoinPipe, JoinStr2Date]
+  styleUrls: ['app/index.component.css']
 })
 export class IndexComponent implements OnInit {
 
-  articles: Article[] = [];
+  articles: any = [];
 
   constructor(
-    private _router: Router,
-    private _blogService: BlogService,
+    private router: Router,
+    private blogService: BlogService,
     title: Title ) {
       title.setTitle("Duke's Blog");
   }
 
   ngOnInit() {
-    this._blogService.getArticles().subscribe(
+    this.blogService.getArticles().subscribe(
       data => {
         this.articles = data.articles;
         for (let a in this.articles) {
           let article = this.articles[a];
           let attrs = attributes2Array(article.attributes);
-          article.permissions = attrs.permissions;
-          article.languages = attrs.languages;
-          article.categories = attrs.categories;
-          article.tags = attrs.tags;
+          article.permissions = (attrs as any).permissions;
+          article.languages = (attrs as any).languages;
+          article.categories = (attrs as any).categories;
+          article.tags = (attrs as any).tags;
         }
       },
       err => console.error(err)
     );
   }
 
-  gotoArticle(article: Article) {
-    let link = ['Article', { url: article.url }];
-    this._router.navigate(link);
+  gotoArticle(article: any) {
+    this.router.navigate(['/', article.url]);
   }
+
 }
 
-/*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/

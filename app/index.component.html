@@ -1,6 +1,6 @@
 <h3>Top Articles</h3>
 <div class="">
-	<div *ngFor="#article of articles" class="" >
+	<div *ngFor="let article of articles" class="" >
 		<div class="">
 			<h4 (click)="gotoArticle(article)">{{article.title}}</h4>
 			<p><small>Languages: {{article.languages | join: ', '}} | Categories: {{article.categories | join: ', '}} | Tags: {{article.tags | join: ', '}} |
@@ -10,9 +10,3 @@
 	</div>
 </div>
 
-
-<!--
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
--->

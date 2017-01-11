@@ -8,6 +8,7 @@ export interface Article {
   title: string;
   date: string; // date object?
   attributes: string; // languages + categories + tags + permissions...
+  //permissions: any; languages: any; categories: any; tags: any;
   count: number;
   format: string;
   summary: string;
@@ -34,9 +35,3 @@ export interface Account {
   //bad_guy: string; // use blacklist instead
 }
 
-
-/*
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/

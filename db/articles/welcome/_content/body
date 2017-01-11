@@ -4,7 +4,7 @@ start
   if (name === '{{name}}') {
     console.log("Hello, " + name);
     if (a & b);
-  }
+  }<span></span>
 </codeblock>
 end
 

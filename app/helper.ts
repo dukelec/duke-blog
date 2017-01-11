@@ -1,24 +1,22 @@
-import { Pipe, Component, ElementRef } from 'angular2/core';
 
-@Pipe({
-  name: 'join'
-})
-export class JoinPipe {
+import { Pipe, PipeTransform, Component, ElementRef } from '@angular/core';
+
+@Pipe({name: 'join'})
+export class JoinPipe implements PipeTransform {
   transform(arr: Array<any>, args: Array<any>): string {
     return arr.join(args[0]);
   }
 }
 
-@Pipe({
-  name: 'str2date'
-})
-export class JoinStr2Date {
+@Pipe({name: 'str2date'})
+export class JoinStr2Date implements PipeTransform {
   transform(str: string, args: Array<any>): string {
     if (str === undefined)
       return;
-    return new Date(str);
+    return new Date(str).toString();
   }
 }
+
 
 //simple codeblock
 @Component({
@@ -26,28 +24,29 @@ export class JoinStr2Date {
   template: '<ng-content></ng-content>'
 })
 export class Codeblock {
-  constructor(elementRef: ElementRef) {
-    this.elementRef = elementRef;
+  constructor(private elementRef: ElementRef) {
   }
   ngAfterContentInit() {
-    s = this.elementRef.nativeElement.innerHTML;
+    let s = this.elementRef.nativeElement.innerHTML;
+    console.debug('DUKE: ' + s);
     if (s.charAt(0) === '\n')
       s = s.substr(1);
     this.elementRef.nativeElement.innerHTML = '<pre>' + s + '</pre>';
   }
 }
 
-export function escapeHtml(unsafe) {
+export function escapeHtml(unsafe: any) {
     return unsafe
          .replace(/&/g, "&amp;")
          .replace(/</g, "&lt;")
          .replace(/>/g, "&gt;")
          .replace(/"/g, "&quot;")
          .replace(/'/g, "&#039;");
- }
+}
 
- export function attributes2Array(attrs_str) {
-   let attrs = [];
+
+export function attributes2Array(attrs_str: any) {
+   let attrs: any = [];
    attrs.permissions = [];
    attrs.languages = [];
    attrs.categories = [];
@@ -71,4 +70,4 @@ export function escapeHtml(unsafe) {
      }
    }
    return attrs;
- }
+}
