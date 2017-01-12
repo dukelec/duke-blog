@@ -1,0 +1,6 @@
+[base]
+	title = About This Blog
+	date = 2016-03-10T19:49:54+08:00
+	attributes = P_dflt,L_en,C_web,T_about
+	format = html
+	summary = Welcome to my blog, this is a brief introduction about the background of my blog.

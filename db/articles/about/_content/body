@@ -1,0 +1,22 @@
+<p>I have writen a blog software based on GAE(Google App Engine) three years ago(Jan 2013),
+after that, GAE update frequently, and cannot be accessed from mainland China,
+so, I decided to write this new one. the old one's backup link: <a href="http://duke-blog.appspot.com">http://duke-blog.appspot.com</a></p>
+
+<p>Features of this new one:<br/>
+RESTful: backend and frontend are separated, exchange data through API interface;<br/>
+Server side application writen by bash script, all data are stored by structed folders and files(not the traditional databases);<br/>
+Browser side application build on Angular2, it's a SPA(Single Page Applacation);<br/>
+Articles are supported in different formats, support html and plain text currently;<br/>
+Article list can be procedured by any filter, no amount and type limit;<br/>
+Sub-comment are supported;<br/>
+Comment policy have multiple types: anonymous without verification, captcha verification or email verification.</p>
+
+<p>Features remained from old one:<br/>
+Permission management for articles.</p>
+
+<p>Known disadvantages:<br/>
+Most search engine not support pages which rendered by javascript(except Google Search);<br/>
+HTML5 mode url is poor compatibility.</p>
+
+<p>The blog's source code will be released after I finish it.</p>
+
