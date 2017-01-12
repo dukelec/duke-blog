@@ -1,20 +1,52 @@
+import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+
+import { AppComponent }  from './app.component';
+
+
+import { APP_BASE_HREF } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
+import { RouterModule, Routes } from '@angular/router';
+import { Http } from '@angular/http';
 import { HttpModule } from '@angular/http';
 
-import { AppComponent } from './app.component';
+import { BlogService } from './blog.service';
+import { IndexComponent } from './index.component';
+import { ArticleComponent } from './article.component';
+
+import { JoinPipe, JoinStr2Date, Codeblock } from './helper';
+
+const appRoutes: Routes = [
+  { path: '',     component: IndexComponent },
+  { path: ':url', component: ArticleComponent }
+];
+
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
-    FormsModule,
-    HttpModule
+    RouterModule.forRoot(appRoutes),
+    HttpModule,
+    FormsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    IndexComponent,
+    ArticleComponent,
+    JoinPipe,
+    JoinStr2Date,
+    Codeblock
+  ],
+  exports: [ Codeblock ],
+  bootstrap: [
+    AppComponent
+  ],
+  providers: [
+    { provide: APP_BASE_HREF, useValue: '/' },
+    BlogService//,
+    //ActivatedRouteSnapshot
+    //Http
+  ]
 })
 export class AppModule { }
