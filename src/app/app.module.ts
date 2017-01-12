@@ -15,7 +15,7 @@ import { BlogService } from './blog.service';
 import { IndexComponent } from './index.component';
 import { ArticleComponent } from './article.component';
 
-import { JoinPipe, JoinStr2Date, Codeblock } from './helper';
+import { JoinPipe, JoinStr2Date, SafeHtmlPipe } from './helper';
 
 const appRoutes: Routes = [
   { path: '',     component: IndexComponent },
@@ -36,17 +36,14 @@ const appRoutes: Routes = [
     ArticleComponent,
     JoinPipe,
     JoinStr2Date,
-    Codeblock
+    SafeHtmlPipe
   ],
-  exports: [ Codeblock ],
   bootstrap: [
     AppComponent
   ],
   providers: [
     { provide: APP_BASE_HREF, useValue: '/' },
-    BlogService//,
-    //ActivatedRouteSnapshot
-    //Http
+    BlogService
   ]
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
 
-import { Pipe, PipeTransform, Component, ElementRef } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({name: 'join'})
 export class JoinPipe implements PipeTransform {
@@ -17,23 +17,16 @@ export class JoinStr2Date implements PipeTransform {
   }
 }
 
+import { DomSanitizer } from '@angular/platform-browser'
 
-//simple codeblock
-@Component({
-  selector: 'codeblock',
-  template: '<ng-content></ng-content>'
-})
-export class Codeblock {
-  constructor(private elementRef: ElementRef) {
-  }
-  ngAfterContentInit() {
-    let s = this.elementRef.nativeElement.innerHTML;
-    console.debug('DUKE: ' + s);
-    if (s.charAt(0) === '\n')
-      s = s.substr(1);
-    this.elementRef.nativeElement.innerHTML = '<pre>' + s + '</pre>';
+@Pipe({ name: 'safeHtml'})
+export class SafeHtmlPipe implements PipeTransform  {
+  constructor(private sanitized: DomSanitizer) {}
+  transform(value) {
+    return this.sanitized.bypassSecurityTrustHtml(value);
   }
 }
+
 
 export function escapeHtml(unsafe: any) {
     return unsafe

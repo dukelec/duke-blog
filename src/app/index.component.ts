@@ -1,10 +1,9 @@
 import { Title } from '@angular/platform-browser';
 
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { JoinPipe, JoinStr2Date, attributes2Array } from './helper';
-//import { Article, Reply, Account } from './blog';
+import { attributes2Array } from './helper';
 import { BlogService } from './blog.service';
 
 @Component({

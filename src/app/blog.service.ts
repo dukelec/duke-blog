@@ -1,4 +1,3 @@
-import { Article, Reply, Account } from './blog';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/Rx';
@@ -30,7 +29,7 @@ export class BlogService {
     return this.http.get('/api/read-replys?url=' + url).map((res:Response) => res.json());
   }
 
-	writeReply(reply: Reply) {
+	writeReply(reply: any) {
     var body = transformRequest(reply);
     var headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');

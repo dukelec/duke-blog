@@ -1,21 +1,18 @@
 import { Title } from '@angular/platform-browser';
 
-import { OnInit, OnDestroy, AfterViewInit, Compiler, Component, NgModule, ViewChild, ViewContainerRef } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { OnInit, Component } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
-import { attributes2Array, escapeHtml, Codeblock } from './helper';
-//import { Article, Reply, Account } from './blog';
+import { attributes2Array, escapeHtml } from './helper';
 import { BlogService } from './blog.service';
-import { AppModule } from './app.module';
 
+declare var hljs: any;
 
 @Component({
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.css']
 })
-export class ArticleComponent implements OnInit, OnDestroy {
-  @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef;
+export class ArticleComponent implements OnInit {
 
   article: any = {
     permissions: [],
@@ -25,29 +22,19 @@ export class ArticleComponent implements OnInit, OnDestroy {
   };
   replys: any = [];
   new_reply: any = {};
+  body: string;
   
   private url: string;
-  private componentRef: any;
 
   constructor(
     private blogService: BlogService,
     private route: ActivatedRoute,
-    private compiler: Compiler,
     private title: Title ) {
   }
 
   ngOnInit() {
-  
     this.route.params
       .subscribe((params: Params) => this.readArticle(params['url']));
-    
-  }
-  
-  public ngOnDestroy(){
-    //if (this.componentRef) {
-    //    this.componentRef.destroy();
-    //    this.componentRef = null;
-    //}
   }
   
   readArticle (url:string) {
@@ -64,26 +51,31 @@ export class ArticleComponent implements OnInit, OnDestroy {
         this.article.languages = (attrs as any).languages;
         this.article.categories = (attrs as any).categories;
         this.article.tags = (attrs as any).tags;
-
-        let template = this.article.body;
-        if (this.article.format !== "html")
-          template = '<pre>' + escapeHtml(template) + '<pre>';
-
-        template = template.replace(/{{/g, "<span>&#123;</span>&#123;");
-        template = template.replace(/{/g, "&#123;");
         
-        @Component({template: template})
-        class TemplateComponent {};
         
-        @NgModule({imports: [ AppModule ], declarations: [TemplateComponent]})
-        class TemplateModule {};
-
-        const mod = this.compiler.compileModuleAndAllComponentsSync(TemplateModule);
-        const factory = mod.componentFactories.find((comp) =>
-          comp.componentType === TemplateComponent
-        );
-        const component = this.container.createComponent(factory);
-        this.componentRef = component;
+        if (this.article.format == "plain") {
+          this.body = '<pre>' + escapeHtml(this.article.body) + '<pre>';
+          return;
+        }
+        
+        // html:
+        var parser = new DOMParser()
+        var doc = parser.parseFromString(this.article.body, "text/html");
+        
+        var y = doc.querySelectorAll("pre code");
+        for (var i = 0; i < y.length; i++) {
+          y[i].innerHTML = y[i].innerHTML.replace("\n", "");
+          hljs.highlightBlock(y[0])
+        }
+        
+        y = doc.querySelectorAll('[href]');
+        for (var i = 0; i < y.length; i++) {
+          var href = y[i].getAttribute('href');
+          if (href.search("//") == -1 && href.search("#") != 0)
+            y[i].setAttribute('href', this.url + '/' + href);
+        }
+        
+        this.body = doc.body.innerHTML;
       },
       (err: any) => console.error(err)
     );
