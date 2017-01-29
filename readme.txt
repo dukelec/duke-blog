@@ -12,6 +12,7 @@ cp ../.htaccess ./
 ln -s ../api api
 ln -s ../db db
 cp ../src/*.js ./
+cp ../src/*.css ./
 cd ..
 
 

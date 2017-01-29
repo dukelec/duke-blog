@@ -9,8 +9,8 @@ import { BlogService } from './blog.service';
 declare var hljs: any;
 
 @Component({
-  templateUrl: './article.component.html',
-  styleUrls: ['./article.component.css']
+  templateUrl: './article.component.html'//,
+  //styleUrls: ['./article.component.css']
 })
 export class ArticleComponent implements OnInit {
 
@@ -64,9 +64,21 @@ export class ArticleComponent implements OnInit {
         
         let y = doc.querySelectorAll('[href]');
         for (var i = 0; i < y.length; i++) {
-          var href = y[i].getAttribute('href');
+          let href = y[i].getAttribute('href');
           if (href.search("//") == -1 && href.search("#") != 0)
             y[i].setAttribute('href', this.url + '/' + href);
+        }
+        y = doc.querySelectorAll('[src]');
+        for (var i = 0; i < y.length; i++) {
+          let href = y[i].getAttribute('src');
+          if (href.search("//") == -1)
+            y[i].setAttribute('src', this.url + '/' + href);
+        }
+        y = doc.querySelectorAll('[poster]');
+        for (var i = 0; i < y.length; i++) {
+          let href = y[i].getAttribute('poster');
+          if (href.search("//") == -1)
+            y[i].setAttribute('poster', this.url + '/' + href);
         }
         
         y = doc.querySelectorAll("pre code");

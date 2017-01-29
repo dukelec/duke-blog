@@ -7,8 +7,8 @@ import { attributes2Array } from './helper';
 import { BlogService } from './blog.service';
 
 @Component({
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css']
+  templateUrl: './index.component.html'//,
+  //styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit {
 
