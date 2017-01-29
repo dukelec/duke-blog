@@ -21,5 +21,5 @@
 所有頁面都是由 javascript 加載，除 Google 搜尋外，其它很多搜尋引擎不支持；<br/>
 HTML5 模式的 url 路由兼容性比較差，會稍微麻煩一些。</p>
 
-<p>本 blog 後臺代碼完善整理後會開放出來。</p>
+<p>本 blog 後臺代碼：<a href="https://github.com/dukelec/ng-blog.git">https://github.com/dukelec/ng-blog.git</a></p>
 
