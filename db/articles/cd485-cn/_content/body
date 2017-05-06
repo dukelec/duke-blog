@@ -1,0 +1,35 @@
+
+<p>CD485 是一種基於 RS485 總線的通訊協議,它同時也指實現此協議的硬件和使用此協議的總線。</p>
+<p>CD485 協議由 Duke Fong 於 2010 年設計,以便捷、多主機、高速率爲目標。</p>
+<p><img class="img-responsive img-rounded" src="cd485_rotate.png"></p>
+
+<h3>亮點</h3>
+<p>當前硬件支持的特性:<br/>
+• CD485 總線上各節點均可主動發起傳輸,通過節點地址仲裁以避免衝突<br/>
+• 總線上每個數據包可以含有 0 ~ 253 字節用戶數據<br/>
+• 共有 8 個 RX 緩存頁和 2 個 TX 緩存頁,每一頁 256 字節<br/>
+• 硬件爲每個數據包自動完成 16 位 CRC 生成與校驗<br/>
+• 波特率:103 bps 至 9 Mbps(另有模組支持到 36 Mbps)<br/>
+• 可分別爲仲裁字段和後續數據設置不同的波特率<br/>
+• 兼容傳統 RS485 總線<br/>
+• 提供 SPI 和 I2C 接口<br/>
+• 配置和操作便捷<br/>
+</p>
+
+
+<h3>CD485 協議</h3>
+<p>參考時序:</p>
+<p><img class="img-responsive img-rounded" src="protocol1.png"></p>
+<p><img class="img-responsive img-rounded" src="protocol2.png"></p>
+
+<h3>電路參考</h3>
+<p><img class="img-responsive img-rounded" src="sch.png"></p>
+
+
+<h3>完整文檔</h3>
+<p>英文版: <a href="cd485_170506.pdf">cd485_170506.pdf</a></p>
+<p>中文版: <a href="cd485_cn_170506.pdf">cd485_cn_170601.pdf</a></p>
+
+
+<h3>照片</h3>
+<p><img class="img-responsive img-rounded" src="cd485_photo.jpg"></p>
