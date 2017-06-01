@@ -9,8 +9,8 @@ import { BlogService } from './blog.service';
 declare var hljs: any;
 
 @Component({
-  templateUrl: './article.component.html',
-  styleUrls: ['./article.component.css']
+  templateUrl: './article.component.html'//,
+  //styleUrls: ['./article.component.css']
 })
 export class ArticleComponent implements OnInit {
 
@@ -59,22 +59,59 @@ export class ArticleComponent implements OnInit {
         }
         
         // html:
-        var parser = new DOMParser()
-        var doc = parser.parseFromString(this.article.body, "text/html");
+        let parser = new DOMParser()
+        let doc = parser.parseFromString(this.article.body, "text/html");
         
-        var y = doc.querySelectorAll("pre code");
+        let y = doc.querySelectorAll('[href]');
         for (var i = 0; i < y.length; i++) {
-          y[i].innerHTML = y[i].innerHTML.replace("\n", "");
-          hljs.highlightBlock(y[0])
-        }
-        
-        y = doc.querySelectorAll('[href]');
-        for (var i = 0; i < y.length; i++) {
-          var href = y[i].getAttribute('href');
+          let href = y[i].getAttribute('href');
           if (href.search("//") == -1 && href.search("#") != 0)
             y[i].setAttribute('href', this.url + '/' + href);
         }
+        y = doc.querySelectorAll('[src]');
+        for (var i = 0; i < y.length; i++) {
+          let href = y[i].getAttribute('src');
+          if (href.search("//") == -1)
+            y[i].setAttribute('src', this.url + '/' + href);
+        }
+        y = doc.querySelectorAll('[poster]');
+        for (var i = 0; i < y.length; i++) {
+          let href = y[i].getAttribute('poster');
+          if (href.search("//") == -1)
+            y[i].setAttribute('poster', this.url + '/' + href);
+        }
         
+        y = doc.querySelectorAll("pre code");
+        if (y.length > 0) {
+            for (var i = 0; i < y.length; i++)
+                y[i].innerHTML = y[i].innerHTML.replace("\n", "");
+            if (typeof hljs === 'undefined') {
+                let p = this;
+                
+                let script = document.createElement('script');
+                script.type = "text/javascript";
+                script.src = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js";
+                script.onload = function () {
+                    console.debug('highlight script loaded');
+                    for (var i = 0; i < y.length; i++)
+                        hljs.highlightBlock(y[0]);
+                    p.body = doc.body.innerHTML;
+                };
+                document.getElementsByTagName("head")[0].appendChild(script);
+                
+                let fileref = document.createElement('link');
+                fileref.rel = "stylesheet";
+                fileref.type = "text/css";
+                fileref.href = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css";
+                fileref.onload = function () {
+                    console.debug('highlight css loaded');
+                }
+                document.getElementsByTagName("head")[0].appendChild(fileref);
+            } else {
+                for (var i = 0; i < y.length; i++)
+                    hljs.highlightBlock(y[0]);
+            }
+        }
         this.body = doc.body.innerHTML;
       },
       (err: any) => console.error(err)

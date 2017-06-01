@@ -1,12 +1,8 @@
-<h3>Top Articles</h3>
-<div class="">
-	<div *ngFor="let article of articles" class="" >
-		<div class="">
-			<h4 (click)="gotoArticle(article)">{{article.title}}</h4>
-			<p><small>Languages: {{article.languages | join: ', '}} | Categories: {{article.categories | join: ', '}} | Tags: {{article.tags | join: ', '}} |
-			        {{article.date | str2date | date: 'medium'}} | Count: {{article.count}}</small></p>
-			<summary>{{article.summary}}</summary>
-		</div>
-	</div>
+
+<div *ngFor="let article of articles" class="blog-post" >
+	<h2 class="blog-post-title" (click)="gotoArticle(article)">{{article.title}}</h2>
+	<p class="blog-post-meta">Languages: {{article.languages | join: ', '}} | Categories: {{article.categories | join: ', '}} | Tags: {{article.tags | join: ', '}} |
+	        {{article.date | str2date | date: 'medium'}} | Count: {{article.count}}</p>
+	<p>{{article.summary}}</p>
 </div>
 
