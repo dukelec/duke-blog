@@ -1,0 +1,35 @@
+
+<p>CD485 is a communication protocol based on RS485, but it also represents the hardware implementations.</p>
+<p>CD485 protocol was designed by Duke Fong in 2010 for simple, multi-master and high-speed communi-
+cation in mind.</p>
+<p><img class="img-responsive img-rounded" src="cd485_rotate.png"></p>
+
+<h3>Highlights</h3>
+<p>Currently hardware implements:<br/>
+• Support multiple master on CD485 bus, arbitration by node ID address<br/>
+• Pack user data up to 253 bytes per packet for communication<br/>
+• 8 buffer pages for RX purpose, 2 buffer pages for TX purpose, each page is 256 bytes<br/>
+• 16 bit hardware CRC generation and verification<br/>
+• Baud rate from 103 bps to 9 Mbps (there is another module which support 103 bps to 36Mbps)<br/>
+• Separate baud rate setting for arbitration byte and follow data<br/>
+• Backward-compatible with traditional RS485 bus<br/>
+• Support SPI and I2C peripheral interface<br/>
+• Easy configuration and operation
+</p>
+
+
+<h3>CD485 protocal</h3>
+<p>Timing example of CD485 bus:</p>
+<p><img class="img-responsive img-rounded" src="protocol1.png"></p>
+<p><img class="img-responsive img-rounded" src="protocol2.png"></p>
+
+<h3>Circuit reference</h3>
+<p><img class="img-responsive img-rounded" src="sch.png"></p>
+
+
+<h3>Full document</h3>
+<p>Download: <a href="cd485_170506.pdf">cd485_170506.pdf</a></p>
+
+
+<h3>Photos</h3>
+<p><img class="img-responsive img-rounded" src="cd485_photo.jpg"></p>
