@@ -1,7 +1,104 @@
+<h2>History</h2>
+<p>In 2019 I was a sophomore, my friend and I participate in a school-enterprise cooperation project at that time,
+that project was to develop a integrated protection device of belt conveyor for mine use,
+I was responsible for hardware circuit and software design.
+Because the belt in the mine is very long, the protector nodes are about 600 meters apart,
+so each node in addition to processing data transceiver is also responsible for relay.
+For better reliability and real-time, the relay part is implemented in FPGA hardware,
+so the delay caused by the relay does not exceed a bit length.
+Because there is no additional host, according to the traditional, can only specify one of the nodes as the host,
+the host node is responsible for continuing to issue a query command to synchronize all node data,
+but in case the main node out of trouble, the entire bus will stop running.
+In order to further improve the robustness of the system and reduce the software complexity,
+so I designed a protocol based on RS485 with the arbitration, so that nodes can freely send and receive data,
+only the first byte used for arbitration using low-speed transmission, the remaining data using high-speed transmission,
+so it retains high-speed communication while supporting arbitration, of course, this is also achieved by the hardware.</p>
+
+<p>As the production chip requires a lot of money, so this protocol was not packaged into a separate chip at that time,
+until the beginning of 2017, the conditions are ripe, the product was able to come out.</p>
+
+<h2>The limitation of traditional RS485 communication</h2>
+<p>Whether it is serial or 485 communication, the data to be transmitted is usually packaged and then sent,
+the beginning of the packet commonly detemined by data like "0xff 0xaa", which is a begin flag,
+and then through the user-defined data format can determine the end of the package.
+This flag is sometimes repeat with the subsequent data, as a judge is not absolute insurance
+(for example, a packet body just also has a 0xff 0xaa, when the packet error occurs once the data dislocation,
+the receiver think that the 0xff 0xaa in the body is the beginning, then the timeout retransmission may cause the error repeat forever);
+The insurance way is to use the idle state to do the separation, the bus idle for a specified time to enter the idle state,
+the first data received in idle state is the begining of a package(this method is also used by ModBus RTU),
+but this method requires a higher real-time, such as the use of a cache with the serial receiver chip,
+if the user did not promptly read the first packet and received a second packet,
+then the two data packets together can not be separated by time (in this case,
+according to the data format can also continue to distinguish between packets, but the premise is that the packet data can not be wrong).</p>
+
+<p>In the normal 485 application scenario, the CPU directly controls the 485 interface chip to receive the data,
+needs the software to judge when the data packet begins and when to end, even if the data packet is not sent to himself,
+the CPU also be interrupted by the bus data frequently, reduce the efficiency.
+At the same time, after receiving one data packet also need to verify its correctness, which is very consumption of CPU resources.
+It is worth mentioning that if the CPU has an other high priority task to deal with,
+it will be difficult to specify the priority order of data reception and other tasks:
+if the data received a higher priority, then when the bus receives data often interrupt other tasks;
+but if the receiving priority is lower, then it will often lose data.</p>
+
+<p>At the same time, because the traditional 485 can only allow host to query all the device to synchronize data,
+the bus utilization is very low, real-time and robustness is also poor. For example, there is a slave device which is a switch,
+the host in order to know whether the switch is currently pressed, the host need to keep sending the query packet,
+and the device reply packets which containing the current state back to the host;
+If all nodes can send packets at any time, when the switch status changes,
+the slave device only needs to send a packet to the host, that is, fast and convenient.
+</p>
+
+<h2>The limitation of CAN bus</h2>
+<p>In order to reduce the CPU occupancy and free to send data packets, some people choose the CAN bus,
+CAN bus use hardware to processing packet reception, transmission and verification,
+while providing the ability to send packet at any time for all nodes (arbitration),
+but the CAN bus can only transmit up to 8 bytes per packet, and high-speed CAN maximum rate of only 1 Mbps,
+the RS485 is 10 Mbps (and could be higher), and the CAN bus copyright fees are high.
+</p>
+
+<p>The latest CAN FD (CAN with Flexible Data-Rate) can support speeds of more than 1 Mbps,
+but maybe because the hardware is still not a push-pull output, so usually only 2 Mbps, 5 Mbps are available,
+and I can not find a separate controller chip, because it is compatible with CAN2.0, and CAN hardware itself is more complex,
+Microchip has announced a stand alone CAN FD controller with SPI host interface in 2015,
+but now the device has disappeared. (Http://www.microchip.com/forums/m970901.aspx)
+</p>
+
+<p>One of the biggest features of the CAN protocol is to abolish the traditional station address, and instead the communication is message based,
+so it support multicast.
+But I think it brings the shortcomings over the advantages: because the entire system command space will be coupled together,
+if the command space allocation is unreasonable at beginning, in order to modify will affect all nodes;
+And configuration filtering reception is also very cumbersome;
+The receiver does not know who sent the packet; the sender can receive the ACK response, but also can not guarantee that all the relevant nodes are received.
+</p>
+
+<p>In systems with fewer nodes (less than 255), it is enough to use only unicast and broadcast:
+for example, I want to control the four windows at the same time movements, to send four packets to the four windows respectively will not be very inefficient,
+and when I want to control a single window, I do not need to change the definition of the packet;
+Another example, when the brakes and other emergencies occur, the use of broadcast packets can be the fastest to notify each node,
+even if the window does not respond to the command, it is also acceptable to be interrupted by the emergency event.
+</p>
+
+<h2>Introduce to CD485</h2>
+<p>In early 2017, I took over an industrial arm project, in order to configure the motor's current loop, speed loop and location loop parameters,
+I need to read the moto data in real-time, and there are also many sensors on the bus, so the bus data will be large,
+
+Also to consider the cost and PCB area, a lot of bus protocol on the market does not meet my needs,
+so I come back to my own protocol which designed in 2009, named it as CD485 protocol, and produce a separate controller chip.
+</p>
+
+<p>The CD485 protocol is a fairly open protocol and the hardware implementation is relatively straightforward.
+Anyone can use this protocol or its variants for free in their own products: for example, car manufacturers can use the CD485 protocol within the car,
+robot arm company can use this protocol inside the robotic arm, but also can provide external interface which is compatible to CD485 protocol;
+But if you want selling a separate controller chip or module of this protocol, you need to pay the copyright fee.
+</p>
 
 <p>CD485 is a communication protocol based on RS485, but it also represents the hardware implementations.</p>
-<p>CD485 protocol was designed by Duke Fong in 2009 for simple, multi-master and high-speed communi-
-cation in mind.</p>
+<p>CD485 protocol was designed by Duke Fong in 2009 for simple, multi-master and high-speed communication in mind.</p>
+
+<p>CD485 protocol only defines the packet format, does not specify the user data format;
+Only supports unicast and broadcast, does not support multicast;
+Only provide hardware arbitration, automatic retransmission after conflict, packet handshake and error handling are by user at upper layer.</p>
+
 <p><img class="img-responsive img-rounded" src="cd485_rotate.png"></p>
 
 <h3>Highlights</h3>
@@ -10,7 +107,7 @@ cation in mind.</p>
 • Pack user data up to 253 bytes per packet for communication<br/>
 • 8 buffer pages for RX purpose, 2 buffer pages for TX purpose, each page is 256 bytes<br/>
 • 16 bit hardware CRC generation and verification<br/>
-• Baud rate from 103 bps to 9 Mbps (support 10 Mbps by replace the oscillator; and there is another module which support 103 bps to 36Mbps)<br/>
+• Baud rate from 103 bps to 9 Mbps (support 10 Mbps by replacing the oscillator; and there is also another module which support up to 36Mbps)<br/>
 • Separate baud rate setting for arbitration byte and follow data<br/>
 • Backward-compatible with traditional RS485 bus<br/>
 • Support SPI and I2C peripheral interface<br/>
@@ -31,8 +128,8 @@ cation in mind.</p>
 <p>Download: <a href="cd485.pdf">cd485.pdf</a></p>
 
 
-<h3>Photos</h3>
+<h3>Product photo</h3>
 <p><img class="img-responsive img-rounded" src="cd485_photo.jpg"></p>
 
-<h3>Contact</h3>
+<h2>Contact</h2>
 Email: duke#dukelec.com (replace # with @)

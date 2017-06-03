@@ -3,4 +3,4 @@
 	date = 2017-05-06T22:49:21+08:00
 	attributes = P_dflt,L_en,C_product,T_communication
 	format = html
-	summary = CD485 is a communication protocol based on RS485, but it also represents the hardware implementations.
+	summary = CD485 is a communication protocol based on RS485, to achieve convenient, free, multi-master, high-speed communications.
