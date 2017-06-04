@@ -79,8 +79,8 @@ even if the window does not respond to the command, it is also acceptable to be 
 </p>
 
 <h2>Introduce to CD485</h2>
-<p>In early 2017, I took over an industrial arm project, in order to configure the motor's current loop, speed loop and location loop parameters,
-I need to read the moto data in real-time, and there are also many sensors on the bus, so the bus data will be large,
+<p>In early 2017, I took over an industrial robotic arm project, in order to configure the motor's current loop, speed loop and location loop parameters,
+I need to read the motor data in real-time, and there are also many sensors on the bus, so the bus will have a lot of data transmission,
 
 Also to consider the cost and PCB area, a lot of bus protocol on the market does not meet my needs,
 so I come back to my own protocol which designed in 2009, named it as CD485 protocol, and produce a separate controller chip.
@@ -90,9 +90,10 @@ so I come back to my own protocol which designed in 2009, named it as CD485 prot
 Anyone can use this protocol or its variants for free in their own products: for example, car manufacturers can use the CD485 protocol within the car,
 robot arm company can use this protocol inside the robotic arm, but also can provide external interface which is compatible to CD485 protocol;
 But if you want selling a separate controller chip or module of this protocol, you need to pay the copyright fee.
+In any case, you need to remain the original protocol name and copyright information on your product's web page.
 </p>
 
-<p>CD485 is a communication protocol based on RS485, but it also represents the hardware implementations.</p>
+<p>CD485 (or CD-BUS) is a communication protocol based on RS485, but it also represents the hardware implementations.</p>
 <p>CD485 protocol was designed by Duke Fong in 2009 for simple, multi-master and high-speed communication in mind.</p>
 
 <p>CD485 protocol only defines the packet format, does not specify the user data format;
@@ -119,6 +120,21 @@ Only provide hardware arbitration, automatic retransmission after conflict, pack
 <p>Timing example of CD485 bus:</p>
 <p><img class="img-responsive img-rounded" src="protocol1.png"></p>
 <p><img class="img-responsive img-rounded" src="protocol2.png"></p>
+
+<p>If we set the two baud rates to the same value, CD485 node can communicate with the traditional 485 hardware while maintaining the arbitration mechanism.
+The traditional hardware priority is higher than the CD485 nodes, when collision is detected, the traditional node takes precedence.
+Of course, you can also turn off the arbitration function, to full use the traditional communication mode;
+And the module can not only be used for 485 communication but also be used for serial communication and so on.
+</p>
+
+<p>It is worth mentioning that the use of CD485 controller, to achieve automatic node ID allocation will be much simpler,
+for example: each node randomly generate a number, use this random number to set the hardware waiting time before send,
+while put the random number into the data packet sent to the host;
+the host assigns an address to the node corresponding to the non-repeating random number
+(if an error packet is received, it is necessary to check the uniqueness of the random number by another query to confirm that only one node generates this number),
+then repeat the steps just for the node that did not get the address (for example, ID is 254) until the 254 address has no node reply.
+</p>
+
 
 <h3>Circuit reference</h3>
 <p><img class="img-responsive img-rounded" src="sch.png"></p>
