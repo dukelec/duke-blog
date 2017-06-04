@@ -108,7 +108,7 @@ Only provide hardware arbitration, automatic retransmission after conflict, pack
 • Pack user data up to 253 bytes per packet for communication<br/>
 • 8 buffer pages for RX purpose, 2 buffer pages for TX purpose, each page is 256 bytes<br/>
 • 16 bit hardware CRC generation and verification<br/>
-• Baud rate from 103 bps to 9 Mbps (support 10 Mbps by replacing the oscillator; and there is also another module which support up to 36Mbps)<br/>
+• Baud rate from 412 bps to 9 Mbps (support 10 Mbps by replacing the oscillator; and there is also another module which support up to 36Mbps)<br/>
 • Separate baud rate setting for arbitration byte and follow data<br/>
 • Backward-compatible with traditional RS485 bus<br/>
 • Support SPI and I2C peripheral interface<br/>
