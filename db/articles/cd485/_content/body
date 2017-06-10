@@ -112,10 +112,8 @@ Only provide hardware arbitration, automatic retransmission after conflict, pack
 </p>
 
 
-<h3>CD485 protocal</h3>
-<p>Timing example of CD485 bus:</p>
-<p><img class="img-responsive img-rounded" src="protocol1.png"></p>
-<p><img class="img-responsive img-rounded" src="protocol2.png"></p>
+<h3>CD485 protocol</h3>
+<p><img class="img-responsive img-rounded" src="cd485_protocol.png"></p>
 
 <p>If we set the two baud rates to the same value, CD485 node can communicate with the traditional 485 hardware while maintaining the arbitration mechanism.
 The traditional hardware priority is set higher than CD485 nodes, when collision is detected, the traditional node takes precedence.

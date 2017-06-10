@@ -15,7 +15,7 @@ Comment policy have multiple types: anonymous without verification, captcha veri
 Permission management for articles.</p>
 
 <p>Known disadvantages:<br/>
-Most search engine not support pages which rendered by javascript(except Google Search);<br/>
+Most search engine not support pages which rendered by javascript (except Google Search); (take snapshot to static pages on /archive to solve this problem)<br/>
 HTML5 mode url is poor compatibility.</p>
 
 <p>The source code of this blog: <a href="https://github.com/dukelec/ng-blog.git">https://github.com/dukelec/ng-blog.git</a></p>

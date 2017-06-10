@@ -69,9 +69,7 @@
 
 
 <h3>CD485 協議</h3>
-<p>參考時序:</p>
-<p><img class="img-responsive img-rounded" src="protocol1.png"></p>
-<p><img class="img-responsive img-rounded" src="protocol2.png"></p>
+<p><img class="img-responsive img-rounded" src="cd485_cn_protocol.png"></p>
 
 <p>如果把兩個波特率設置同等大小，便可以在保留仲裁機制的同時與傳統 485 硬件進行通訊，傳統硬件優先級設置高於 CD485 節點，由 CD485 節點主動避讓傳統節點。
 
