@@ -1,3 +1,5 @@
+<p><small>Last modified date: Sun Aug  6 14:21:20 HKT 2017</small></p>
+
 <h2>History</h2>
 <p>In 2009 I was a sophomore, my friend and I participate in a school-enterprise cooperation project at that time,
 that project was to develop an integrated protection device of belt conveyor for mine use,
@@ -17,28 +19,31 @@ so it retains high-speed communication while supporting arbitration, of course, 
 <p>As the chip production requires a lot of money, so this protocol was not packaged into a stand alone chip at that time,
 until the beginning of 2017, the chip was able to come out.</p>
 
-<h2>The limitation of traditional RS485 communication</h2>
+<p><img class="img-responsive img-rounded" src="cd_bus1.png"></p>
+
+
+<h2>Disadvantages for data link layer by soware</h2>
 <p>Whether it is serial or 485 communication, the data to be transmitted is usually packaged and then sent,
-the beginning of the packet commonly detemined by data like "0xff 0xaa", which is a begin flag,
-and then through the user-defined data format can determine the end of the packet.
-This flag is sometimes repeat with the subsequent data, as a judge is not reliable
-(for example, a packet body just also has a 0xff 0xaa, when the packet error occurs once the data dislocation,
-the receiver think that the 0xff 0xaa in the body is the beginning, then the timeout retransmission may cause the error repeat forever);
-One reliable way is to use the idle state to do the separation, the bus idle for a specified time will enter the idle state,
-the first data received in idle state is the begining of a packet (this method is also used by ModBus RTU),
-but this method requires a higher real-time ability, such as the serial receiver chip include a cache,
-if the user did not promptly read the first packet and then receive a second packet,
-the two packets will stick together and can not be separated by time anymore (in this case,
-we can also separate packets according to the data format, but all the data received must be without error).</p>
+the beginning of the frame commonly detemined by data like “ff aa”, which is a begin flag,
+and then through the user-defined data format can determine the end of the frame. <br>
+
+<p><b>Disadvantages for frame marked by flag like “ff aa”:</b> the flag is sometimes repeat with the subsequent
+data, if payload data just also has a “ff aa”, when the frame error occurs once the data dislocation, the receiver
+think that the “ff aa” in the payload is a flag, and this may cause the error to continue. </p>
+<p><b>Disadvantages for frame marked by IDLE state:</b> we normally can’t using FIFO or DMA to receiving data,
+because frames will stick together in the RAM and can not be separated by time anymore. <br>
+Without using FIFO and DMA, it’s not only increase the CPU consumption, but also requires a higher
+real-time ability, it will be difficult to specify the interrupt priority order of data reception and main task: if
+specify the data reception a higher priority, the main task will be disturbed each time when the data comming,
+but if the receiving priority is lower, then we may always lose data. </p>
+</p>
+<p>Transmission and reception of frame using hardware could avoiding those problems.
+</p>
 
 <p>In the normal 485 application scenario, the CPU directly controls the 485 interface chip to receive data,
-the software need to judge when the data packet begins and when to end, even if the data packet is not sent to itself,
-the CPU also be interrupted by the bus data frequently, reduce the efficiency.
-At the same time, after receiving one data packet also need to verify its correctness, which is very consumption of CPU resources.
-It is worth mentioning that if the CPU has an other high priority task to deal with,
-it will be difficult to specify the priority order of data reception and other tasks:
-if specify the data reception a higher priority, when the bus receives data often interrupt other tasks;
-but if the receiving priority is lower, then it will always lose data.</p>
+even if the data frame is not sent to itself, the CPU also be interrupted by the bus data frequently, reduce the efficiency.
+At the same time, after receiving one frame also need to verify its correctness, which is very consumption of CPU resources.
+</p>
 
 <p>At the same time, because the traditional 485 can only allow host to query all the device to synchronize data,
 the bus utilization is very low, real-time and robustness is also poor. For example, there is a slave device which is a switch,
@@ -50,26 +55,28 @@ the device only needs to send only one packet to the host, that is, fast and con
 
 <h2>The limitation of CAN bus</h2>
 <p>In order to reduce the CPU occupancy and free to send data packets, some people choose the CAN bus,
-CAN bus use hardware to processing packet reception, transmission and verification,
-while providing the ability to send packet at any time for all nodes (arbitration),
-but the CAN bus can only transmit up to 8 bytes per packet, and high-speed CAN maximum rate is only 1 Mbps,
+CAN bus use hardware to processing frame reception, transmission and verification,
+while providing the ability to send frame at any time for all nodes (arbitration),
+but the CAN bus can only transmit up to 8 bytes per frame, and high-speed CAN maximum rate is only 1 Mbps,
 the RS485 is 10 Mbps (and could be higher), and the royalty of the CAN bus is expensive.
 </p>
 
 <p>The latest CAN FD (CAN with Flexible Data-Rate) can support speeds of more than 1 Mbps,
-but maybe because the hardware is still not a push-pull output, so usually only 2 Mbps, 5 Mbps are available,
+but maybe because the hardware is still not a push-pull output, so usually only 2 Mbps, 3 Mbps are available,
 and I can not find a stand alone controller chip, because it should compatible with CAN2.0, and CAN hardware itself is more complex,
 Microchip has announced a stand alone CAN FD controller with SPI host interface in 2015,
 but now the device has disappeared. (Http://www.microchip.com/forums/m970901.aspx)
 </p>
 
-<p>One of the biggest features of the CAN protocol is to abolish the traditional station address, and instead the communication is message based,
-so it support multicast.
-But I think it brings the shortcomings over the advantages: because the entire system command space will stick together,
-if the command space allocation is unreasonable at beginning, in order to modify will affect all nodes;
-And the filter configuration of reception is also very cumbersome;
-The receiver does not know who sent the packet; the sender can receive the ACK response, but also can not guarantee that all the relevant nodes are received.
+<p>CAN is a message-based protocol, message IDs must be unique on a single CAN bus, that means one
+message could only send by a single node; e.g. if there are three limit-switchs to stop a servo, we must define
+three stop messages: “STOP1” for switch1, “STOP2” for switch2 and so on, then the servo getting stoped when
+receiving any of those three messages;</p>
+
+<p>Entire bus share one message ID allocation space, in order to modify message definition for one device
+must take care of all other devices.
 </p>
+
 
 <p>In systems with few nodes (less than 255), it is enough to use only unicast and broadcast:
 for example, I want to control four windows movements at the same time, to send four packets to the four windows respectively will not be very inefficient,
@@ -78,60 +85,71 @@ Another example, when the brakes and other emergencies occur, the use of broadca
 even if the window does not respond to the command, it is also acceptable to be interrupted by the emergency event.
 </p>
 
-<h2>Introduce to CD485</h2>
+
+<p><img class="img-responsive img-rounded" src="cd_bus2.png"></p>
+
+<h2>Introduce to CD-BUS</h2>
 <p>In early 2017, I took over an industrial robotic arm project, in order to configure the motor's current loop, speed loop and location loop parameters,
 I need to read the motor's run-time data in real-time, and there are also many sensors on the bus, so the bus will have a lot of data transmission,
 
 Also need to consider the cost and PCB area, a lot of bus protocol on the market does not meet my needs,
-so I come back to my own protocol which designed in 2009, named it as CD485 protocol, and produce a stand alone controller chip.
+so I come back to my own protocol which designed in 2009, named it as CD-BUS protocol, and produce a stand alone controller chip.
 </p>
 
-<p>CD485 (or CD-BUS) is a fairly open protocol, hardware implementation is relatively simple,
-in addition to chip manufacturers need to pay a small amount of royalties,
-the rest of anyone can use this protocol and its variants for free,
-only need to retain the original copyright information in the product manual.
+<p>CD-BUS (or CD485) is a fairly open protocol, hardware implementation is relatively simple, in addition
+to chip manufacturers need to pay a small amount of royalties, the rest of anyone can use this protocol and
+its variants for free, only need to retain the original copyright information in the product manual.
 </p>
 
-<p>CD485 protocol only defines the packet format, does not specify the user data format;
-Only supports unicast and broadcast, does not support multicast;
-Only provide hardware arbitration, automatic retransmission after conflict, packet handshake and error handling are handled by user at upper layer.</p>
+<p>CD-BUS protocol only defines the frame format, does not specify the payload data format; Only supports
+unicast and broadcast, does not support multicast; Only provide hardware arbitration, automatic retransmission
+after conflict, handshake and error handling are handled by software at upper layer.</p>
 
-<p><img class="img-responsive img-rounded" src="cd485_rotate.png"></p>
+<p><img class="img-responsive img-rounded" src="cd485b1_r.png"></p>
 
 <h3>Highlights</h3>
-<p>Currently hardware implements:<br/>
-• Support multiple master on CD485 bus, arbitration by node ID address<br/>
-• Pack user data up to 253 bytes per packet for communication<br/>
-• 8 buffer pages for RX purpose, 2 buffer pages for TX purpose, each page is 256 bytes<br/>
-• 16 bit hardware CRC generation and verification<br/>
-• Baud rate from 412 bps to 9 Mbps (support 10 Mbps by replacing the oscillator; and there is also another module which support up to 36Mbps)<br/>
-• Separate baud rate setting for arbitration byte and follow data<br/>
-• Backward-compatible with traditional RS485 bus<br/>
-• Support SPI and I2C peripheral interface<br/>
-• Easy configuration and operation
+<p>The CD485B1 module supports:<br>
+• Support multiple master on CD-BUS, bitwise arbitration by sender ID <br>
+• 253 bytes data payload per frame <br>
+• 8 buffer pages for RX purpose, 2 buffer pages for TX purpose, each page is 256 bytes <br>
+• 16 bit hardware CRC generation and verification <br>
+• Baud rate from 412 bps to 9 Mbps (support higher if need) <br>
+• Separate baud rate setting for arbitration byte and follow data <br>
+• Backward-compatible with traditional RS485 bus <br>
+• Support SPI and I2C peripheral interface <br>
+• Easy configuration and operation <br>
 </p>
 
 
-<h3>CD485 protocol</h3>
-<p><img class="img-responsive img-rounded" src="cd485_protocol.png"></p>
+<h3>CD-BUS Protocol</h3>
+<p><img class="img-responsive img-rounded" src="cd_bus_protocol.png"></p>
 
-<p>If we set the two baud rates to the same value, CD485 node can communicate with the traditional 485 hardware while maintaining the arbitration mechanism.
-The traditional hardware priority is set higher than CD485 nodes, when collision is detected, the traditional node takes precedence.
-Of course, you can also turn off the arbitration function, to fully use the traditional communication mode;
-And the module can not only be used for 485 communication but also be used for serial communication and so on.
+<p>If we set the two baud rates to the same value, CD-BUS node can communicate with the traditional RS485
+node while maintaining the arbitration mechanism: the traditional node priority is set higher than CD-BUS
+nodes, when collision is detected, the traditional node takes precedence. Of course, you can also turn off the
+arbitration function, to fully use the traditional communication mode.
+</p>
+<p>CD-BUS and the CD485XX controller could be used for physical medium other than RS485, e.g.: single wire UART bus.
 </p>
 
 
-<h3>Circuit reference</h3>
-<p><img class="img-responsive img-rounded" src="sch.png"></p>
+<h3>Circuit Reference</h3>
+<p><img class="img-responsive img-rounded" src="cd485b1_sch.png"></p>
 
 
-<h3>Full document</h3>
-<p>Download: <a href="cd485.pdf">cd485.pdf</a></p>
+<h3>Full Documents</h3>
+<p>Downloads: <br>
+<a href="cd485b1_dm_170806.pdf">cd485b1_dm_170806.pdf</a> <br>
+<a href="cd485b1_dm_hk_170806.pdf">cd485b1_dm_hk_170806.pdf</a> <br>
+<a href="cd485b1_dm_cn_170806.pdf">cd485b1_dm_cn_170806.pdf</a> <br>
+<a href="cd_bus_intro_170806.pdf">cd_bus_intro_170806.pdf</a> <br>
+<a href="cd_bus_intro_hk_170806.pdf">cd_bus_intro_hk_170806.pdf</a> <br>
+<a href="cd_bus_intro_cn_170806.pdf">cd_bus_intro_cn_170806.pdf</a> <br>
+</p>
 
 
-<h3>Product photo</h3>
-<p><img class="img-responsive img-rounded" src="cd485_photo.jpg"></p>
+<h3>Product Photo (previous version)</h3>
+<p><img class="img-responsive img-rounded" src="cd485a_photo.jpg"></p>
 
 <h2>Contact</h2>
 Email: duke#dukelec.com (replace # with @)
