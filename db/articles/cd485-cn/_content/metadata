@@ -1,6 +1,0 @@
-[base]
-	title = CD-BUS, 讓 RS485 支持多主對等通訊
-	date = 2017-05-06T23:31:55+08:00
-	attributes = P_dflt,L_cn,C_product,T_communication
-	format = html
-	summary = CD-BUS 是一種基於 RS485 總線的通訊協議，實現便捷、自由、多主對等、高速率通訊。

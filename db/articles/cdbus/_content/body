@@ -1,4 +1,4 @@
-<p><small>Last modified date: Sun Aug  6 14:21:20 HKT 2017</small></p>
+<p><small>Last modified date: Fri Aug 18 00:21:54 HKT 2017</small></p>
 
 <h2>History</h2>
 <p>In 2009 I was a sophomore, my friend and I participate in a school-enterprise cooperation project at that time,
@@ -19,7 +19,7 @@ so it retains high-speed communication while supporting arbitration, of course, 
 <p>As the chip production requires a lot of money, so this protocol was not packaged into a stand alone chip at that time,
 until the beginning of 2017, the chip was able to come out.</p>
 
-<p><img class="img-responsive img-rounded" src="cd_bus1.png"></p>
+<p><img class="img-responsive img-rounded" src="pic/cdbus1.png"></p>
 
 
 <h2>Disadvantages for data link layer by soware</h2>
@@ -86,34 +86,34 @@ even if the window does not respond to the command, it is also acceptable to be 
 </p>
 
 
-<p><img class="img-responsive img-rounded" src="cd_bus2.png"></p>
+<p><img class="img-responsive img-rounded" src="pic/cdbus2.png"></p>
 
-<h2>Introduce to CD-BUS</h2>
+<h2>Introduce to CDBUS</h2>
 <p>In early 2017, I took over an industrial robotic arm project, in order to configure the motor's current loop, speed loop and location loop parameters,
 I need to read the motor's run-time data in real-time, and there are also many sensors on the bus, so the bus will have a lot of data transmission,
 
 Also need to consider the cost and PCB area, a lot of bus protocol on the market does not meet my needs,
-so I come back to my own protocol which designed in 2009, named it as CD-BUS protocol, and produce a stand alone controller chip.
+so I come back to my own protocol which designed in 2009, named it as CDBUS protocol, and produce a stand alone controller chip.
 </p>
 
-<p>CD-BUS (or CD485) is a fairly open protocol, hardware implementation is relatively simple, in addition
+<p>CDBUS is a fairly open protocol, hardware implementation is relatively simple, in addition
 to chip manufacturers need to pay a small amount of royalties, the rest of anyone can use this protocol and
 its variants for free, only need to retain the original copyright information in the product manual.
 </p>
 
-<p>CD-BUS protocol only defines the frame format, does not specify the payload data format; Only supports
+<p>CDBUS protocol only defines the frame format, does not specify the payload data format; Only supports
 unicast and broadcast, does not support multicast; Only provide hardware arbitration, automatic retransmission
 after conflict, handshake and error handling are handled by software at upper layer.</p>
 
-<p><img class="img-responsive img-rounded" src="cd485b1_r.png"></p>
+<p><img class="img-responsive img-rounded" src="pic/cdctl_b1_r.png"></p>
 
 <h3>Highlights</h3>
-<p>The CD485B1 module supports:<br>
-• Support multiple master on CD-BUS, bitwise arbitration by sender ID <br>
+<p>The CDCTL-B1 module supports:<br>
+• Support multiple master on CDBUS, bitwise arbitration by sender ID <br>
 • 253 bytes data payload per frame <br>
 • 8 buffer pages for RX purpose, 2 buffer pages for TX purpose, each page is 256 bytes <br>
 • 16 bit hardware CRC generation and verification <br>
-• Baud rate from 412 bps to 9 Mbps (support higher if need) <br>
+• Baud rate from 458 bps to 10 Mbps (support higher if need) <br>
 • Separate baud rate setting for arbitration byte and follow data <br>
 • Backward-compatible with traditional RS485 bus <br>
 • Support SPI and I2C peripheral interface <br>
@@ -121,35 +121,35 @@ after conflict, handshake and error handling are handled by software at upper la
 </p>
 
 
-<h3>CD-BUS Protocol</h3>
-<p><img class="img-responsive img-rounded" src="cd_bus_protocol.png"></p>
+<h3>CDBUS Protocol</h3>
+<p><img class="img-responsive img-rounded" src="pic/cdbus_protocol.png"></p>
 
-<p>If we set the two baud rates to the same value, CD-BUS node can communicate with the traditional RS485
-node while maintaining the arbitration mechanism: the traditional node priority is set higher than CD-BUS
+<p>If we set the two baud rates to the same value, CDBUS node can communicate with the traditional RS485
+node while maintaining the arbitration mechanism: the traditional node priority is set higher than CDBUS
 nodes, when collision is detected, the traditional node takes precedence. Of course, you can also turn off the
 arbitration function, to fully use the traditional communication mode.
 </p>
-<p>CD-BUS and the CD485XX controller could be used for physical medium other than RS485, e.g.: single wire UART bus.
+<p>CDBUS and the CDCTL-XX controller could be used for physical medium other than RS485, e.g.: single wire UART bus.
 </p>
 
 
 <h3>Circuit Reference</h3>
-<p><img class="img-responsive img-rounded" src="cd485b1_sch.png"></p>
+<p><img class="img-responsive img-rounded" src="pic/cdctl_b1_sch.png"></p>
 
 
 <h3>Full Documents</h3>
 <p>Downloads: <br>
-<a href="cd485b1_dm_170806.pdf">cd485b1_dm_170806.pdf</a> <br>
-<a href="cd485b1_dm_hk_170806.pdf">cd485b1_dm_hk_170806.pdf</a> <br>
-<a href="cd485b1_dm_cn_170806.pdf">cd485b1_dm_cn_170806.pdf</a> <br>
-<a href="cd_bus_intro_170806.pdf">cd_bus_intro_170806.pdf</a> <br>
-<a href="cd_bus_intro_hk_170806.pdf">cd_bus_intro_hk_170806.pdf</a> <br>
-<a href="cd_bus_intro_cn_170806.pdf">cd_bus_intro_cn_170806.pdf</a> <br>
+<a href="doc/cdbus_intro_170814.pdf">cdbus_intro_170814.pdf</a> <br>
+<a href="doc/cdbus_intro_hk_170814.pdf">cdbus_intro_hk_170814.pdf</a> <br>
+<a href="doc/cdbus_intro_cn_170814.pdf">cdbus_intro_cn_170814.pdf</a> <br>
+<a href="doc/cdctl_b1_170814.pdf">cdctl_b1_170814.pdf</a> <br>
+<a href="doc/cdctl_b1_hk_170814.pdf">cdctl_b1_hk_170814.pdf</a> <br>
+<a href="doc/cdctl_b1_cn_170814.pdf">cdctl_b1_cn_170814.pdf</a> <br>
 </p>
 
 
 <h3>Product Photo (previous version)</h3>
-<p><img class="img-responsive img-rounded" src="cd485a_photo.jpg"></p>
+<p><img class="img-responsive img-rounded" src="pic/cdctl_a1_photo.jpg"></p>
 
 <h2>Contact</h2>
 Email: duke#dukelec.com (replace # with @)

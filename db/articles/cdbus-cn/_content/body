@@ -1,4 +1,4 @@
-<p><small>最後編輯：Sun Aug  6 14:21:20 HKT 2017</small></p>
+<p><small>最後編輯：Fri Aug 18 00:21:54 HKT 2017</small></p>
 
 <h2>歷史</h2>
 <p>2009 年大二下學期，我和小夥伴們一起參與一個校企聯合項目，開發一款煤礦用皮帶機綜合保護器，
@@ -12,7 +12,7 @@
 
 <p>由於開芯片需要大量資金，所以此協議一直沒有封裝成爲獨立的芯片，直到 2017 年初，條件成熟，產品才得以問世。<p>
 
-<p><img class="img-responsive img-rounded" src="cd_bus1_hk.png"></p>
+<p><img class="img-responsive img-rounded" src="pic/cdbus1_hk.png"></p>
 
 
 <h2>軟件實現數據鏈路層的缺點</h2>
@@ -57,60 +57,60 @@
 又如，當剎車等緊急情況發生時，使用廣播包可以最迅速通知到每一個節點，即便車窗不響應該命令，被緊急事務打斷一下也是完全可以接受的。<p>
 
 
-<p><img class="img-responsive img-rounded" src="cd_bus2_hk.png"></p>
+<p><img class="img-responsive img-rounded" src="pic/cdbus2_hk.png"></p>
 
-<h2>CD-BUS 介紹</h2>
+<h2>CDBUS 介紹</h2>
 
 <p>2017 年初，我接手一個工業機械臂的項目，爲了分別調試電機電流環、速度環及位置環參數，需要實時抓出電機運行中的數據，總線上還有很多傳感器，即使是正常使用數據量也會很大，
-同時還要兼顧成本和電路面積，市面很多總線協議均不符合需求，爲此，我把 09 年的協議命名爲 CD485 協議，並推出獨立的控制器模組/芯片。<p>
+同時還要兼顧成本和電路面積，市面很多總線協議均不符合需求，爲此，我把 09 年的協議命名爲 CDBUS 協議，並推出獨立的控制器模組/芯片。<p>
 
-<p>CD-BUS（又或 CD485）是一個相當開放的協議，硬件實現也相對簡單，除了芯片生產商需要支付少量版權費，
+<p>CDBUS 是一個相當開放的協議，硬件實現也相對簡單，除了芯片生產商需要支付少量版權費，
 其餘任何人都可以免費使用此協議及其變種，只需要在產品說明中保留原始的版權信息。<p>
 
-<p>CD-BUS 協議只定義數據幀格式，不規定所裝載數據格式；只支持单播和廣播，不支持多播；只提供硬件避讓、避讓後自動重傳，而應答及出錯處理則由上層軟件負責。</p>
+<p>CDBUS 協議只定義數據幀格式，不規定所裝載數據格式；只支持单播和廣播，不支持多播；只提供硬件避讓、避讓後自動重傳，而應答及出錯處理則由上層軟件負責。</p>
 
-<p><img class="img-responsive img-rounded" src="cd485b1_r.png"></p>
+<p><img class="img-responsive img-rounded" src="pic/cdctl_b1_r.png"></p>
 
 <h3>特性</h3>
-<p>當前硬件支持的特性：<br/>
-• 支持 CD-BUS 多主對等通訊協議，使用發送方地址按位仲裁 <br>
+<p>CDCTL-B1 型號模組支持：<br/>
+• 支持 CDBUS 多主對等通訊協議，使用發送方地址按位仲裁 <br>
 • 每個數據幀可裝載 253 字節數據 <br>
 • 8 個接收緩衝頁，2 個發送緩衝頁，每個頁 256 字節 <br>
 • 16 位硬件 CRC 校驗 <br>
-• 波特率範圍 412 bps 至 9 Mbps（如果需要可以支持更高）<br>
+• 波特率範圍 458 bps 至 10 Mbps（如果需要可以支持更高）<br>
 • 仲裁字段和後續數據可設定不同波特率 <br>
 • 可兼容傳統 RS485 總線設備 <br>
 • 支持 SPI 和 I2C 接口 <br>
 • 配置和使用簡單 <br>
 </p>
 
-<h3>CD-BUS 協議</h3>
-<p><img class="img-responsive img-rounded" src="cd_bus_protocol_hk.png"></p>
+<h3>CDBUS 協議</h3>
+<p><img class="img-responsive img-rounded" src="pic/cdbus_protocol_hk.png"></p>
 
-<p>如果把兩個波特率設置同等大小，便可以在保留仲裁機制的同時與傳統 485 硬件進行通訊，傳統硬件優先級設置高於 CD485 節點，
-由 CD485 節點主動避讓傳統節點。當然還可以關閉仲裁功能，完全使用傳統通訊模式。</p>
+<p>如果把兩個波特率設置同等大小，便可以在保留仲裁機制的同時與傳統 485 硬件進行通訊，傳統硬件優先級設置高於 CDBUS 節點，
+由 CDBUS 節點主動避讓傳統節點。當然還可以關閉仲裁功能，完全使用傳統通訊模式。</p>
 <p>
-CD-BUS 和 CD485XX 控制器還適用於 RS485 之外的硬件媒介，譬如單線 UART 總線。
+CDBUS 和 CDCTL-XX 控制器還適用於 RS485 之外的硬件媒介，譬如單線 UART 總線。
 </p>
 
 
 <h3>電路參考</h3>
-<p><img class="img-responsive img-rounded" src="cd485b1_sch.png"></p>
+<p><img class="img-responsive img-rounded" src="pic/cdctl_b1_sch.png"></p>
 
 
 <h3>完整文檔</h3>
 <p>
-<a href="cd485b1_dm_170806.pdf">cd485b1_dm_170806.pdf</a> <br>
-<a href="cd485b1_dm_hk_170806.pdf">cd485b1_dm_hk_170806.pdf</a> <br>
-<a href="cd485b1_dm_cn_170806.pdf">cd485b1_dm_cn_170806.pdf</a> <br>
-<a href="cd_bus_intro_170806.pdf">cd_bus_intro_170806.pdf</a> <br>
-<a href="cd_bus_intro_hk_170806.pdf">cd_bus_intro_hk_170806.pdf</a> <br>
-<a href="cd_bus_intro_cn_170806.pdf">cd_bus_intro_cn_170806.pdf</a> <br>
+<a href="doc/cdbus_intro_170814.pdf">cdbus_intro_170814.pdf</a> <br>
+<a href="doc/cdbus_intro_hk_170814.pdf">cdbus_intro_hk_170814.pdf</a> <br>
+<a href="doc/cdbus_intro_cn_170814.pdf">cdbus_intro_cn_170814.pdf</a> <br>
+<a href="doc/cdctl_b1_170814.pdf">cdctl_b1_170814.pdf</a> <br>
+<a href="doc/cdctl_b1_hk_170814.pdf">cdctl_b1_hk_170814.pdf</a> <br>
+<a href="doc/cdctl_b1_cn_170814.pdf">cdctl_b1_cn_170814.pdf</a> <br>
 </p>
 
 
 <h3>產品實物圖（上一版）</h3>
-<p><img class="img-responsive img-rounded" src="cd485a_photo.jpg"></p>
+<p><img class="img-responsive img-rounded" src="pic/cdctl_a1_photo.jpg"></p>
 
 <h2>聯絡</h2>
 <p>請發郵件至：duke#dukelec.com (# 替換爲 @)</p>
