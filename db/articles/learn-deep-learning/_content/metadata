@@ -1,0 +1,6 @@
+[base]
+	title = A good online book for deep learning
+	date = 2017-10-08T22:09:54+08:00
+	attributes = P_dflt,L_en,C_daily,T_machine-learning
+	format = html
+	summary = Recommend a book on machine learning.
