@@ -1,6 +1,0 @@
-[base]
-	title = CD485, 讓 RS485 支持多主通訊
-	date = 2017-05-06T23:31:55+08:00
-	attributes = P_dflt,L_cn,C_product,T_communication
-	format = html
-	summary = CD485 是一種基於 RS485 總線的通訊協議,它同時也指實現此協議的硬件和使用此協議的總線。

@@ -1,5 +1,5 @@
 about P_dflt,L_en,C_web,T_about
 about-cn P_dflt,L_cn,C_web,T_about
 lunar-new-year-2017 P_dflt,L_cn,C_daily,T_music,T_art
-cd485 P_dflt,L_en,C_product,T_communication
-cd485-cn P_dflt,L_cn,C_product,T_communication
+cdbus P_dflt,L_en,C_product,T_communication
+cdbus-cn P_dflt,L_cn,C_product,T_communication

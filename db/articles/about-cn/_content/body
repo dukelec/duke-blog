@@ -18,7 +18,7 @@
 文章支持權限限制，email 驗證過用戶按組可閱讀部分隱藏文章（前臺暫未實現）。</p>
 
 <p>已知缺點：<br/>
-所有頁面都是由 javascript 加載，除 Google 搜尋外，其它很多搜尋引擎不支持；<br/>
+所有頁面都是由 javascript 加載，除 Google 搜尋外，其它很多搜尋引擎不支持；（現通過建立 /archive 快照來解決）<br/>
 HTML5 模式的 url 路由兼容性比較差，會稍微麻煩一些。</p>
 
 <p>本 blog 後臺代碼：<a href="https://github.com/dukelec/ng-blog.git">https://github.com/dukelec/ng-blog.git</a></p>
