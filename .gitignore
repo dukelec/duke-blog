@@ -3,6 +3,8 @@
 !.gitignore
 !.htaccess
 
+count
+
 # compiled output
 #/dist
 /tmp
