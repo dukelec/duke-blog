@@ -152,8 +152,8 @@ for a in articles:
     with open('%s/index.html' % a['url'], 'w') as f:
         f.write(template % article_html)
     
-    subprocess.run('cp -r %s/%s/* %s/' % (DB, a['url'], a['url']), shell=True)
-    subprocess.run('rm -r %s/_content %s/comments' % (a['url'], a['url']), shell=True)
+    subprocess.run('ln -s %s/%s/* %s/' % (DB, a['url'], a['url']), shell=True)
+    subprocess.run('rm %s/_content %s/comments' % (a['url'], a['url']), shell=True)
 
 with open('index.html', 'w') as f:
     f.write(index_template % (articles_html + '<br><p>Original link: <a href="/" style="text-decoration:none;">http://blog.dukelec.com</a></p>'))
