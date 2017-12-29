@@ -1,6 +1,6 @@
 [base]
-	title = CDBUS, makes RS485 support multi-master
+	title = CDBUS makes RS485 automatically avoid conflicts
 	date = 2017-05-06T22:49:21+08:00
 	attributes = P_dflt,L_en,C_product,T_communication
-	format = html
-	summary = CDBUS is a communication protocol based on RS485, to achieve convenient, free, multi-master, high-speed communications.
+	format = markdown
+	summary = CDBUS is a protocol for Asynchronous Serial Communication. When used with RS485: it introduces an arbitration mechanism that automatically avoids conflicts like the CAN bus.
