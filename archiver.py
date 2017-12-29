@@ -7,13 +7,17 @@ import json
 import subprocess
 import threading
 import time
+from time import sleep
 
 import requests
 import dateutil.parser
 
+# download driver from: http://chromedriver.storage.googleapis.com/index.html
+from selenium import webdriver
+browser = webdriver.Chrome()
+
+
 URL = 'http://blog.dukelec.com'
-#DB = '/var/www/localhost/ng-blog/db/articles'
-DB = '/var/www/blog.dukelec.com/duke-blog-work/db/articles'
 
 index_template = '''
 <!doctype html>
@@ -61,35 +65,9 @@ articles_template = '''
 </div>
 '''
 
-article_template = '''
-<div class="blog-post">
-
-  <h2 class="blog-post-title">%s</h2>
-  <p class="blog-post-meta">Languages: %s | Categories: %s | Tags: %s | %s | Count: %s</p>
-  <div>%s</div>
-
-</div><!-- /.blog-post -->
-
-<h3>Comments:</h3>
-%s
-
-<br/>
-
+original_template = '''
 <p>Original link: <a href="/%s" style="text-decoration:none;">http://blog.dukelec.com/%s</a></p>
 '''
-
-
-comments_template = '''
-<div>
-  <div>
-	  <p><small>#%s, %s, %s &lt;%s&gt; wrote:</small></p>
-	  <p>%s</p>
-  </div>
-</div>
-'''
-
-
-articles_html = ''
 
 
 def attributes2Array(attrs_str):
@@ -110,50 +88,33 @@ def attributes2Array(attrs_str):
             attrs['tags'].append(i[2:])
     return attrs
 
-def escapeHtml(unsafe):
-    return unsafe.replace('&', '&amp;')\
-                 .replace('<', '&lt;')\
-                 .replace('>', '&gt;')\
-                 .replace('"', '&quot;')\
-                 .replace('\'', '&#039;')
+
+articles_html = ''
 
 # get index
 articles = requests.get(URL + '/api/read-articles').json()['articles']
 
 for a in articles:
+    print('processing: ' + a['url'] + ' ...')
+    browser.get('http://blog.dukelec.com/' + a['url'])
+    sleep(1)
+    
+    
     attrs = attributes2Array(a['attributes'])
     date = dateutil.parser.parse(a['date']).strftime("%b %d, %Y, %I:%M:%S %p")
     articles_html += articles_template % (a['url'], a['title'], ', '.join(attrs['languages']),
                                         ', '.join(attrs['categories']), ', '.join(attrs['tags']),
                                         date, a['count'], a['summary'])
     
-    article = requests.get(URL + '/api/read-article?url=' + a['url']).json()['article']
-    replys = requests.get(URL + '/api/read-replys?url=' + a['url']).json()['replys']
-    
-    comments_html = ''
-    
-    for c in replys:
-        c_date = dateutil.parser.parse(c['date']).strftime("%b %d, %Y, %I:%M:%S %p")
-        comments_html += comments_template % (c['id'], c_date, c['name'], c['email'], c['body'])
-    
-    if article['format'] == 'plain':
-        body = '<pre>%s</pre>' % escapeHtml(article['body'])
-    else:
-        body = article['body']
-        #TODO:  add highlight code
-    
-    article_html = article_template % (a['title'], ', '.join(attrs['languages']),
-                                        ', '.join(attrs['categories']), ', '.join(attrs['tags']),
-                                        date, a['count'], body, comments_html, a['url'], a['url'])
-    
-    template = index_template.replace('<title>Duke\'s Blog</title>', '<title>%s - Duke\'s Blog</title>' % a['title'], 1)
+    article_html = browser.page_source
+    article_html = article_html.replace('''<h1 class="blog-title active" routerlink="/" routerlinkactive="active">Duke's Blog</h1>''',
+                                        '''<a href="/archive/" style="text-decoration:none;"><h1 class="blog-title">Duke's Blog</h1></a>''', 1)
+    article_html = article_html.replace('<button class="btn btn-default" type="submit">Submit</button>',
+                                        original_template % (a['url'], a['url']), 1)
     
     subprocess.run('mkdir %s' % a['url'], shell=True)
     with open('%s/index.html' % a['url'], 'w') as f:
-        f.write(template % article_html)
-    
-    subprocess.run('ln -s %s/%s/* %s/' % (DB, a['url'], a['url']), shell=True)
-    subprocess.run('rm %s/_content %s/comments' % (a['url'], a['url']), shell=True)
+        f.write(article_html)
 
 with open('index.html', 'w') as f:
     f.write(index_template % (articles_html + '<br><p>Original link: <a href="/" style="text-decoration:none;">http://blog.dukelec.com</a></p>'))
