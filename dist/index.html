@@ -9,13 +9,66 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="bootstrap.min.css" rel="stylesheet">
   <link href="blog.css" rel="stylesheet">
-<link href="styles.f87c1e7a93e4e3bb98a5.bundle.css" rel="stylesheet"></head>
+  
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css" rel="stylesheet">
+  <script>
+    showdown.extension('codehighlight', function() {
+      function htmlunencode(text) {
+        return (
+          text
+          .replace(/&amp;/g, '&')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+        );
+      }
+      return [
+        {
+          type: 'output',
+          filter: function (text, converter, options) {
+            // use new shodown's regexp engine to conditionally parse codeblocks
+            var left  = '<pre><code\\b[^>]*>',
+                right = '</code></pre>',
+                flags = 'g',
+                replacement = function (wholeMatch, match, left, right) {
+                  // unescape match to prevent double escaping
+                  match = htmlunencode(match);
+                  return left + hljs.highlightAuto(match).value + right;
+                };
+            return showdown.helper.replaceRecursiveRegExp(text, replacement, left, right, flags);
+          }
+        }
+      ];
+    });
+    showdown.extension('bootstrap-tables', function () {
+      return [{
+        type: "output",
+        filter: function (text, converter, options) {
+      
+          var left  = '<table\\b[^>]*>',
+              right = '</table>',
+              flags = 'g',
+              replacement = function (wholeMatch, match, left, right) {
+                return '<div class="class table-responsive"><table class="table table-striped table-bordered">'
+                       + match + '</table></div>';
+              };
+          return showdown.helper.replaceRecursiveRegExp(text, replacement, left, right, flags);
+        }
+      }];
+    });
+    showdown.setFlavor('github');
+    showdown.setOption('tables', true);
+    showdown.setOption('parseImgDimensions', true);
+    showdown.setOption('simpleLineBreaks', false);
+  </script>
+<link href="styles.20f3b640737a689a2c58.bundle.css" rel="stylesheet"></head>
 <body>
   <app-root>
     <p>Loading...</p>
     <p>Archive link: <a href="/archive" style="text-decoration:none;">/archive</a></p>
   </app-root>
-<script type="text/javascript" src="inline.dea9d22d5e09fa29dc6b.bundle.js"></script><script type="text/javascript" src="vendor.f54fdb00cd119c2bd9e9.bundle.js"></script><script type="text/javascript" src="main.a8f3053754bc99b267f8.bundle.js"></script></body>
+<script type="text/javascript" src="inline.2f77c76afe2a63a0dab2.bundle.js"></script><script type="text/javascript" src="vendor.09989a88280bf93e026b.bundle.js"></script><script type="text/javascript" src="main.590e550df2886ecb484c.bundle.js"></script></body>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
