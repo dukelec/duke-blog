@@ -69,19 +69,19 @@ export class ArticleComponent implements OnInit {
             for (var i = 0; i < y.length; i++) {
               let href = y[i].getAttribute('href');
               if (href.search("//") == -1 && href.search("#") != 0)
-                y[i].setAttribute('href', self.url + '/' + href);
+                y[i].setAttribute('href', '/' + self.url + '/' + href);
             }
             y = doc.querySelectorAll('[src]');
             for (var i = 0; i < y.length; i++) {
               let href = y[i].getAttribute('src');
               if (href.search("//") == -1)
-                y[i].setAttribute('src', self.url + '/' + href);
+                y[i].setAttribute('src', '/' + self.url + '/' + href);
             }
             y = doc.querySelectorAll('[poster]');
             for (var i = 0; i < y.length; i++) {
               let href = y[i].getAttribute('poster');
               if (href.search("//") == -1)
-                y[i].setAttribute('poster', self.url + '/' + href);
+                y[i].setAttribute('poster', '/' + self.url + '/' + href);
             }
             
             if (self.article.format != "markdown") {
