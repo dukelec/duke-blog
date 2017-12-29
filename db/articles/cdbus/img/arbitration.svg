@@ -11,9 +11,9 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="169.8243mm"
-   height="35.743774mm"
-   viewBox="0 0 169.82429 35.743773"
+   width="171.8584mm"
+   height="37.825729mm"
+   viewBox="0 0 171.85839 37.825728"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.2 5c3e80d, 2017-08-06"
@@ -292,9 +292,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.262011"
-     inkscape:cx="137.35676"
-     inkscape:cy="56.594575"
+     inkscape:zoom="1.9677024"
+     inkscape:cx="325.26856"
+     inkscape:cy="16.961896"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -305,10 +305,10 @@
      inkscape:window-y="22"
      inkscape:window-maximized="1"
      inkscape:snap-text-baseline="true"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0"
+     fit-margin-top="1"
+     fit-margin-left="1"
+     fit-margin-right="1"
+     fit-margin-bottom="1"
      inkscape:snap-global="true"
      showguides="false">
     <inkscape:grid
@@ -316,8 +316,8 @@
        id="grid815"
        spacingx="0.13229167"
        spacingy="0.13229167"
-       originx="28.799272"
-       originy="-177.27079" />
+       originx="29.833375"
+       originy="-176.27075" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -327,7 +327,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -335,7 +335,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(28.799277,-83.985391)">
+     transform="translate(29.833383,-82.903436)">
     <path
        style="fill:none;stroke:#8080ff;stroke-width:0.26499999;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 6.2177101,103.1927 H 8.8635412"
@@ -357,7 +357,7 @@
          sodipodi:role="line"
          id="tspan3954"
          x="-22.489584"
-         y="85.584145"
+         y="85.547386"
          style="stroke-width:0.26458332" /></text>
     <flowRoot
        xml:space="preserve"

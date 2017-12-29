@@ -28,7 +28,7 @@ In this case:
 The protocol example timing, include only one byte user data:  
 (How long to enter idle and how long to allow sending can be set.)
 
-![protocol](img/protocol.svg)
+<img alt="protocol" src="img/protocol.svg" width="100%">
 
 Arbitration example:
 
@@ -47,10 +47,10 @@ Source code and more details: https://github.com/dukelec/cdbus_ip
 
 ## Ready To Use Devices
 
-The CDCTL controller family uses the CDBUS IP Core, which provide SPI, I2C and PCIe peripheral interfaces.  
-E.g. The tiny CDCTL-Bx module support both SPI and I2C interfaces:  
+The CDCTL controller family uses the CDBUS IP Core, which provide SPI, I<sup>2</sup>C and PCIe peripheral interfaces.  
+E.g. The tiny CDCTL-Bx module support both SPI and I<sup>2</sup>C interfaces:  
 <img alt="cdctl_bx" src="img/cdctl_bx.jpg" width="80%">
-<img alt="cdctl_bx" src="img/cdctl_bx_sch.png" width="80%">
+<img alt="cdctl_bx" src="img/cdctl_bx_sch.svg" width="80%">
 
 For more information, visit: http://dukelec.com
 
