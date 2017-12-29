@@ -7,6 +7,7 @@ import { attributes2Array, escapeHtml } from './helper';
 import { BlogService } from './blog.service';
 
 declare var hljs: any;
+declare var showdown: any;
 
 @Component({
   templateUrl: './article.component.html'//,
@@ -58,61 +59,50 @@ export class ArticleComponent implements OnInit {
           return;
         }
         
-        // html:
-        let parser = new DOMParser()
-        let doc = parser.parseFromString(this.article.body, "text/html");
-        
-        let y = doc.querySelectorAll('[href]');
-        for (var i = 0; i < y.length; i++) {
-          let href = y[i].getAttribute('href');
-          if (href.search("//") == -1 && href.search("#") != 0)
-            y[i].setAttribute('href', this.url + '/' + href);
-        }
-        y = doc.querySelectorAll('[src]');
-        for (var i = 0; i < y.length; i++) {
-          let href = y[i].getAttribute('src');
-          if (href.search("//") == -1)
-            y[i].setAttribute('src', this.url + '/' + href);
-        }
-        y = doc.querySelectorAll('[poster]');
-        for (var i = 0; i < y.length; i++) {
-          let href = y[i].getAttribute('poster');
-          if (href.search("//") == -1)
-            y[i].setAttribute('poster', this.url + '/' + href);
-        }
-        
-        y = doc.querySelectorAll("pre code");
-        if (y.length > 0) {
-            for (var i = 0; i < y.length; i++)
-                y[i].innerHTML = y[i].innerHTML.replace("\n", "");
-            if (typeof hljs === 'undefined') {
-                let p = this;
-                
-                let script = document.createElement('script');
-                script.type = "text/javascript";
-                script.src = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js";
-                script.onload = function () {
-                    console.debug('highlight script loaded');
-                    for (var i = 0; i < y.length; i++)
-                        hljs.highlightBlock(y[0]);
-                    p.body = doc.body.innerHTML;
-                };
-                document.getElementsByTagName("head")[0].appendChild(script);
-                
-                let fileref = document.createElement('link');
-                fileref.rel = "stylesheet";
-                fileref.type = "text/css";
-                fileref.href = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css";
-                fileref.onload = function () {
-                    console.debug('highlight css loaded');
-                }
-                document.getElementsByTagName("head")[0].appendChild(fileref);
-            } else {
-                for (var i = 0; i < y.length; i++)
-                    hljs.highlightBlock(y[0]);
+        function update_link(self, body) {
+            // html:
+            let parser = new DOMParser()
+            let doc = parser.parseFromString(body, "text/html");
+            //let doc = parser.parseFromString(self.article.body, "text/html");
+            
+            let y = doc.querySelectorAll('[href]');
+            for (var i = 0; i < y.length; i++) {
+              let href = y[i].getAttribute('href');
+              if (href.search("//") == -1 && href.search("#") != 0)
+                y[i].setAttribute('href', self.url + '/' + href);
             }
+            y = doc.querySelectorAll('[src]');
+            for (var i = 0; i < y.length; i++) {
+              let href = y[i].getAttribute('src');
+              if (href.search("//") == -1)
+                y[i].setAttribute('src', self.url + '/' + href);
+            }
+            y = doc.querySelectorAll('[poster]');
+            for (var i = 0; i < y.length; i++) {
+              let href = y[i].getAttribute('poster');
+              if (href.search("//") == -1)
+                y[i].setAttribute('poster', self.url + '/' + href);
+            }
+            
+            if (self.article.format != "markdown") {
+                y = doc.querySelectorAll("pre code");
+                if (y.length > 0) {
+                    for (var i = 0; i < y.length; i++) {
+                        y[i].innerHTML = y[i].innerHTML.replace("\n", "");
+                        for (var i = 0; i < y.length; i++)
+                            hljs.highlightBlock(y[0]);
+                    }
+                }
+            }
+            self.body = doc.body.innerHTML;
         }
-        this.body = doc.body.innerHTML;
+        
+        if (this.article.format == "markdown") {
+            var converter = new showdown.Converter({extensions: ['codehighlight', 'bootstrap-tables']});
+            update_link(this, converter.makeHtml(this.article.body));
+        } else { // raw html
+            update_link(this, this.article.body);
+        }
       },
       (err: any) => console.error(err)
     );
