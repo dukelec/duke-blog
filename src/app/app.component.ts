@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
         <p class="lead blog-description">Learning is a life long journey.</p>
       </div>
       <div class="row">
-        <div class="col-sm-10 blog-main">
+        <div class="col-sm-12 blog-main">
           <router-outlet></router-outlet>
         </div><!-- /.blog-main -->
       </div><!-- /.row -->
