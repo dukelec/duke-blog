@@ -1,155 +1,95 @@
-<p><small>Last modified date: Fri Aug 18 00:21:54 HKT 2017</small></p>
 
-<h2>History</h2>
-<p>In 2009 I was a sophomore, my friend and I participate in a school-enterprise cooperation project at that time,
-that project was to develop an integrated protection device of belt conveyor for mine use,
-I was responsible for hardware circuit and software design.
-Because the belt in the mine is very long, the protector nodes are about 600 meters apart,
-so each node in addition to processing data transceiver is also responsible for relay.
-For better reliability and real-time, the relay was implemented in FPGA hardware,
-so the delay brought by the relay is much smaller than a bit length.
-Because there was no additional host, according to the traditional, can only specify one of the nodes as the host,
-the host node has to continuing issue query command to synchronize all node data,
-but if the main node out of trouble, the entire bus will stop running.
-In order to further improve the robustness of the system and reduce the software complexity,
-I designed a protocol based on RS485 with arbitration supported, so that each node can freely send and receive data,
-only the first byte used for arbitration using low-speed transmission, the remaining data using high-speed transmission,
-so it retains high-speed communication while supporting arbitration, of course, this is also achieved by the hardware.</p>
-
-<p>As the chip production requires a lot of money, so this protocol was not packaged into a stand alone chip at that time,
-until the beginning of 2017, the chip was able to come out.</p>
-
-<p><img class="img-responsive img-rounded" src="pic/cdbus1.png"></p>
+1. [CDBUS Protocol](#cdbus-protocol)
+2. [CDBUS IP Core](#cdbus-ip-core)
+3. [Ready To Use Devices](#ready-to-use-devices)
+4. [Code Examples](#code-examples)
+5. [License](#license)
 
 
-<h2>Disadvantages for data link layer by soware</h2>
-<p>Whether it is serial or 485 communication, the data to be transmitted is usually packaged and then sent,
-the beginning of the frame commonly detemined by data like “ff aa”, which is a begin flag,
-and then through the user-defined data format can determine the end of the frame. <br>
+## CDBUS Protocol
 
-<p><b>Disadvantages for frame marked by flag like “ff aa”:</b> the flag is sometimes repeat with the subsequent
-data, if payload data just also has a “ff aa”, when the frame error occurs once the data dislocation, the receiver
-think that the “ff aa” in the payload is a flag, and this may cause the error to continue. </p>
-<p><b>Disadvantages for frame marked by IDLE state:</b> we normally can’t using FIFO or DMA to receiving data,
-because frames will stick together in the RAM and can not be separated by time anymore. <br>
-Without using FIFO and DMA, it’s not only increase the CPU consumption, but also requires a higher
-real-time ability, it will be difficult to specify the interrupt priority order of data reception and main task: if
-specify the data reception a higher priority, the main task will be disturbed each time when the data comming,
-but if the receiving priority is lower, then we may always lose data. </p>
-</p>
-<p>Transmission and reception of frame using hardware could avoiding those problems.
-</p>
+CDBUS is a protocol for Asynchronous Serial Communication,
+it has a 3-byte header: `[src_addr, dst_addr, data_len]`, then user data, and finally 2 bytes of checksum.
 
-<p>In the normal 485 application scenario, the CPU directly controls the 485 interface chip to receive data,
-even if the data frame is not sent to itself, the CPU also be interrupted by the bus data frequently, reduce the efficiency.
-At the same time, after receiving one frame also need to verify its correctness, which is very consumption of CPU resources.
-</p>
+It's suitable for one-to-one communication, e.g. UART or RS232.
+In this case, the address for each side are usually carefully selected and fixed,
+e.g: `[0x55, 0xaa, data_len, ...]`, and the backward is: `[0xaa, 0x55, data_len, ...]`.
 
-<p>At the same time, because the traditional 485 can only allow host to query all the device to synchronize data,
-the bus utilization is very low, real-time and robustness is also poor. For example, there is a slave device which is a switch,
-the host in order to know whether the switch is currently pressed, the host need to keep sending the query packet,
-and the device reply packets which containing the current state back to the host;
-If all nodes can send packets at any time, when the switch status changes,
-the device only needs to send only one packet to the host, that is, fast and convenient.
-</p>
+The CDBUS protocol is more valuable for bus communication, e.g. RS485 or Single Line UART.
+In this case:
 
-<h2>The limitation of CAN bus</h2>
-<p>In order to reduce the CPU occupancy and free to send data packets, some people choose the CAN bus,
-CAN bus use hardware to processing frame reception, transmission and verification,
-while providing the ability to send frame at any time for all nodes (arbitration),
-but the CAN bus can only transmit up to 8 bytes per frame, and high-speed CAN maximum rate is only 1 Mbps,
-the RS485 is 10 Mbps (and could be higher), and the royalty of the CAN bus is expensive.
-</p>
+* It introduces an arbitration mechanism that automatically avoids conflicts like the CAN bus.
+* Support dual bond rate, provide high speed communication, maximum rate ≥ 10 Mbps.
+* Support broadcast. (set `dst_addr` to `255`)
+* Max payload data size is 253 byte. (you can increase it to 255 byte, but not recommended)
+* Hardware packing, unpacking, verification and filtering, save your time and CPU usage.
+* Backward compatible with traditional RS485 hardware. (still retains arbitration function)
 
-<p>The latest CAN FD (CAN with Flexible Data-Rate) can support speeds of more than 1 Mbps,
-but maybe because the hardware is still not a push-pull output, so usually only 2 Mbps, 3 Mbps are available,
-and I can not find a stand alone controller chip, because it should compatible with CAN2.0, and CAN hardware itself is more complex,
-Microchip has announced a stand alone CAN FD controller with SPI host interface in 2015,
-but now the device has disappeared. (Http://www.microchip.com/forums/m970901.aspx)
-</p>
+The protocol example timing, include only one byte user data:  
+(How long to enter idle and how long to allow sending can be set.)
 
-<p>CAN is a message-based protocol, message IDs must be unique on a single CAN bus, that means one
-message could only send by a single node; e.g. if there are three limit-switchs to stop a servo, we must define
-three stop messages: “STOP1” for switch1, “STOP2” for switch2 and so on, then the servo getting stoped when
-receiving any of those three messages;</p>
+![protocol](img/protocol.svg)
 
-<p>Entire bus share one message ID allocation space, in order to modify message definition for one device
-must take care of all other devices.
-</p>
+Arbitration example:
+
+<img alt="arbitration" src="img/arbitration.svg" width="75%">
+
+The idea of CDBUS was first designed and implemented by me in 2009.
 
 
-<p>In systems with few nodes (less than 255), it is enough to use only unicast and broadcast:
-for example, I want to control four windows movements at the same time, to send four packets to the four windows respectively will not be very inefficient,
-and when I want to control a single window, I do not need to change the definition of the packet;
-Another example, when the brakes and other emergencies occur, the use of broadcast packets can be the fastest to notify each node,
-even if the window does not respond to the command, it is also acceptable to be interrupted by the emergency event.
-</p>
+## CDBUS IP Core
+
+Source code and more details: https://github.com/dukelec/cdbus_ip
+
+### Block Diagram
+<img alt="block_diagram" src="img/block_diagram.svg" width="100%">
 
 
-<p><img class="img-responsive img-rounded" src="pic/cdbus2.png"></p>
+## Ready To Use Devices
 
-<h2>Introduce to CDBUS</h2>
-<p>In early 2017, I took over an industrial robotic arm project, in order to configure the motor's current loop, speed loop and location loop parameters,
-I need to read the motor's run-time data in real-time, and there are also many sensors on the bus, so the bus will have a lot of data transmission,
+The CDCTL controller family uses the CDBUS IP Core, which provide SPI, I2C and PCIe peripheral interfaces.  
+E.g. The tiny CDCTL-Bx module support both SPI and I2C interfaces:  
+<img alt="cdctl_bx" src="img/cdctl_bx.jpg" width="80%">
+<img alt="cdctl_bx" src="img/cdctl_bx_sch.png" width="80%">
 
-Also need to consider the cost and PCB area, a lot of bus protocol on the market does not meet my needs,
-so I come back to my own protocol which designed in 2009, named it as CDBUS protocol, and produce a stand alone controller chip.
-</p>
-
-<p>CDBUS is a fairly open protocol, hardware implementation is relatively simple, in addition
-to chip manufacturers need to pay a small amount of royalties, the rest of anyone can use this protocol and
-its variants for free, only need to retain the original copyright information in the product manual.
-</p>
-
-<p>CDBUS protocol only defines the frame format, does not specify the payload data format; Only supports
-unicast and broadcast, does not support multicast; Only provide hardware arbitration, automatic retransmission
-after conflict, handshake and error handling are handled by software at upper layer.</p>
-
-<p><img class="img-responsive img-rounded" src="pic/cdctl_b1_r.png"></p>
-
-<h3>Highlights</h3>
-<p>The CDCTL-B1 module supports:<br>
-• Support multiple master on CDBUS, bitwise arbitration by sender ID <br>
-• 253 bytes data payload per frame <br>
-• 8 buffer pages for RX purpose, 2 buffer pages for TX purpose, each page is 256 bytes <br>
-• 16 bit hardware CRC generation and verification <br>
-• Baud rate from 458 bps to 10 Mbps (support higher if need) <br>
-• Separate baud rate setting for arbitration byte and follow data <br>
-• Backward-compatible with traditional RS485 bus <br>
-• Support SPI and I2C peripheral interface <br>
-• Easy configuration and operation <br>
-</p>
+For more information, visit: http://dukelec.com
 
 
-<h3>CDBUS Protocol</h3>
-<p><img class="img-responsive img-rounded" src="pic/cdbus_protocol.png"></p>
+## Code Examples
+ 
+```python
+    # Configuration
+    
+    write(REG_SETTING, [0x01])                  # Enable push-pull output
+    
+    
+    # TX
+    
+    write(REG_TX, [0x0c, 0x0d, 0x01, 0xcd])     # Write frame without CRC
+    while (read(REG_INT_FLAG)[0] & 0x10) == 0:  # Make sure we can successfully switch to the next page
+        pass
+    write(dut, REG_TX_CTRL, [0x02])             # Trigger send by switching TX page
+    
+    
+    # RX
+    
+    while (read(REG_INT_FLAG)[0] & 0x02) == 0:  # Wait for RX page ready
+        pass
+    header = read(REG_TX, len = 3)
+    data = read(REG_TX, len = header[2])
+    write(dut, REG_RX_CTRL, [0x02])             # Ack read by switching RX page
 
-<p>If we set the two baud rates to the same value, CDBUS node can communicate with the traditional RS485
-node while maintaining the arbitration mechanism: the traditional node priority is set higher than CDBUS
-nodes, when collision is detected, the traditional node takes precedence. Of course, you can also turn off the
-arbitration function, to fully use the traditional communication mode.
-</p>
-<p>CDBUS and the CDCTL-XX controller could be used for physical medium other than RS485, e.g.: single wire UART bus.
-</p>
+```
 
 
-<h3>Circuit Reference</h3>
-<p><img class="img-responsive img-rounded" src="pic/cdctl_b1_sch.png"></p>
+## License
+```
+This Source Code Form is subject to the terms of the Mozilla
+Public License, v. 2.0. If a copy of the MPL was not distributed
+with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+Notice: The scope granted to MPL excludes the ASIC industry.
+The CDBUS protocol is royalty-free for everyone except chip manufacturers.
 
+Copyright (c) 2017 DUKELEC, All rights reserved.
+```
 
-<h3>Full Documents</h3>
-<p>Downloads: <br>
-<a href="doc/cdbus_intro_170814.pdf">cdbus_intro_170814.pdf</a> <br>
-<a href="doc/cdbus_intro_hk_170814.pdf">cdbus_intro_hk_170814.pdf</a> <br>
-<a href="doc/cdbus_intro_cn_170814.pdf">cdbus_intro_cn_170814.pdf</a> <br>
-<a href="doc/cdctl_b1_170814.pdf">cdctl_b1_170814.pdf</a> <br>
-<a href="doc/cdctl_b1_hk_170814.pdf">cdctl_b1_hk_170814.pdf</a> <br>
-<a href="doc/cdctl_b1_cn_170814.pdf">cdctl_b1_cn_170814.pdf</a> <br>
-</p>
-
-
-<h3>Product Photo (previous version)</h3>
-<p><img class="img-responsive img-rounded" src="pic/cdctl_a1_photo.jpg"></p>
-
-<h2>Contact</h2>
-Email: duke#dukelec.com (replace # with @)
