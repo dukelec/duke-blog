@@ -39,7 +39,9 @@ The idea of CDBUS was first designed and implemented by me in 2009.
 
 ## CDBUS IP Core
 
-Source code and more details: https://github.com/dukelec/cdbus_ip
+Source code and more details:
+ - https://github.com/dukelec/cdbus_ip
+ - https://github.com/dukelec/cdbus_doc
 
 ### Block Diagram
 <img alt="block_diagram" src="img/block_diagram.svg" width="100%">
