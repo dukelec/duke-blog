@@ -1,0 +1,15 @@
+# Notice how Files says that you can have it in .htaccess, but Location doesn't...
+# http://stackoverflow.com/questions/6667894/htaccess-location-not-allowed-here
+
+<Files *>
+  SetHandler cgi-script
+  Options +ExecCGI
+</Files>
+
+#AddHandler cgi-script .cgi
+#Options +ExecCGI
+
+# Solve the UnicodeEncodeError, sys.getfilesystemencoding() now returt utf-8
+# https://stackoverflow.com/questions/9322410/set-encoding-in-python-3-cgi-scripts
+PassEnv LANG
+

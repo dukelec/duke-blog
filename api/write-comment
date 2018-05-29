@@ -1,0 +1,91 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import cgi, sys, os, json
+from collections import OrderedDict
+from datetime import datetime
+from Crypto.Cipher import AES
+
+print('Content-Type: application/json; charset=utf-8\n')
+
+#data = sys.stdin.read()
+data = sys.stdin.read(int(os.environ.get('CONTENT_LENGTH', 0)))
+
+if data:
+    class Form(dict):
+        pass
+    form = Form(json.loads(data))
+    form.getvalue = form.get
+else:
+    form = cgi.FieldStorage()
+
+url = form.getvalue('url')
+#user = form.getvalue('user')
+#password = form.getvalue('password')
+
+def mask_email(email):
+    name, domain = email.split('@')
+    d1, d2 = domain.rsplit('.', 1)
+    return name[:int(len(name)/2)] + '~@' + d1[:int(len(d1)/2)] + '~.' + d2
+
+def to_hexstr(data):
+    return ''.join('%02x' % b for b in data)
+
+with open('../config', 'r') as file:
+    config = json.loads(file.read())
+
+def get_cipher():
+    return AES.new(bytes.fromhex(config['cipher']['key']), AES.MODE_CBC, bytes.fromhex(config['cipher']['iv']))
+
+def _pad(d):
+    d = bytes(d, encoding="utf-8")
+    bs = 16
+    p_cnt = bs - len(d) % bs
+    return d + bytes([p_cnt]) * p_cnt
+
+def _unpad(d):
+    return d[:-d[-1]].decode(encoding="utf-8")
+
+comment = OrderedDict()
+url = form.getvalue('url')
+comment['date'] = datetime.now().astimezone().isoformat(sep='T', timespec='seconds')
+comment['email'] = to_hexstr(get_cipher().encrypt(_pad(form.getvalue('email').lower())))
+comment['masked'] = mask_email(form.getvalue('email').lower())
+comment['registered'] = False
+comment['name'] = form.getvalue('name')
+comment['site'] = form.getvalue('site')
+comment['format'] = 'txt'
+body = form.getvalue('body')
+
+if not url or not comment['email'] or not comment['name'] or not body:
+    print('{"error": "Must input email, name and body!"}')
+    exit(-1)
+
+article_dir = '../db/articles/' + url
+comments_dir = article_dir + '/_comments'
+
+if not os.path.exists(comments_dir):
+    os.makedirs(comments_dir)
+
+def cal_comment_id():
+    ids = [int(x.split('_')[0]) for x in os.listdir(comments_dir)]
+    return max(ids) if len(ids) else 1
+
+try_cnt = 0
+while True:
+    comment_dir = comments_dir + '/%d_tmp' % (cal_comment_id() + 1)
+    try:
+        os.makedirs(comment_dir)
+        break
+    except:
+        sys.stderr.write('creat comment dir failed: %s, try cnt: %d\n' % (comment_dir, try_cnt))
+        try_cnt += 1
+        if try_cnt >= 3:
+            exit(-1)
+
+with open(comment_dir + '/body.%s' % comment['format'], 'w') as file:
+    file.write(body)
+with open(comment_dir + '/_metadata', 'w') as file:
+    file.write(json.dumps(comment, indent=2, ensure_ascii=False, sort_keys=False))
+print('{"success": "Post successed, wait for review."}')
+

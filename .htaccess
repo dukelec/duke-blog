@@ -1,0 +1,37 @@
+# url patterns:
+# http://blog.dukelec.com : for all indexs
+# http://blog.dukelec.com/article-title-xxx
+# http://blog.dukelec.com/api/xxx
+# http://blog.dukelec.com/article-title-xxx/file.xxx
+
+# Enable RewriteEngine debug
+# gedit /etc/apache2/modules.d/00_default_settings.conf
+# replace: LogLevel alert rewrite:trace2
+# systemctl restart apache2
+# tail -f /var/log/apache2/error_log
+RewriteEngine On
+
+# redirect file to /db/articles/ if only exist in it
+RewriteCond         %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+RewriteCond         %{DOCUMENT_ROOT}/db/articles/%{REQUEST_URI} -f
+RewriteRule  ^(.+)  %{DOCUMENT_ROOT}/db/articles/$1  [L]
+
+# If an existing asset or directory is requested go to it as it is
+RewriteCond     %{DOCUMENT_ROOT}%{REQUEST_URI} -f  [OR]
+RewriteCond     %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+RewriteRule  ^  -  [L]
+
+# If the requested resource doesn't exist, use index.html
+RewriteRule  ^  /index.html
+
+RedirectMatch 404 /\.git
+RedirectMatch 404 /db/accounts
+
+# Disable Indexing
+#Options -Indexes
+
+# htpasswd -bc /usr/lib64/apache2/.htpasswd duke passwd
+#AuthUserFile .htpasswd
+#AuthName "Admin's Login Area"
+#AuthType Basic
+#require valid-user

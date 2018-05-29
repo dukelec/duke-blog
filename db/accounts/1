@@ -1,0 +1,9 @@
+{
+    'email': 'duke@dukelec.com',
+    'password': 'hash...',
+	'verified': True
+    'name': 'Duke Fong',
+	'site': 'dukelec.com',
+	'message': 'blablabla',
+	'note': '...'
+}
