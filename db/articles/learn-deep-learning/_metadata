@@ -1,0 +1,9 @@
+{
+    "title": "A good online book for deep learning",
+    "date": "2017-10-08T22:09:54+08:00",
+    "languages": ["en"],
+    "categories": ["Daily"],
+    "tags": ["Machine learning"],
+    "formats": {"summary": "txt", "body": "html"},
+    "summary": "Recommend a book on machine learning."
+}
