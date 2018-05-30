@@ -24,8 +24,9 @@ RewriteRule  ^  -  [L]
 # If the requested resource doesn't exist, use index.html
 RewriteRule  ^  /index.html
 
-RedirectMatch 404 /\.git
-RedirectMatch 404 /db/accounts
+RedirectMatch 404 ^/\.git/$
+RedirectMatch 404 ^/db/accounts/$
+RedirectMatch 404 ^/config$
 
 # Disable Indexing
 #Options -Indexes
