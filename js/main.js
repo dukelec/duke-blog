@@ -10,7 +10,8 @@ let index_template = (article) => `
 	<h2 class="blog-post-title" onclick="click_link('${article.url}')" >${article.title}</h2>
 	<p class="blog-post-meta">Languages: ${article.languages.join(', ')} |
 	        Categories: ${article.categories.join(', ')} | Tags: ${article.tags.join(', ')} |
-	        ${format_date(article.date)} | Count: ${article.count}</p>
+	        ${format_date(article.date)} | Count: ${article.count}
+	        ${article.last ? '<br>Last modified: ' + format_date(article.last) : ''}</p>
 	<p>${article.summary}</p>
 </div>`;
 
@@ -20,7 +21,8 @@ let article_template = (article) => `
   <h2 class="blog-post-title">${article.title}</h2>
   <p class="blog-post-meta">Languages: ${article.languages.join(', ')} |
 	        Categories: ${article.categories.join(', ')} | Tags: ${article.tags.join(', ')} |
-	        ${format_date(article.date)} | Count: ${article.count}</p>
+	        ${format_date(article.date)} | Count: ${article.count}
+	        ${article.last ? '<br>Last modified: ' + format_date(article.last) : ''}</p>
   <div>${article.body}</div>
 
 </div><!-- /.blog-post -->
