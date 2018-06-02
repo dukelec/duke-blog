@@ -1,0 +1,9 @@
+{
+    "title": "RS485 地址自动分配",
+    "date": "2018-06-03T03:50:21+08:00",
+    "languages": ["zh"],
+    "categories": ["Embeded"],
+    "tags": ["RS485", "CDBUS"],
+    "formats": {"summary": "txt", "body": "md"},
+    "summary": "一种非常简单方便的 RS485 地址自动分配的方法。"
+}
