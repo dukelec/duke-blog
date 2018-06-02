@@ -1,0 +1,9 @@
+{
+    "title": "My new hairstyle",
+    "date": "2018-06-03T00:16:21+08:00",
+    "languages": ["zh"],
+    "categories": ["Daily"],
+    "tags": ["Photo"],
+    "formats": {"summary": "txt", "body": "md"},
+    "summary": "人生第一次做髮型。。。"
+}
