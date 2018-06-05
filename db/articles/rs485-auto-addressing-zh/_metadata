@@ -1,6 +1,7 @@
 {
     "title": "RS485 地址自动分配",
     "date": "2018-06-03T03:50:21+08:00",
+    "last": "2018-06-05T13:58:45+08:00",
     "languages": ["zh"],
     "categories": ["Embeded"],
     "tags": ["RS485", "CDBUS"],
