@@ -1,0 +1,9 @@
+{
+    "title": "RS485 软件流控 及 数据完整性确保",
+    "date": "2018-06-05T15:45:02+08:00",
+    "languages": ["zh"],
+    "categories": ["Embeded"],
+    "tags": ["RS485", "CDBUS", "CDNET"],
+    "formats": {"summary": "txt", "body": "md"},
+    "summary": "一种非常简单方便的 RS485 软件流控 及 数据完整性确保 的方法。"
+}
