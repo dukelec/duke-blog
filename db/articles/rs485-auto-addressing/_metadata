@@ -1,0 +1,9 @@
+{
+    "title": "RS485 Auto Addressing",
+    "date": "2018-06-05T20:52:55+08:00",
+    "languages": ["en"],
+    "categories": ["Embeded"],
+    "tags": ["RS485", "CDBUS"],
+    "formats": {"summary": "txt", "body": "md"},
+    "summary": "A very simple and convenient way for RS485 auto addressing."
+}
