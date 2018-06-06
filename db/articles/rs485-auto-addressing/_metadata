@@ -1,6 +1,7 @@
 {
     "title": "RS485 Auto Addressing",
-    "date": "2018-06-05T20:52:55+08:00",
+    "date": "2018-06-05T20:52+08:00",
+    "last": "2018-06-06T22:53+08:00",
     "languages": ["en"],
     "categories": ["Embeded"],
     "tags": ["RS485", "CDBUS"],
