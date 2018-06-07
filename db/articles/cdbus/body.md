@@ -46,6 +46,10 @@ Source code and more details:
 ### Block Diagram
 <img alt="block_diagram" src="img/block_diagram.svg" width="100%">
 
+#### Operation
+
+<img alt="operation" src="img/operation.gif" width="100%">
+
 
 ## Ready To Use Devices
 
