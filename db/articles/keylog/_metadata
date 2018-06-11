@@ -1,0 +1,9 @@
+{
+    "title": "A USB keyboard sniffer",
+    "date": "2018-06-11T20:54+08:00",
+    "languages": ["en"],
+    "categories": ["Embeded"],
+    "tags": ["FPGA"],
+    "formats": {"summary": "txt", "body": "md"},
+    "summary": "Send keyboard data through BLE."
+}
