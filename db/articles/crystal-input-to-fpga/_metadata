@@ -1,0 +1,9 @@
+{
+    "title": "Crystal Input to FPGA",
+    "date": "2018-06-15T14:49+08:00",
+    "languages": ["en"],
+    "categories": ["Embeded"],
+    "tags": ["FPGA"],
+    "formats": {"summary": "txt", "body": "md"},
+    "summary": "Use FPGA gates to build an oscillator from a crystal."
+}
