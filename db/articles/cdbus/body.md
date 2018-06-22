@@ -72,19 +72,18 @@ For more information, visit: http://dukelec.com
     # TX
     
     write(REG_TX, [0x0c, 0x0d, 0x01, 0xcd])     # Write frame without CRC
-    while (read(REG_INT_FLAG)[0] & 0x10) == 0:  # Make sure we can successfully switch to the next page
+    while (read(REG_INT_FLAG) & 0x10) == 0:     # Make sure we can successfully switch to the next page
         pass
-    write(dut, REG_TX_CTRL, [0x02])             # Trigger send by switching TX page
+    write(REG_TX_CTRL, [0x02])                  # Trigger send by switching TX page
     
     
     # RX
     
-    while (read(REG_INT_FLAG)[0] & 0x02) == 0:  # Wait for RX page ready
+    while (read(REG_INT_FLAG) & 0x02) == 0:     # Wait for RX page ready
         pass
-    header = read(REG_TX, len = 3)
-    data = read(REG_TX, len = header[2])
-    write(dut, REG_RX_CTRL, [0x02])             # Ack read by switching RX page
-
+    header = read(REG_TX, len=3)
+    data = read(REG_TX, len=header[2])
+    write(REG_RX_CTRL, [0x02])                  # Finish read by switching RX page
 ```
 
 
