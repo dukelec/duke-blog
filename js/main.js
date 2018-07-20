@@ -174,6 +174,7 @@ async function write_comment()
 async function load_index()
 {
     console.log('load index');
+    document.title = "Duke's Blog";
     try {
         let index = JSON.parse(await http_request('/api/read-index'));
         //console.log(index);
@@ -194,6 +195,7 @@ async function load_article(url)
     try {
         let article = JSON.parse(await http_request('/api/read-article?url=' + url.slice(1)));
         //console.log(article);
+        document.title = article.title + " | Duke's Blog";
         
         if (article.formats.body == "html") {
             update_link(article, url);
