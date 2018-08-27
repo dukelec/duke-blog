@@ -20,7 +20,7 @@ In this case:
 
 * It introduces an arbitration mechanism that automatically avoids conflicts like the CAN bus.
 * Support dual baud rate, provide high speed communication, maximum rate ≥ 10 Mbps.
-* Support broadcast. (set `dst_addr` to `255`)
+* Supports unicast, multicast and broadcast.
 * Max payload data size is 253 byte. (you can increase it to 255 byte, but not recommended)
 * Hardware packing, unpacking, verification and filtering, save your time and CPU usage.
 * Backward compatible with traditional RS485 hardware. (still retains arbitration function)
