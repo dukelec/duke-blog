@@ -1,0 +1,9 @@
+{
+    "title": "Solder half holes PCB with pin headers",
+    "date": "2018-08-31T19:15+08:00",
+    "languages": ["en"],
+    "categories": ["Hardware"],
+    "tags": ["Solder"],
+    "formats": {"summary": "txt", "body": "md"},
+    "summary": "A tips about soldering."
+}
