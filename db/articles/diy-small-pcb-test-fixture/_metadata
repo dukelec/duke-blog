@@ -1,0 +1,9 @@
+{
+    "title": "DIY small pcb test fixture",
+    "date": "2018-12-22T02:32+08:00",
+    "languages": ["en"],
+    "categories": ["Hardware"],
+    "tags": ["Solder"],
+    "formats": {"summary": "txt", "body": "md"},
+    "summary": "A small test fixture for CDPGA-H3."
+}
