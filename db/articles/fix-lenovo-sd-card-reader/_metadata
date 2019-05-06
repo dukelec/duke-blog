@@ -1,0 +1,9 @@
+{
+    "title": "Fix Lenovo SD Card Reader",
+    "date": "2019-05-07T02:40+08:00",
+    "languages": ["en"],
+    "categories": ["Hardware"],
+    "tags": ["DIY"],
+    "formats": {"summary": "txt", "body": "md"},
+    "summary": "Solve RTS5129 driver error: mmc0: error -110 whilst initialising SD card"
+}

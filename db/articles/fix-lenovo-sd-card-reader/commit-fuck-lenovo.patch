@@ -1,0 +1,65 @@
+From 75c93a9cf8142b2bce43aa6033171ad2a7f1c39c Mon Sep 17 00:00:00 2001
+From: Duke Fong <duke@dukelec.com>
+Date: Thu, 30 Aug 2018 13:17:40 +0800
+Subject: fuck lenovo
+
+
+diff --git a/drivers/acpi/acpica/psxface.c b/drivers/acpi/acpica/psxface.c
+index f26bcbbc..7b6225d5 100644
+--- a/drivers/acpi/acpica/psxface.c
++++ b/drivers/acpi/acpica/psxface.c
+@@ -81,6 +81,9 @@ acpi_debug_trace(const char *name, u32 debug_level, u32 debug_layer, u32 flags)
+  *
+  ******************************************************************************/
+ 
++#include <linux/input/mt.h>
++extern struct input_dev *duke_dev;
++
+ acpi_status acpi_ps_execute_method(struct acpi_evaluate_info *info)
+ {
+ 	acpi_status status;
+@@ -119,6 +122,20 @@ acpi_status acpi_ps_execute_method(struct acpi_evaluate_info *info)
+ 			  "**** Begin Method Parse/Execute [%4.4s] **** Node=%p Obj=%p\n",
+ 			  info->node->name.ascii, info->node, info->obj_desc));
+ 
++	{
++		char code_name[5];
++		memcpy(code_name, info->node->name.ascii, 4);
++		code_name[4] = '\0';
++		//printk(KERN_DEBUG "%s, parse: %s\n", __FUNCTION__, code_name); // _Q4B
++		if (duke_dev != NULL && strcmp(code_name, "_Q4B") == 0) {
++			printk(KERN_DEBUG "report Esc\n");
++			input_event(duke_dev, 1, 1, 1);
++			input_event(duke_dev, 1, 1, 0);
++			input_sync(duke_dev);
++		}
++	}
++
+ 	/* Create and init a Root Node */
+ 
+ 	op = acpi_ps_create_scope_op(info->obj_desc->method.aml_start);
+diff --git a/drivers/input/input.c b/drivers/input/input.c
+index 6365c195..06f35240 100644
+--- a/drivers/input/input.c
++++ b/drivers/input/input.c
+@@ -408,6 +408,8 @@ static void input_handle_event(struct input_dev *dev,
+ 
+ }
+ 
++struct input_dev *duke_dev = NULL;
++
+ /**
+  * input_event() - report new input event
+  * @dev: device that generated the event
+@@ -430,6 +432,14 @@ void input_event(struct input_dev *dev,
+ {
+ 	unsigned long flags;
+ 
++	if (duke_dev == NULL && dev && dev->name && strcmp(dev->name, "AT Translated Set 2 keyboard") == 0) {
++		printk(KERN_DEBUG "AT pressed.\n");
++		duke_dev = dev;
++	}
++
+ 	if (is_event_supported(type, dev->evbit, EV_MAX)) {
+ 
+ 		spin_lock_irqsave(&dev->event_lock, flags);
