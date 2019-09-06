@@ -1,0 +1,9 @@
+{
+    "title": "IPFS 星际文件存储，可架去中心化网站，貌似不错",
+    "date": "2019-09-06T17:15+08:00",
+    "languages": ["zh"],
+    "categories": ["Web"],
+    "tags": ["Web"],
+    "formats": {"summary": "txt", "body": "md"},
+    "summary": "网站去中心化有很多好处，避免 ddos 攻击，避免服务器宕机，避免审查 ..."
+}
