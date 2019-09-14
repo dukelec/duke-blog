@@ -1,0 +1,1 @@
+有了解过lcm：http://lcm-proj.github.io/吗？之前看过一篇论文对其性能测试还不错。论文：http://people.csail.mit.edu/albert/pubs/2010-huang-olson-moore-lcm-iros.pdf
