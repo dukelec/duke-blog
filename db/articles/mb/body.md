@@ -1,6 +1,4 @@
-<p>
 Palm-size and lightweight, enables color printing anywhere & anytime and on any surface by 3 steps.
-</p>
 
 <p>
   <div class="embed-responsive embed-responsive-16by9">
@@ -10,6 +8,6 @@ Palm-size and lightweight, enables color printing anywhere & anytime and on any 
   </div>
 </p>
 
-<p>
-Indiegogo campaign: <a href="https://www.indiegogo.com/projects/princube-the-world-s-smallest-mobile-color-printer/">https://www.indiegogo.com/projects/princube-the-world-s-smallest-mobile-color-printer/</a>
-</p>
+Indiegogo campaign: https://www.indiegogo.com/projects/princube-the-world-s-smallest-mobile-color-printer/
+
+The documents and APP source code: http://github.com/dukelec/mb
