@@ -11,3 +11,5 @@ Palm-size and lightweight, enables color printing anywhere & anytime and on any 
 Indiegogo campaign: https://www.indiegogo.com/projects/princube-the-world-s-smallest-mobile-color-printer/
 
 The documents and APP source code: http://github.com/dukelec/mb
+
+New firmware release: https://github.com/dukelec/mb/releases
