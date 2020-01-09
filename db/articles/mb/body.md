@@ -13,3 +13,13 @@ Indiegogo campaign: https://www.indiegogo.com/projects/princube-the-world-s-smal
 The documents and APP source code: http://github.com/dukelec/mb
 
 New firmware release: https://github.com/dukelec/mb/releases
+
+### Updates
+<p>
+  PrinCube automation assembly tool (built on CDBUS).
+  <div class="embed-responsive embed-responsive-16by9">
+    <video class="embed-responsive-item" controls poster="assembly-tool.jpg">
+      <source src="assembly-tool.mp4" type="video/mp4">
+    </video>
+  </div>
+</p>
