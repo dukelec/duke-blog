@@ -17,7 +17,7 @@ from selenium import webdriver
 browser = webdriver.Chrome()
 
 
-URL = 'http://localhost' #'http://blog.dukelec.com'
+URL = 'http://blog.dukelec.com'
 
 original_template = '''
 <p>Original link: <a href="/%s" style="text-decoration:none;">http://blog.dukelec.com/%s</a></p>
