@@ -14,6 +14,8 @@ The documents and APP source code: http://github.com/dukelec/mb
 
 New firmware release: https://github.com/dukelec/mb/releases
 
+FAQ (important): <a href="../mb-faq">../mb-faq</a>
+
 ### Updates
 <p>
   PrinCube automation assembly tool (built on CDBUS).

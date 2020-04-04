@@ -7,7 +7,8 @@ Some or all of the printed colors are missing.
 
 Solutions: breathe on nozzles, wipe them with tissue, long press for 1 second to clean.
 The first two methods are recommended to operate before each printing, except for continuous printing.  
-If there is a lot of ink on the nozzle and dirt such as hair is stuck, you need to wipe it with a tissue.
+If there is a lot of ink on the nozzle and dirt such as hair is stuck, you need to wipe it with a tissue.  
+(When breathing, it is best to cover the sensor with one finger to prevent the lens from fogging.)
 <video width="100%" controls poster="video/dry1.png"><source src="video/dry1.mp4" type="video/mp4"></video>
 
 If the above methods have limited effect, or the effective time is getting shorter and shorter, the recommended method is to soak water.  
@@ -96,6 +97,10 @@ WiFi connection is not available, or APP cannot be opened:
 4. The WiFi configuration has been modified and you don’t remember. You can press and hold the print key within five seconds after turning on the power until the white lights on both sides flash, and the WiFi default name and password will be restored.
 
 5. If after trying the above operation, when the mobile phone connects to the printer WiFi, it keeps prompting that the password is wrong, or disconnect as soon as you try to connect. Basically, it can be judged that the problem is the frequency deviation of the WiFi hardware, and you can replace it with a new one. This issue is present on only a small number of machines shipped in 2019.
+
+### Click "Print" pop up "Loading, please try later"
+Because when using the APP by the default method, every time you open the APP, a 3M program will be downloaded from the printer. If the WiFi environment is congested, the download will be slow, so this prompt appears.  
+If you often encounter this problem and do not want to wait, please refer to the "Software Offline Operation" chapter in the manual, install the APP to the desktop, and then click the desktop APP icon to start.
 
 ## Inaccurate colors
 1. The ink cartridge has two color sequences. If the default settings do not match the current ink cartridge, it will cause the problem of red and yellow swapping. After changing the color sequence in the APP settings page, retransmit the pattern to the printer to take effect.
