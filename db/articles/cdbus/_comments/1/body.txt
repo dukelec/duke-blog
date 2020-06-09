@@ -1,0 +1,2 @@
+Dear,
+I'm interested in the idea of CDBUS and wish you the best. Just have a question about the PHY layer - RS485. The receiver in RS485 transceiver chip is always enabled as it is connected to the ground. but the transmitter enable pin is controlled by controller. could you please let me know if it is really controlled or not. In other word, is it possible to connect it to the VCC?
