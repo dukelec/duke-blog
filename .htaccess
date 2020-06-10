@@ -26,7 +26,7 @@ RewriteRule  ^  /index.html
 
 RedirectMatch 404 ^/\.git/$
 RedirectMatch 404 ^/db/accounts/$
-RedirectMatch 404 ^/config$
+RedirectMatch 404 ^/gconf.py$
 
 # Disable Indexing
 #Options -Indexes

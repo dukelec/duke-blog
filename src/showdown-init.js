@@ -13,7 +13,7 @@ showdown.extension('codehighlight', function() {
     {
       type: 'output',
       filter: function (text, converter, options) {
-        // use new shodown's regexp engine to conditionally parse codeblocks
+        // use new showdown's regexp engine to conditionally parse codeblocks
         var left  = '<pre><code\\b[^>]*>',
             right = '</code></pre>',
             flags = 'g',

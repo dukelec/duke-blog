@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import cgi, sys, os, json
-from collections import OrderedDict
+import cgi, sys, os, json, filelock
 from datetime import datetime
 from Crypto.Cipher import AES
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from gconf import gconf
 
 print('Content-Type: application/json; charset=utf-8\n')
 
@@ -31,11 +32,8 @@ def mask_email(email):
 def to_hexstr(data):
     return ''.join('%02x' % b for b in data)
 
-with open('../config', 'r') as file:
-    config = json.loads(file.read())
-
 def get_cipher():
-    return AES.new(bytes.fromhex(config['cipher']['key']), AES.MODE_CBC, bytes.fromhex(config['cipher']['iv']))
+    return AES.new(bytes.fromhex(gconf['cipher']['key']), AES.MODE_CBC, bytes.fromhex(gconf['cipher']['iv']))
 
 def _pad(d):
     d = bytes(d, encoding="utf-8")
@@ -46,7 +44,7 @@ def _pad(d):
 def _unpad(d):
     return d[:-d[-1]].decode(encoding="utf-8")
 
-comment = OrderedDict()
+comment = {}
 url = form.getvalue('url')
 comment['date'] = datetime.now().astimezone().isoformat(sep='T', timespec='seconds')
 comment['email'] = to_hexstr(get_cipher().encrypt(_pad(form.getvalue('email').lower())))
@@ -63,29 +61,35 @@ if not url or not comment['email'] or not comment['name'] or not body:
 
 article_dir = '../db/articles/' + url
 comments_dir = article_dir + '/_comments'
-
+lock = filelock.FileLock(article_dir + '/.lock', timeout=5)
 if not os.path.exists(comments_dir):
     os.makedirs(comments_dir)
 
 def cal_comment_id():
+    # TODO: support sub comment dir, e.g '2.1'
     ids = [int(x.split('_')[0]) for x in os.listdir(comments_dir)]
-    return max(ids) if len(ids) else 1
+    return max(ids)+1 if len(ids) else 1
 
-try_cnt = 0
-while True:
-    comment_dir = comments_dir + '/%d_tmp' % (cal_comment_id() + 1)
-    try:
+try:
+    with lock:
+        bbb = cal_comment_id()
+        if gconf['reply']['need-review']:
+            comment_dir = comments_dir + '/%d_tmp' % cal_comment_id()
+        else:
+            comment_dir = comments_dir + '/%d' % cal_comment_id()
         os.makedirs(comment_dir)
-        break
-    except:
-        sys.stderr.write('creat comment dir failed: %s, try cnt: %d\n' % (comment_dir, try_cnt))
-        try_cnt += 1
-        if try_cnt >= 3:
-            exit(-1)
+except filelock.Timeout:
+    print('{"error": "filelock.Timeout"}')
+    print(f'create comment failed: filelock.Timeout {url}', file=sys.stderr)
+    exit(-1)
 
 with open(comment_dir + '/body.%s' % comment['format'], 'w') as file:
     file.write(body)
 with open(comment_dir + '/_metadata', 'w') as file:
     file.write(json.dumps(comment, indent=2, ensure_ascii=False, sort_keys=False))
-print('{"success": "Post successed, wait for review."}')
+
+if gconf['reply']['need-review']:
+    print('{"success": "Post successed, waiting for review."}')
+else:
+    print('{"success": "Post successed, refreshing...", "refresh": true}')
 
