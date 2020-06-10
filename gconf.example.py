@@ -1,4 +1,6 @@
-{
+#!/usr/bin/env python3
+
+gconf = {
     "account": {
         "default-password-length": 8
     },
@@ -7,9 +9,10 @@
         "timeout": 5
     },
     "reply": {
-        "allow-anonymous": true,
-        "allow-edit": false,
-        "require-captcha": false
+        "need-review": False,
+        "allow-anonymous": True,
+        "allow-edit": False,
+        "require-captcha": False
     },
     "smtp": {
         "host": "smtp.gmail.com",

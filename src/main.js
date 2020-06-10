@@ -1,4 +1,4 @@
-"use strict";
+
 /*
 window.onbeforeunload = function () {
     return "Do you really want to close?";
@@ -166,6 +166,8 @@ async function write_comment()
             alert(ret.error);
         else
             alert('Unknown error!');
+        if (ret.refresh)
+            location.reload();
     } catch (err) {
         alert(err);
     }
@@ -233,6 +235,7 @@ function click_link(url)
         load_article(url);
     else
         load_index();
+    window.scrollTo(0, 0);
 }
 
 function load_app_body(msg)
