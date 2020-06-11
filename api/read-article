@@ -9,7 +9,7 @@ print('Content-Type: application/json; charset=utf-8\n')
 form = cgi.FieldStorage()
 url = form.getvalue('url')
 
-article_dir = '../db/articles/' + url
+article_dir = '../articles/' + url
 
 with open(article_dir + '/_metadata', 'r') as file:
     metadata = json.loads(file.read())

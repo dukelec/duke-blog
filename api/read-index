@@ -8,8 +8,8 @@ print('Content-Type: application/json; charset=utf-8\n')
 
 articles = []
 
-for url in os.listdir('../db/articles'):
-    article_dir = '../db/articles/' + url
+for url in os.listdir('../articles'):
+    article_dir = '../articles/' + url
     with open(article_dir + '/_metadata', 'r') as file:
         metadata = json.loads(file.read())
     metadata = {'url': url, **metadata} # put the url at the top

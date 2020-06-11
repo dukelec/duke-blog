@@ -59,7 +59,7 @@ if not url or not comment['email'] or not comment['name'] or not body:
     print('{"error": "Must input email, name and body!"}')
     exit(-1)
 
-article_dir = '../db/articles/' + url
+article_dir = '../articles/' + url
 comments_dir = article_dir + '/_comments'
 lock = filelock.FileLock(article_dir + '/.lock', timeout=5)
 if not os.path.exists(comments_dir):
