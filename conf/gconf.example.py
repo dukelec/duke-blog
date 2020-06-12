@@ -1,26 +1,19 @@
 #!/usr/bin/env python3
 
 gconf = {
-    "account": {
-        "default-password-length": 8
-    },
     "captcha": {
-        "length": 5,
-        "timeout": 5
+        "length": 6,
+        "timeout": 30*60 # sec
     },
     "reply": {
         "need-review": False,
-        "allow-anonymous": True,
-        "allow-edit": False,
         "require-captcha": False
     },
     "smtp": {
         "host": "smtp.gmail.com",
         "user": "noreply@dukelec.com",
         "password": "XXXX",
-        "name": "Duke Blog Server",
-        "subject": "Your password",
-        "body": "Your password is:\n--- $password ---"
+        "name": "Duke Blog Server"
     },
     "cipher": {
         "key": "7f51f2cf3fce1c3ecbb01b8a9c374c8ab5f9c48035620aebf87650d35ed5b27b",

@@ -1,9 +1,13 @@
-
 /*
-window.onbeforeunload = function () {
-    return "Do you really want to close?";
-};
-*/
+ * Software License Agreement (MIT License)
+ *
+ * Author: Duke Fong <d@d-l.io>
+ */
+
+import { fetch_timo, escape_html, format_date } from './utils/helper.js'
+import { Idb } from './utils/idb.js';
+
+let db = null;
 
 let index_template = (article) => `
 <div class="blog-post" >
@@ -65,22 +69,6 @@ let comment_template = (comment) => `
 	  <p>${comment.body}</p>
   </div>`;
 
-function format_date(str)
-{
-    // https://stackoverflow.com/questions/3552461/how-to-format-a-javascript-date
-    let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    let today  = new Date(str);
-    return today.toLocaleDateString("en-US", options);
-}
-
-function escape_html(unsafe) {
-    return unsafe
-         .replace(/&/g, "&amp;")
-         .replace(/</g, "&lt;")
-         .replace(/>/g, "&gt;")
-         .replace(/"/g, "&quot;")
-         .replace(/'/g, "&#039;");
-}
 
 function update_link(article, url)
 {
@@ -120,107 +108,96 @@ function update_link(article, url)
     article.body = doc.body.innerHTML;
 }
 
-function http_request(url, data=null)
-{
-    return new Promise(
-        function (resolve, reject) {
-            const request = new XMLHttpRequest();
-            request.onload = function () {
-                if (this.status === 200) {
-                    resolve(this.response);
-                } else {
-                    reject(new Error(this.statusText)); // 404 etc.
-                }
-            };
-            request.onerror = function () {
-                reject(new Error(
-                    'XMLHttpRequest Error: '+this.statusText));
-            };
-            if (data === null) {
-                request.open("GET", url);
-                request.send();
-            } else {
-                request.open("POST", url);
-                request.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-                request.send(JSON.stringify(data));
-            }
-        });
-}
 
 async function write_comment()
 {
     console.log('write comment');
-    let comment = {}
-    comment.url = window.location.pathname.slice(1)
-    comment.name = document.getElementById('comment.name').value
-    comment.email = document.getElementById('comment.email').value
-    comment.body = document.getElementById('comment.body').value
-    if (!comment.name || !comment.email || !comment.body)
+    let comment = {};
+    comment.url = window.location.pathname.slice(1);
+    comment.name = document.getElementById('comment.name').value;
+    comment.email = document.getElementById('comment.email').value;
+    comment.body = document.getElementById('comment.body').value;
+    if (!comment.name || !comment.email || !comment.body) {
         alert('Please input your name, email and comment body!');
-    console.log(comment)
-    try {
-        let ret = JSON.parse(await http_request('/api/write-comment', comment));
-        if (ret.success)
-            alert(ret.success);
-        else if (ret.error)
-            alert(ret.error);
-        else
-            alert('Unknown error!');
-        if (ret.refresh)
-            location.reload();
-    } catch (err) {
-        alert(err);
+        return;
     }
+    console.log(comment);
+    await db.set('var', 'bkup', comment);
+
+    let ret = await fetch_timo('/api/write-comment', {method: 'POST', body: JSON.stringify(comment)});
+    if (ret == null) {
+        alert('write-comment: error');
+        return;
+    }
+    if (ret.success)
+        alert(ret.success);
+    else if (ret.error)
+        alert(ret.error);
+    else
+        alert('Unknown error!');
+    if (ret.refresh)
+        location.reload();
 }
 
 async function load_index()
 {
     console.log('load index');
     document.title = "Duke's Blog";
-    try {
-        let index = JSON.parse(await http_request('/api/read-index'));
-        //console.log(index);
-        let app_body = document.querySelector('app-body');
-        app_body.innerHTML = '';
-        for (let article of index) {
-            //console.log(article);
-            app_body.innerHTML += index_template(article);
-        }
-    } catch (err) {
-        alert(err);
+
+    let index = await fetch_timo('/api/read-index');
+    if (index == null) {
+        alert('read-index: error');
+        return;
+    }
+    //console.log(index);
+    let app_body = document.querySelector('app-body');
+    app_body.innerHTML = '';
+    for (let article of index) {
+        //console.log(article);
+        app_body.innerHTML += index_template(article);
     }
 }
 
 async function load_article(url)
 {
     console.log('load article: ' + url);
-    try {
-        let article = JSON.parse(await http_request('/api/read-article?url=' + url.slice(1)));
-        //console.log(article);
-        document.title = article.title + " | Duke's Blog";
-        
-        if (article.formats.body == "html") {
-            update_link(article, url);
-        } else if (article.formats.body == "md") {
-            var converter = new showdown.Converter({extensions: ['codehighlight', 'bootstrap-tables']});
-            article.body = converter.makeHtml(article.body);
-            update_link(article, url);
-        } else {
-            article.body = '<pre>' + escape_html(article.body) + '<pre>';
+
+    let article = await fetch_timo('/api/read-article?url=' + url.slice(1));
+    if (article == null) {
+        alert('read-article: error');
+        return;
+    }
+    
+    //console.log(article);
+    document.title = article.title + " | Duke's Blog";
+    
+    if (article.formats.body == "html") {
+        update_link(article, url);
+    } else if (article.formats.body == "md") {
+        let converter = new showdown.Converter({extensions: ['codehighlight', 'bootstrap-tables']});
+        article.body = converter.makeHtml(article.body);
+        update_link(article, url);
+    } else {
+        article.body = '<pre>' + escape_html(article.body) + '<pre>';
+    }
+    
+    let app_body = document.querySelector('app-body');
+    app_body.innerHTML = article_template(article);
+    
+    if (article.comments) {
+        let comments_body = document.querySelector('comments');
+        for (let comment of article.comments) {
+            let converter = new showdown.Converter({extensions: ['codehighlight', 'bootstrap-tables']});
+            comment.body = converter.makeHtml(comment.body);
+            comments_body.innerHTML += comment_template(comment);
         }
-        
-        let app_body = document.querySelector('app-body');
-        app_body.innerHTML = article_template(article);
-        
-        if (article.comments) {
-            let comments_body = document.querySelector('comments');
-            for (let comment of article.comments) {
-                comment.body = escape_html(comment.body);
-                comments_body.innerHTML += comment_template(comment);
-            }
-        }
-    } catch (err) {
-        alert(err);
+    }
+    
+    let bkup = await db.get('var', 'bkup');
+    if (bkup) {
+        document.getElementById('comment.name').value = bkup.name;
+        document.getElementById('comment.email').value = bkup.email;
+        document.getElementById('comment.body').value = bkup.body;
     }
 }
 
@@ -249,12 +226,15 @@ function load_app_body(msg)
     }
 }
 
-window.onload = function() {
+window.onload = async function() {
+    db = await new Idb('blog', ['var']);
+    
     load_app_body("window onload");
+    window.click_link = click_link;
+    window.write_comment = write_comment;
 };
 
 window.addEventListener('popstate', function(e) {
     load_app_body("refresh");
 });
-
 

@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#
+# Software License Agreement (MIT License)
+# Author: Duke Fong <d@d-l.io>
 
 import sys, os
 import mimetypes

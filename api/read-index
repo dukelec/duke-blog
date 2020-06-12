@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+#
+# Software License Agreement (MIT License)
+# Author: Duke Fong <d@d-l.io>
 
 import cgi, sys, os, json
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from gconf import gconf
+from conf.gconf import gconf
 
 print('Content-Type: application/json; charset=utf-8\n')
 

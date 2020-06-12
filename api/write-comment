@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+#
+# Software License Agreement (MIT License)
+# Author: Duke Fong <d@d-l.io>
 
 import cgi, sys, os, json, filelock
 from datetime import datetime
 from Crypto.Cipher import AES
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from gconf import gconf
+from conf.gconf import gconf
 
 print('Content-Type: application/json; charset=utf-8\n')
 
@@ -52,7 +54,7 @@ comment['masked'] = mask_email(form.getvalue('email').lower())
 comment['registered'] = False
 comment['name'] = form.getvalue('name')
 comment['site'] = form.getvalue('site')
-comment['format'] = 'txt'
+comment['format'] = 'md'
 body = form.getvalue('body')
 
 if not url or not comment['email'] or not comment['name'] or not body:
