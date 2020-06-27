@@ -102,7 +102,7 @@ if cmd == 'new':
         print('{"success": "Post successed, refreshing...", "refresh": true}')
     else:
         if gconf['notify'] == 'verbose':
-            html = comment_notify_admin_tpl({'comment_id': comment_id, 'url': url})
+            html = comment_notify_admin_tpl({'cid': comment_id, 'url': url})
             email_to(gconf['admin'][0], gconf['admin'][1], "New reply pending", html)
         if 'email' in gconf['comment']['review']:
             print('{"success": "Post successed, pending for email verification."}')

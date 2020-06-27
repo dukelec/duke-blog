@@ -36,13 +36,13 @@ comment_notify_tpl = lambda d : f"""\
 </body></html>
 """
 
-# 'comment_id', 'url'
+# 'cid', 'url'
 comment_notify_admin_tpl = lambda d : f"""\
 <html><body>
 
 <p>Hi {gconf['admin'][0]}, there's a new comment here, please have a look:<br>
 
-<p><a href="{gconf['url']}/{d['url']}">{gconf['url']}/{d['url']}</a> #{d['comment_id']}</p>
+<p><a href="{gconf['url']}/{d['url']}">{gconf['url']}/{d['url']}</a> #{d['cid']}</p>
 
 </body></html>
 """

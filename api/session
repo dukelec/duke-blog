@@ -46,6 +46,7 @@ if cmd == 'confirm':
         os.rename(f'{comments_dir}/{name}', f'{comments_dir}/{todo["cid"]}')
         sid = f'{str(time.time_ns())[:-9]}{random_string()}'
         session.add(todo['email'], sid)
+        new_comment_notify(todo['url'], todo['cid'])
         print(comment_verify_ok_tpl({'url': todo['url'], 'cid': todo['cid'], 'sid': sid, 'email': todo['email']}))
 
     elif todo['cmd'] == 'login':
