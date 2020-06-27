@@ -1,9 +1,10 @@
 {
   "date": "2019-08-07T01:35:55+08:00",
-  "email": "fe7582e25d9b75d8dc4242c132427510a77f39a80f1543cd0e7bae8dcbfc3400",
-  "masked": "niko~@1~.com",
-  "registered": false,
   "name": "meirenai",
   "site": null,
-  "format": "txt"
+  "m_cipher": "fe7582e25d9b75d8dc4242c132427510a77f39a80f1543cd0e7bae8dcbfc3400",
+  "m_show": "niko~@1~.com",
+  "m_hash": "3b76cb499893c170213505ea86672d5a7849487e",
+  "notify": true,
+  "reply_to": ""
 }

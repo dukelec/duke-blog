@@ -4,6 +4,5 @@
     "languages": ["en"],
     "categories": ["Hardware"],
     "tags": ["DIY"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "Solve RTS5129 driver error: mmc0: error -110 whilst initialising SD card"
 }

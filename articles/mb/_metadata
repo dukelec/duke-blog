@@ -5,6 +5,5 @@
     "languages": ["en"],
     "categories": ["Product"],
     "tags": ["Printer"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "Palm-size and lightweight, enables color printing anywhere & anytime and on any surface by 3 steps."
 }

@@ -1,9 +1,10 @@
 {
   "date": "2020-04-15T15:34:35+08:00",
-  "email": "065c29a955d0b14d73cd6326e10e15abc3f67cd33bd22f933759ac84cef59722",
-  "masked": "bwjac~@q~.com",
-  "registered": false,
   "name": "Jack",
   "site": null,
-  "format": "txt"
+  "m_cipher": "065c29a955d0b14d73cd6326e10e15abc3f67cd33bd22f933759ac84cef59722",
+  "m_show": "bwjac~@q~.com",
+  "m_hash": "6650f41f8bb828f23542965e8342798688d727bd",
+  "notify": true,
+  "reply_to": ""
 }

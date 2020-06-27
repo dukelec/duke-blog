@@ -5,6 +5,5 @@
     "languages": ["en"],
     "categories": ["Hardware"],
     "tags": ["Solder"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "A tips about soldering."
 }

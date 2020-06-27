@@ -4,6 +4,5 @@
     "languages": ["zh"],
     "categories": ["Daily"],
     "tags": ["Music", "Art"],
-    "formats": {"summary": "txt", "body": "html"},
     "summary": "故鄉遊記。。。"
 }

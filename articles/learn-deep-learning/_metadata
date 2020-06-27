@@ -4,6 +4,5 @@
     "languages": ["en"],
     "categories": ["Daily"],
     "tags": ["Machine learning"],
-    "formats": {"summary": "txt", "body": "html"},
     "summary": "Recommend a book on machine learning."
 }

@@ -5,6 +5,5 @@
     "languages": ["zh"],
     "categories": ["Web"],
     "tags": ["About"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "歡迎來到我的博客，這篇是關於博客後臺的簡單介紹。"
 }

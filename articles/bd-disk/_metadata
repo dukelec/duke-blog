@@ -4,6 +4,5 @@
     "languages": ["zh"],
     "categories": ["Software"],
     "tags": ["Net disk"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "用 firejail 和 Linux 版本百度網盤 ..."
 }

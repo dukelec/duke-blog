@@ -4,6 +4,5 @@
     "languages": ["en"],
     "categories": ["Hardware"],
     "tags": ["Solder"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "A small test fixture for CDPGA-H3."
 }

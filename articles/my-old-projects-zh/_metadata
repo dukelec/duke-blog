@@ -4,6 +4,5 @@
     "languages": ["zh"],
     "categories": ["Project"],
     "tags": [],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "一部分曾经做的作品。"
 }

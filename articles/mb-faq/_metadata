@@ -4,6 +4,5 @@
     "languages": ["en"],
     "categories": ["Product"],
     "tags": ["Printer"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "..."
 }

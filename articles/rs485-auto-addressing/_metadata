@@ -5,6 +5,5 @@
     "languages": ["en"],
     "categories": ["Embeded"],
     "tags": ["RS485", "CDBUS"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "A very simple and convenient way for RS485 auto addressing."
 }

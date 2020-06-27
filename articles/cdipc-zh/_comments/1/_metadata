@@ -1,9 +1,10 @@
 {
   "date": "2019-09-09T12:38:38+08:00",
-  "email": "e17c0895e66ab86670956150f5bbb989",
-  "masked": "yu.~@m~.com",
-  "registered": false,
   "name": "WoodBridge",
   "site": null,
-  "format": "txt"
+  "m_cipher": "e17c0895e66ab86670956150f5bbb989",
+  "m_show": "yu.~@m~.com",
+  "m_hash": "15c311471662f68b8a1dfc97b9d1cb375ea29bef",
+  "notify": true,
+  "reply_to": ""
 }

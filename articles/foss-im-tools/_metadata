@@ -4,6 +4,5 @@
     "languages": ["zh"],
     "categories": ["Software"],
     "tags": ["IM"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "一款无服务器（类似 BT 磁力链接），另一款分布式（类似 Email），两款都是端到端加密。"
 }

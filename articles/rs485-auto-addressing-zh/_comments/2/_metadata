@@ -1,9 +1,10 @@
 {
   "date": "2019-09-14T18:26:07+08:00",
-  "email": "5fdefcecd381b6c994af63ad00e2501737d3a9eefc583a6ae2e83413c0b80c4d",
-  "masked": "du~@duk~.com",
-  "registered": false,
   "name": "Duke",
   "site": null,
-  "format": "txt"
+  "m_cipher": "5fdefcecd381b6c994af63ad00e2501737d3a9eefc583a6ae2e83413c0b80c4d",
+  "m_show": "du~@duk~.com",
+  "m_hash": "6cbe183b3b5a0e2be0b0c10a5d5884f43d2f0752",
+  "notify": true,
+  "reply_to": ""
 }

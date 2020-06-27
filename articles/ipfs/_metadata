@@ -4,6 +4,5 @@
     "languages": ["zh"],
     "categories": ["Web"],
     "tags": ["Web"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "网站去中心化有很多好处，避免 ddos 攻击，避免服务器宕机，避免审查 ..."
 }

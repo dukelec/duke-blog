@@ -5,6 +5,5 @@
     "languages": ["en"],
     "categories": ["Product"],
     "tags": ["RS485", "CDBUS"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "CDBUS is a protocol for Asynchronous Serial Communication. When used with RS485: it introduces an arbitration mechanism that automatically avoids conflicts like the CAN bus."
 }

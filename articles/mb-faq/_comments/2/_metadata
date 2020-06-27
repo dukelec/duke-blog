@@ -1,9 +1,10 @@
 {
   "date": "2020-05-30T07:47:41+08:00",
-  "email": "886e0450fa1b3a644d8df9f019d7b6351dd19d0cd29964031e6a24cd0530ae2a",
-  "masked": "kot~@hot~.com",
-  "registered": false,
   "name": "Sunny",
   "site": null,
-  "format": "txt"
+  "m_cipher": "886e0450fa1b3a644d8df9f019d7b6351dd19d0cd29964031e6a24cd0530ae2a",
+  "m_show": "kot~@hot~.com",
+  "m_hash": "d04b3df96f0f41a77da5547ba7db4692b92c489c",
+  "notify": true,
+  "reply_to": ""
 }

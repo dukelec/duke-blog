@@ -4,6 +4,5 @@
     "languages": ["zh"],
     "categories": ["Project"],
     "tags": ["CDIPC", "IPC", "Real-time", "PI-Futex"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "A Real-time Inter-Process Communication (IPC) mechanism and library"
 }

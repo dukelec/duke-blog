@@ -4,6 +4,5 @@
     "languages": ["en"],
     "categories": ["Embeded"],
     "tags": ["FPGA"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "Send keyboard data through BLE."
 }

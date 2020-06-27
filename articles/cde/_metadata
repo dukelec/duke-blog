@@ -5,6 +5,5 @@
     "languages": ["zh"],
     "categories": ["Project"],
     "tags": ["Web", "CDE", "IM"],
-    "formats": {"summary": "txt", "body": "md"},
     "summary": "PWA HTML5 加密測試工具"
 }

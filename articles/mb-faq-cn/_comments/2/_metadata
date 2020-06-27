@@ -1,9 +1,10 @@
 {
   "date": "2020-04-21T17:07:44+08:00",
-  "email": "362b6c19621d14bdaa26324385374b7026510430d60b23999e966f509713eeb2",
-  "masked": "5163~@q~.com",
-  "registered": false,
   "name": "张一洲",
   "site": null,
-  "format": "txt"
+  "m_cipher": "362b6c19621d14bdaa26324385374b7026510430d60b23999e966f509713eeb2",
+  "m_show": "5163~@q~.com",
+  "m_hash": "845907c40f64d8607a9ac5c8950901a1deaa33aa",
+  "notify": true,
+  "reply_to": ""
 }

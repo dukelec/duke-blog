@@ -1,9 +1,10 @@
 {
   "date": "2020-04-23T00:32:02+08:00",
-  "email": "d67e1fd743620781a3e1f1c72f87d4b8373f648508e5785c3fa8c5464774efc3",
-  "masked": "me.fa~@ya~.com",
-  "registered": false,
   "name": "Madi",
   "site": null,
-  "format": "txt"
+  "m_cipher": "d67e1fd743620781a3e1f1c72f87d4b8373f648508e5785c3fa8c5464774efc3",
+  "m_show": "me.fa~@ya~.com",
+  "m_hash": "9ed467d758260eab8b3ff783cb7a3843f6634ade",
+  "notify": true,
+  "reply_to": ""
 }
