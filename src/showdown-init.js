@@ -1,4 +1,8 @@
-"use strict";
+/*
+ * Software License Agreement (MIT License)
+ *
+ * Author: Duke Fong <d@d-l.io>
+ */
 
 showdown.extension('codehighlight', function() {
   function htmlunencode(text) {

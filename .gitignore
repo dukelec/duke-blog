@@ -3,6 +3,7 @@
 .*
 
 !.gitignore
+!.gitkeep
 !.htaccess
 
 _count

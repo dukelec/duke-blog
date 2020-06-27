@@ -1,0 +1,134 @@
+#!/usr/bin/env python3
+#
+# Software License Agreement (MIT License)
+# Author: Duke Fong <d@d-l.io>
+
+import cgi, sys, os, json, time, filelock
+from datetime import datetime
+from hashlib import sha1
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from conf.gconf import gconf
+from sub import session
+from sub import pend
+from sub import captcha
+from sub.crypt import *
+from sub.tpl import *
+from sub.helper import *
+
+print('Content-Type: application/json; charset=utf-8\n')
+
+#data = sys.stdin.read()
+data = sys.stdin.read(int(os.environ.get('CONTENT_LENGTH', 0)))
+
+if data:
+    class Form(dict):
+        pass
+    form = Form(json.loads(data))
+    form.getvalue = form.get
+else:
+    form = cgi.FieldStorage()
+
+cmd = form.getvalue('cmd') # new, notify on/off, # del
+url = form.getvalue('url')
+email = form.getvalue('email').lower()
+sid = form.getvalue('sid')
+
+if not url or not email:
+    print('{"error": "Must input url and email!"}')
+    exit(-1)
+
+if sid and not session.verify(email, sid):
+    sid = None
+
+if gconf['comment']['captcha'] == True:
+    if not captcha.verify(form.getvalue('captcha_id'), form.getvalue('captcha_code')):
+        print('{"error": "Wrong captcha!"}')
+        exit(-1)
+
+if cmd == 'new':
+    body = form.getvalue('body')
+    comment = {}
+    comment['date'] = datetime.datetime.now().astimezone().isoformat(sep='T', timespec='seconds')
+    comment['m_cipher'] = encrypt(email)
+    comment['m_show'] = mask_email(email)
+    comment['m_hash'] = sha1(bytes(email, encoding="utf-8")).hexdigest()
+    comment['notify'] = True
+    comment['name'] = form.getvalue('name')
+    comment['site'] = form.getvalue('site')
+    comment['reply_to'] = form.getvalue('reply_to') # None or e.g.: '2.1'
+
+    if not comment['name'] or not body:
+        print('{"error": "Must input name and body!"}')
+        exit(-1)
+
+    article_dir = '../articles/' + url
+    comments_dir = article_dir + '/_comments'
+    lock = filelock.FileLock(article_dir + '/.comments_lock', timeout=5)
+    if not os.path.exists(comments_dir):
+        os.makedirs(comments_dir)
+
+    try:
+        with lock:
+            comment_id = cal_comment_id(comments_dir, comment['reply_to'])
+            if not comment_id:
+                print('{"error": "reply_to format error!"}')
+                exit(-1)
+            if gconf['comment']['review'] == 'none' or (gconf['comment']['review'] == 'email' and sid):
+                comment_dir = f'{comments_dir}/{comment_id}'
+            elif gconf['comment']['review'] == 'manual':
+                comment_dir = f'{comments_dir}/{comment_id}_tmp'
+            else:
+                comment_dir = f'{comments_dir}/{comment_id}_email'
+            os.makedirs(comment_dir)
+    except filelock.Timeout:
+        print('{"error": "filelock.Timeout"}')
+        print(f'create comment failed: filelock.Timeout {url}', file=sys.stderr)
+        exit(-1)
+
+    with open(comment_dir + '/body.md', 'w') as file:
+        file.write(body)
+    with open(comment_dir + '/_metadata', 'w') as file:
+        file.write(json.dumps(comment, indent=2, ensure_ascii=False, sort_keys=False))
+
+    if 'email' in gconf['comment']['review'] and not sid:
+        pid = f'{str(time.monotonic_ns())[:-6]}{random_string()}'
+        pend.add({'cmd': 'comment', 'url': url, 'cid': comment_id, 'email': email}, pid)
+        html = comment_verify_tpl({'name': comment['name'], 'pid': pid, 'admin': gconf['admin']})
+        email_to(comment['name'], email, "Please verify your comment", html)
+
+    # notify other users, or after review
+    if gconf['comment']['review'] == 'none' or (gconf['comment']['review'] == 'email' and sid):
+        new_comment_notify(url, comment_id)
+        print('{"success": "Post successed, refreshing...", "refresh": true}')
+    else:
+        if gconf['notify'] == 'verbose':
+            html = comment_notify_admin_tpl({'comment_id': comment_id, 'url': url})
+            email_to(gconf['admin'][0], gconf['admin'][1], "New reply pending", html)
+        if 'email' in gconf['comment']['review']:
+            print('{"success": "Post successed, pending for email verification."}')
+        else:
+            print('{"success": "Post successed, pending for review."}')
+    exit(0)
+
+
+if cmd == 'set_notify':
+    val = form.getvalue('val')
+
+    article_dir = '../articles/' + url
+    comment_dir = article_dir + '/_comments/' + val[0]
+
+    with open(comment_dir + '/_metadata', 'r') as file:
+        comment = json.loads(file.read())
+
+    if comment['notify'] == val[1]:
+        print('{"success": "skip."}')
+        exit()
+
+    if not sid:
+        print('{"error": "Login ex-period, please re-login."}')
+    else:
+        comment['notify'] = not comment['notify']
+        with open(comment_dir + '/_metadata', 'w') as file:
+            file.write(json.dumps(comment, indent=2, ensure_ascii=False, sort_keys=False))
+        print('{"success": "Successed, refreshing...", "refresh": true}')
+
