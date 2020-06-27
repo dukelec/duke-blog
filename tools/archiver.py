@@ -10,7 +10,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from conf.gconf import gconf
 from api.sub.crypt import *
 
-os.chdir(f'{os.path.dirname(__file__)}/../archive')
+archive_path = f'{os.path.dirname(__file__)}/../archive'
+if not os.path.exists(archive_path):
+    os.makedirs(archive_path)
+os.chdir(archive_path)
 
 md_extensions = ['extra']
 
