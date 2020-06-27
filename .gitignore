@@ -10,5 +10,5 @@ _count
 __pycache__
 
 /archive/
-/gconf.py
+/conf/gconf.py
 

@@ -1,1 +1,0 @@
-gconf.example.py

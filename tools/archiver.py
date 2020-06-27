@@ -110,15 +110,15 @@ def update_link(html, url):
     y = parser.getElementsCustomFilter(lambda a: 'href' in a.attributes)
     for h in y:
         if '//' not in h.href and not h.href.startswith('#'):
-            h.href = f'{url}/{h.href}'
+            h.href = f'/{url}/{h.href}'
     y = parser.getElementsCustomFilter(lambda a: 'src' in a.attributes)
     for h in y:
         if '//' not in h.src and not h.src.startswith('#'):
-            h.src = f'{url}/{h.src}'
+            h.src = f'/{url}/{h.src}'
     y = parser.getElementsCustomFilter(lambda a: 'poster' in a.attributes)
     for h in y:
         if '//' not in h.poster and not h.poster.startswith('#'):
-            h.poster = f'{url}/{h.poster}'
+            h.poster = f'/{url}/{h.poster}'
     return parser.getHTML()
 
 
