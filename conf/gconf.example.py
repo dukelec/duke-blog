@@ -3,20 +3,30 @@
 gconf = {
     "captcha": {
         "length": 6,
-        "timeout": 30*60 # sec
+        "timeout": 5*60         # sec
     },
-    "reply": {
-        "need-review": False,
-        "require-captcha": False
+    "session": {
+        "timeout": 15*24*60*60  # sec
+    },
+    "comment": {
+        "review": "email",      # "none", "manual", "email", "email+manual"
+        "timeout": 30*60,       # sec, timeout for email review
+        "captcha": True
     },
     "smtp": {
+        "test": True,           # True: not send email, print to log
         "host": "smtp.gmail.com",
+        "port": 465,
         "user": "noreply@dukelec.com",
-        "password": "XXXX",
-        "name": "Duke Blog Server"
+        "password": "xxxxxxxx",
+        "name": "Duke Blog"
     },
-    "cipher": {
-        "key": "7f51f2cf3fce1c3ecbb01b8a9c374c8ab5f9c48035620aebf87650d35ed5b27b",
-        "iv": "9bdf52a4830779a1383ac24f1b3ed054"
-    }
+    "cipher": {                 # aes_256_cbc
+        "key": "0000000000000000000000000000000000000000000000000000000000000000",
+        "iv": "00000000000000000000000000000000"
+    },
+
+    "url": "https://blog.d-l.io",
+    "admin": ["Duke", "d@d-l.io"],
+    "notify": "normal"          # "none", "normal", "verbose"
 }

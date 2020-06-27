@@ -3,43 +3,16 @@
 # Software License Agreement (MIT License)
 # Author: Duke Fong <d@d-l.io>
 
-import cgi, sys, os, json, time, random, base64, filelock
-from captcha.image import ImageCaptcha
+import cgi, sys, os, json
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from conf.gconf import gconf
+from sub import captcha
 
 print('Content-Type: application/json; charset=utf-8\n')
 
-ms_s = str(time.monotonic_ns())[:-6]
-code = str(random.randrange(10**gconf['captcha']['length'])).rjust(gconf['captcha']['length'], '0')
-
-ic = ImageCaptcha()
-img = ic.generate(code, 'jpeg').read()
-
-dat = {
-    'id': ms_s,
-    'img': base64.b64encode(img).decode('ascii')
-}
-
-lock = filelock.FileLock('.lock', timeout=5)
-
-try:
-    with lock:
-        if os.path.exists('.captcha'):
-            with open('.captcha', 'r') as file:
-                cl = json.loads(file.read())
-        else:
-            cl = {}
-        since = max(int(ms_s) - gconf['captcha']['timeout']*1000, 0)
-        cl = dict(filter(lambda elem: int(elem[0]) >= since, cl.items()))
-        cl[ms_s] = {'code': code, 'try': 0}
-        with open('.captcha', 'w') as file:
-            file.write(json.dumps(cl, indent=2, ensure_ascii=False, sort_keys=False))
-    
-except filelock.Timeout:
-    print('{"error": "filelock.Timeout"}')
-    print(f'create comment failed: filelock.Timeout {url}', file=sys.stderr)
-    exit(-1)
-
-print(json.dumps(dat, indent=2, ensure_ascii=False, sort_keys=False))
+dat = captcha.get()
+if dat:
+    print(json.dumps(dat, indent=2, ensure_ascii=False, sort_keys=False))
+else:
+    print('{"error": "captcha.get error"}')
 

@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
+#
+# Software License Agreement (MIT License)
+# Author: Duke Fong <d@d-l.io>
 
 import sys, os, json
-from Crypto.Cipher import AES
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-from gconf import gconf
+from conf.gconf import gconf
+from api.sub.crypt import *
 
 try:
     with open(sys.argv[1], 'r') as file:
@@ -12,16 +15,6 @@ except:
     print(f'Usage: {sys.argv[0]} path/to/comments/_metadata')
     exit(-1)
 
-def get_cipher():
-    return AES.new(bytes.fromhex(gconf['cipher']['key']), AES.MODE_CBC, bytes.fromhex(gconf['cipher']['iv']))
-
-def _unpad(d):
-    return d[:-d[-1]].decode(encoding="utf-8")
-
-
-email_cb = bytes.fromhex(comment['email'])
-email_p = get_cipher().decrypt(email_cb)
-email = _unpad(email_p)
-
+email = decrypt(comment['m_cipher'])
 print(f'plaintext email: {email}')
 

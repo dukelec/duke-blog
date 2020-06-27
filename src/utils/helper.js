@@ -4,7 +4,7 @@
  * Author: Duke Fong <d@d-l.io>
  */
 
-//import { sha1 as sha1_sw } from '../libs/sha1.js';
+//import { sha1 as sha1_sw } from '../lib/sha1.js';
 
 async function read_file(file) {
     return await new Promise((resolve, reject) => {
@@ -60,6 +60,7 @@ async function sha1(dat) {
         return hashHex;
     } catch (e) {
         //return sha1_sw(dat);
+        alert(`sha1 error: ${e}`);
         return null;
     }
 }
@@ -146,7 +147,7 @@ function download(data, fileName='dat.bin', mimeType='application/octet-stream')
     setTimeout(function() { return window.URL.revokeObjectURL(url); }, 1000);
 };
 
-async function fetch_timo(url, attrs={}, ms=5000, retry=0, st_cb=null) {
+async function fetch_timo(url, attrs={}, ms=15000, retry=0, st_cb=null) {
     let timeout_cnt = 0;
     while (true) {
         const controller = new AbortController();

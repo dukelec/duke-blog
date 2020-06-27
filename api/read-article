@@ -7,46 +7,53 @@ import cgi, sys, os, json
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from conf.gconf import gconf
 
-print('Content-Type: application/json; charset=utf-8\n')
+if len(sys.argv) == 1:
+    print('Content-Type: application/json; charset=utf-8\n')
 
-form = cgi.FieldStorage()
-url = form.getvalue('url')
+    form = cgi.FieldStorage()
+    url = form.getvalue('url')
+else:
+    url = sys.argv[1]
 
 article_dir = '../articles/' + url
 
 with open(article_dir + '/_metadata', 'r') as file:
     metadata = json.loads(file.read())
 
-if 'summary' not in metadata.keys():
-    with open(article_dir + '/summary.%s' % metadata['formats']['summary'], 'r') as file:
+if os.path.exists(article_dir + '/summary.md'):
+    with open(article_dir + '/summary.md', 'r') as file:
         metadata['summary'] = file.read()
-try:
+
+if os.path.exists(article_dir + '/_count'):
     with open(article_dir + '/_count', 'r') as file:
         metadata['count'] = int(file.read())
-except:
+else:
     metadata['count'] = 0
 
-with open(article_dir + '/_count', 'w') as file:
-    file.write(str(metadata['count'] + 1))
+if len(sys.argv) == 1:
+    with open(article_dir + '/_count', 'w') as file:
+        file.write(str(metadata['count'] + 1))
 
-with open(article_dir + '/body.%s' % metadata['formats']['body'], 'r') as file:
+with open(article_dir + '/body.md', 'r') as file:
     metadata['body'] = file.read()
 
-if '_comments' in os.listdir(article_dir):
+if os.path.exists(article_dir + '/_comments'):
     metadata['comments'] = []
-    for n in os.listdir(article_dir + '/_comments'):
-        if not n.isdigit():
+    for id_ in os.listdir(article_dir + '/_comments'):
+        if '_' in id_:
             continue
-        comment_dir = article_dir + '/_comments/%s' % n
+        comment_dir = article_dir + '/_comments/' + id_
         with open(comment_dir + '/_metadata', 'r') as file:
             comment = json.loads(file.read())
-        del comment['email']
-        comment = {'id': int(n), **comment} # put the id at the top
-        with open(comment_dir + '/body.%s' % comment['format'], 'r') as file:
+        del comment['m_cipher']
+        comment = {'id': id_, **comment} # put the id at the top
+        with open(comment_dir + '/body.md', 'r') as file:
             comment['body'] = file.read()
         metadata['comments'].append(comment)
-    
-    metadata['comments'].sort(key=lambda x: x['id'], reverse=False)
 
+    metadata['comments'].sort(key=lambda x: float(x['id']), reverse=False)
+
+metadata['conf'] = {}
+metadata['conf']['captcha'] = gconf['comment']['captcha']
 print(json.dumps(metadata, indent=2, ensure_ascii=False, sort_keys=False))
 

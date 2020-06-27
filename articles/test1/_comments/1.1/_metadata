@@ -1,10 +1,10 @@
 {
-  "date": "2020-06-27T22:10:05+08:00",
+  "date": "2020-06-27T22:19:50+08:00",
   "m_cipher": "95b63f7973eaf768442288a25428199e83d7575b6972969ebdbad203b2ed679b",
   "m_show": "du~@duk~.com",
   "m_hash": "6cbe183b3b5a0e2be0b0c10a5d5884f43d2f0752",
-  "notify": true,
+  "notify": false,
   "name": "Duke",
   "site": null,
-  "reply_to": ""
+  "reply_to": "1"
 }

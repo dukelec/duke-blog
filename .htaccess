@@ -24,8 +24,10 @@ RewriteRule  ^  -  [L]
 # If the requested resource doesn't exist, use index.html
 RewriteRule  ^  /index.html
 
-RedirectMatch 404 ^/\.git/$
-RedirectMatch 404 ^/conf/$
+RedirectMatch 403 ^/\.git/
+RedirectMatch 403 ^/conf/
+RedirectMatch 403 ^/api/sub/
+RedirectMatch 403 ^/api/tmp/
 
 # Disable Indexing
 #Options -Indexes
