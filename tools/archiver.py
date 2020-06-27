@@ -93,7 +93,9 @@ article_tpl = lambda d : f'''\
 
 comment_tpl = lambda d : f'''\
   <div style="padding-left: {'10' if '.' in d['id'] else '0'}px;">
-	  <p><small>#{d['id']}, {format_date(d['date'])}, {d['name']} &lt;{d['m_show']}&gt; wrote:</small></p>
+	  <p><small>#{d['id']}, {format_date(d['date'])},
+	    {'<a href="' + d['site'] + '">' if d['site'] else ''} {d['name']} {'</a>' if d['site'] else ''}
+	    &lt;{d['m_show']}&gt; wrote:</small></p>
 	  <p>{d['body']}</p>
   </div>
 '''

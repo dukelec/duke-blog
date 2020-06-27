@@ -43,7 +43,7 @@ let article_template = (article) => `
   <div class="form-group">
     <label class="col-sm-2 control-label">Reply to</label>
     <div class="col-sm-4">
-      <input id="comment.reply_to" type="text" class="form-control" placeholder="#n or #n.n or empty" required>
+      <input id="comment.reply_to" type="text" class="form-control" placeholder="#n or #n.n or empty">
     </div>
   </div>
   <div class="form-group">
@@ -59,6 +59,12 @@ let article_template = (article) => `
     </div>
     <div class="col-sm-2">
       <button type="submit" class="btn btn-default" onclick="login()">${sid ? 'Re-login' : 'Login'} (for subscription toggle)</button>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Site</label>
+    <div class="col-sm-4">
+      <input id="comment.site" type="text" class="form-control" placeholder="https://">
     </div>
   </div>
   <div class="form-group">
@@ -88,7 +94,8 @@ let article_template = (article) => `
 
 let comment_template = (comment) => `
   <div style="padding-left: ${comment.id.includes('.') ? '10' : '0'}px;">
-	  <p><small>#${comment.id}, ${format_date(comment.date)}, ${comment.name}
+	  <p><small>#${comment.id}, ${format_date(comment.date)},
+	    ${comment.site ? '<a href="' + comment.site + '">' : ''}${comment.name}${comment.site ? '</a>' : ''}
 	    ${comment.notify ? '' : '<del>'}&lt;${comment.m_show}&gt;${comment.notify ? '' : '</del>'} wrote:</small>
 	    <button type="submit" class="btn btn-sm" onclick="set_notify('${comment.id}', !${comment.notify})"
 	     ${bkup.m_hash == comment.m_hash ? '' : 'style="display:none;"'}>Subscription toggle</button>
@@ -133,6 +140,7 @@ window.write_comment = async function()
     comment.url = window.location.pathname.slice(1);
     comment.name = document.getElementById('comment.name').value;
     comment.email = document.getElementById('comment.email').value.toLowerCase();
+    comment.site = document.getElementById('comment.site').value;
     comment.body = document.getElementById('comment.body').value;
     if (!comment.name || !comment.email || !comment.body) {
         alert('Please input your name, email and comment body!');
@@ -305,6 +313,7 @@ async function load_article(url)
     if (bkup) {
         document.getElementById('comment.name').value = bkup.name ? bkup.name : '';
         document.getElementById('comment.email').value = bkup.email ? bkup.email : '';
+        document.getElementById('comment.site').value = bkup.site ? bkup.site : '';
     }
 }
 
