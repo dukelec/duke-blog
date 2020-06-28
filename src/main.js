@@ -148,6 +148,10 @@ window.write_comment = async function()
         alert('Please input your name, email and comment body!');
         return;
     }
+    if (comment.site && !(comment.site.startsWith('https://') || comment.site.startsWith('http://'))) {
+        alert('Site must starts with https:// or http://');
+        return;
+    }
     await db.set('var', 'bkup', comment);
 
     comment.reply_to = document.getElementById('comment.reply_to').value;
@@ -348,6 +352,12 @@ async function load_article(url)
         let comments_body = document.querySelector('comments');
         for (let comment of article.comments) {
             comment.body = DOMPurify.sanitize(md_conv.makeHtml(comment.body));
+            if (comment.site) {
+                if (comment.site.startsWith('https://') || comment.site.startsWith('http://'))
+                    comment.site = DOMPurify.sanitize(comment.site);
+                else
+                    comment.site = null;
+            }
             comments_body.innerHTML += comment_template(comment);
         }
     }
