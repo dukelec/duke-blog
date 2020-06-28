@@ -13,7 +13,7 @@ comment_verify_tpl = lambda d : f"""\
 
 <p><a href="{gconf['url']}/api/session?cmd=confirm&pid={d['pid']}">{gconf['url']}/api/session?cmd=confirm&pid={d['pid']}</a></p>
 
-<p>If you are not responsible for this email, please ignore this message. I am very sorry to disturb you.</p>
+<p>If this message is not relevant to you, please ignore this message. I am very sorry to disturb you.</p>
 
 <p>If you continue to receive such emails, please send an email to {gconf['admin'][1]} to notify me, thank you.</p>
 
@@ -81,7 +81,7 @@ login_verify_tpl = lambda d : f"""\
 
 <p><a href="{gconf['url']}/api/session?cmd=confirm&pid={d['pid']}">{gconf['url']}/api/session?cmd=confirm&pid={d['pid']}</a></p>
 
-<p>If you are not responsible for this email, please ignore this message. I am very sorry to disturb you.</p>
+<p>If this message is not relevant to you, please ignore this message. I am very sorry to disturb you.</p>
 
 <p>If you continue to receive such emails, please send an email to {gconf['admin'][1]} to notify me, thank you.</p>
 
