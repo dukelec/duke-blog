@@ -58,7 +58,7 @@ let article_template = (article) => `
       <input id="comment.email" type="email" class="form-control" placeholder="Email" required>
     </div>
     <div class="col-sm-2">
-      <button type="submit" class="btn btn-default" onclick="login()">${sid ? 'Re-login' : 'Login'} (for subscription toggle)</button>
+      <button type="submit" class="btn btn-default" id="login_btn" onclick="login()">${sid ? 'Re-login' : 'Login'} (Manage comments)</button>
     </div>
   </div>
   <div class="form-group">
@@ -82,12 +82,12 @@ let article_template = (article) => `
       <input id="comment.captcha" type="text" class="form-control" required>
     </div>
     <div class="col-sm-2" id="captcha_show" onclick="load_captcha()">
-      <button type="submit" class="btn btn-default">Load</button>
+      <button type="submit" id="captcha_btn" class="btn btn-default">Load</button>
     </div>
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-8">
-      <button type="submit" class="btn btn-default" onclick="write_comment()" >Submit</button>
+      <button type="submit" class="btn btn-default" id="new_comment_btn" onclick="write_comment()">Submit</button>
     </div>
   </div>
 </div>`;
@@ -97,8 +97,10 @@ let comment_template = (comment) => `
 	  <p><small>#${comment.id}, ${format_date(comment.date)},
 	    ${comment.site ? '<a href="' + comment.site + '">' : ''}${comment.name}${comment.site ? '</a>' : ''}
 	    ${comment.notify ? '' : '<del>'}&lt;${comment.m_show}&gt;${comment.notify ? '' : '</del>'} wrote:</small>
-	    <button type="submit" class="btn btn-sm" onclick="set_notify('${comment.id}', !${comment.notify})"
-	     ${bkup.m_hash == comment.m_hash ? '' : 'style="display:none;"'}>Subscription toggle</button>
+	    <button type="submit" class="btn btn-sm" id="set_notify_btn_${comment.id}" onclick="set_notify('${comment.id}', !${comment.notify})"
+	     ${sid && bkup.m_hash == comment.m_hash ? '' : 'style="display:none;"'}>${comment.notify ? 'Unsubscribe' : 'Subscribe'}</button>
+	    <button type="submit" class="btn btn-sm" id="delete_comment_btn_${comment.id}" onclick="delete_comment('${comment.id}')"
+	     ${sid && bkup.m_hash == comment.m_hash ? '' : 'style="display:none;"'}>Delete</button>
 	  </p>
 	  <p>${comment.body}</p>
   </div>`;
@@ -146,6 +148,10 @@ window.write_comment = async function()
         alert('Please input your name, email and comment body!');
         return;
     }
+    if (comment.site && !(comment.site.startsWith('https://') || comment.site.startsWith('http://'))) {
+        alert('Site must starts with https:// or http://');
+        return;
+    }
     await db.set('var', 'bkup', comment);
 
     comment.reply_to = document.getElementById('comment.reply_to').value;
@@ -156,9 +162,11 @@ window.write_comment = async function()
     comment.sid = await db.get('var', 'sid');
     if (captcha_en && (!comment.captcha_id || !comment.captcha_code)) {
         alert('This operation requires a captcha.');
+        document.getElementById("comment.captcha").focus();
         return;
     }
 
+    document.getElementById('new_comment_btn').disabled = true;
     console.log(comment);
     let ret = await fetch_timo('/api/comment', {method: 'POST', body: JSON.stringify(comment)});
     if (ret == null) {
@@ -194,11 +202,13 @@ window.set_notify = async function(id_, val)
     }
     if (captcha_en && (!todo.captcha_id || !todo.captcha_code)) {
         alert('This operation requires a captcha.');
+        document.getElementById("comment.captcha").focus();
         return;
     }
 
     bkup.email = todo.email;
     await db.set('var', 'bkup', bkup);
+    document.getElementById(`set_notify_btn_${id_}`).disabled = true;
 
     console.log(todo);
     let ret = await fetch_timo('/api/comment', {method: 'POST', body: JSON.stringify(todo)});
@@ -206,16 +216,53 @@ window.set_notify = async function(id_, val)
         alert('set_notify: error');
         return;
     }
-    if (ret.success)
+    if (ret.success) {
         alert(ret.success);
-    else if (ret.error)
+        location.reload();
+    } else if (ret.error)
         alert(ret.error);
     else
         alert('Unknown error!');
-    if (ret.refresh)
+}
+
+window.delete_comment = async function(id_)
+{
+    console.log(`delete_comment ${id_}`);
+    let todo = {};
+    todo.cmd = 'delete';
+    todo.cid = id_;
+    todo.url = window.location.pathname.slice(1);
+    todo.email = document.getElementById('comment.email').value.toLowerCase();
+    todo.captcha_id = captcha_id;
+    todo.captcha_code = document.getElementById('comment.captcha').value;
+    todo.sid = await db.get('var', 'sid');
+    if (!todo.email) {
+        alert('Please input your email!');
+        return;
+    }
+    if (captcha_en && (!todo.captcha_id || !todo.captcha_code)) {
+        alert('This operation requires a captcha.');
+        document.getElementById("comment.captcha").focus();
+        return;
+    }
+
+    bkup.email = todo.email;
+    await db.set('var', 'bkup', bkup);
+    document.getElementById(`delete_comment_btn_${id_}`).disabled = true;
+
+    console.log(todo);
+    let ret = await fetch_timo('/api/comment', {method: 'POST', body: JSON.stringify(todo)});
+    if (ret == null) {
+        alert('delete_comment: error');
+        return;
+    }
+    if (ret.success) {
+        alert(ret.success);
         location.reload();
+    } else if (ret.error)
+        alert(ret.error);
     else
-        load_captcha();
+        alert('Unknown error!');
 }
 
 window.login = async function()
@@ -235,11 +282,13 @@ window.login = async function()
     }
     if (captcha_en && (!todo.captcha_id || !todo.captcha_code)) {
         alert('This operation requires a captcha.');
+        document.getElementById("comment.captcha").focus();
         return;
     }
-
+    
     bkup.email = todo.email;
     await db.set('var', 'bkup', bkup);
+    document.getElementById('login_btn').disabled = true;
 
     console.log(todo);
     let ret = await fetch_timo('/api/session', {method: 'POST', body: JSON.stringify(todo)});
@@ -247,16 +296,13 @@ window.login = async function()
         alert('set_notify: error');
         return;
     }
-    if (ret.success)
+    if (ret.success) {
         alert(ret.success);
-    else if (ret.error)
+        location.reload();
+    } else if (ret.error)
         alert(ret.error);
     else
         alert('Unknown error!');
-    if (ret.refresh)
-        location.reload();
-    else
-        load_captcha();
 }
 
 async function load_index()
@@ -306,6 +352,12 @@ async function load_article(url)
         let comments_body = document.querySelector('comments');
         for (let comment of article.comments) {
             comment.body = DOMPurify.sanitize(md_conv.makeHtml(comment.body));
+            if (comment.site) {
+                if (comment.site.startsWith('https://') || comment.site.startsWith('http://'))
+                    comment.site = DOMPurify.sanitize(comment.site);
+                else
+                    comment.site = null;
+            }
             comments_body.innerHTML += comment_template(comment);
         }
     }
@@ -330,10 +382,15 @@ window.restore_comment_body = function()
 window.load_captcha = async function()
 {
     console.log('load captcha');
+    let captcha_btn = document.getElementById('captcha_btn');
+    if (captcha_btn)
+        captcha_btn.disabled = true;
 
     let captcha = await fetch_timo('/api/get-captcha');
     if (captcha == null) {
         alert('get-captcha: error');
+        if (captcha_btn)
+            captcha_btn.disabled = false;
         return;
     }
     captcha_id = captcha.id;

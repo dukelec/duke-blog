@@ -150,6 +150,11 @@ for a in articles:
         sanitizer = Sanitizer()
         comment['body'] = markdown.markdown(comment['body'], extensions=md_extensions, output_format='html5')
         comment['body'] = sanitizer.sanitize(comment['body'])
+        if comment['site']:
+            if comment['site'].startswith('https://') or comment['site'].startswith('http://'):
+                comment['site'] = sanitizer.sanitize(comment['site'])
+            else:
+                comment['site'] = None
         article['comments_body'] += comment_tpl(comment)
 
     app_body += article_tpl(article)

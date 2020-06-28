@@ -13,7 +13,7 @@ comment_verify_tpl = lambda d : f"""\
 
 <p><a href="{gconf['url']}/api/session?cmd=confirm&pid={d['pid']}">{gconf['url']}/api/session?cmd=confirm&pid={d['pid']}</a></p>
 
-<p>If you are not responsible for this email, please ignore this message. I am very sorry to disturb you.</p>
+<p>If this message is not relevant to you, please ignore this message. I am very sorry to disturb you.</p>
 
 <p>If you continue to receive such emails, please send an email to {gconf['admin'][1]} to notify me, thank you.</p>
 
@@ -36,19 +36,19 @@ comment_notify_tpl = lambda d : f"""\
 </body></html>
 """
 
-# 'comment_id', 'url'
+# 'cid', 'url'
 comment_notify_admin_tpl = lambda d : f"""\
 <html><body>
 
 <p>Hi {gconf['admin'][0]}, there's a new comment here, please have a look:<br>
 
-<p><a href="{gconf['url']}/{d['url']}">{gconf['url']}/{d['url']}</a> #{d['comment_id']}</p>
+<p><a href="{gconf['url']}/{d['url']}">{gconf['url']}/{d['url']}</a> #{d['cid']}</p>
 
 </body></html>
 """
 
 
-# 'name', 'ms_s', 'code', 'admin'
+# 'sid', 'url', 'cid'
 comment_verify_ok_tpl = lambda d : f"""\
 <html>
 <body>
@@ -73,22 +73,22 @@ comment_verify_ok_tpl = lambda d : f"""\
 </html>
 """
 
-# 'name', 'ms_s', 'code', 'admin'
+# 'sid', 'url', 'pid'
 login_verify_tpl = lambda d : f"""\
 <html><body>
 
-<p>Hi {d['name']}, please click on the following link to complete login.</p>
+<p>Hi, please click on the following link to complete login.</p>
 
 <p><a href="{gconf['url']}/api/session?cmd=confirm&pid={d['pid']}">{gconf['url']}/api/session?cmd=confirm&pid={d['pid']}</a></p>
 
-<p>If you are not responsible for this email, please ignore this message. I am very sorry to disturb you.</p>
+<p>If this message is not relevant to you, please ignore this message. I am very sorry to disturb you.</p>
 
 <p>If you continue to receive such emails, please send an email to {gconf['admin'][1]} to notify me, thank you.</p>
 
 </body></html>
 """
 
-# 'name', 'ms_s', 'code', 'admin'
+# 'sid', 'email', 'url'
 login_verify_ok_tpl = lambda d : f"""\
 <html>
 <body>

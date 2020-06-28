@@ -3,7 +3,7 @@
 # Software License Agreement (MIT License)
 # Author: Duke Fong <d@d-l.io>
 
-import cgi, sys, os, json, time, filelock
+import cgi, sys, os, json, time, filelock, shutil
 from datetime import datetime
 from hashlib import sha1
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -102,7 +102,7 @@ if cmd == 'new':
         print('{"success": "Post successed, refreshing...", "refresh": true}')
     else:
         if gconf['notify'] == 'verbose':
-            html = comment_notify_admin_tpl({'comment_id': comment_id, 'url': url})
+            html = comment_notify_admin_tpl({'cid': comment_id, 'url': url})
             email_to(gconf['admin'][0], gconf['admin'][1], "New reply pending", html)
         if 'email' in gconf['comment']['review']:
             print('{"success": "Post successed, pending for email verification."}')
@@ -111,17 +111,21 @@ if cmd == 'new':
     exit(0)
 
 
-if cmd == 'set_notify':
+elif cmd == 'set_notify':
     val = form.getvalue('val')
 
     article_dir = '../articles/' + url
     comment_dir = article_dir + '/_comments/' + val[0]
 
+    if not val[0] or not os.path.exists(comment_dir):
+        print('{"error": "Comment not exist."}')
+        exit()
+
     with open(comment_dir + '/_metadata', 'r') as file:
         comment = json.loads(file.read())
 
     if comment['notify'] == val[1]:
-        print('{"success": "skip."}')
+        print('{"success": "The value is already set."}')
         exit()
 
     if not sid:
@@ -131,4 +135,26 @@ if cmd == 'set_notify':
         with open(comment_dir + '/_metadata', 'w') as file:
             file.write(json.dumps(comment, indent=2, ensure_ascii=False, sort_keys=False))
         print('{"success": "Successed, refreshing...", "refresh": true}')
+
+
+elif cmd == 'delete':
+    cid = form.getvalue('cid')
+
+    article_dir = '../articles/' + url
+    comment_dir = article_dir + '/_comments/' + cid
+
+    if not cid or not os.path.exists(comment_dir):
+        print('{"error": "Comment not exist."}')
+        exit()
+
+    if not sid:
+        print('{"error": "Login ex-period, please re-login."}')
+    else:
+        shutil.rmtree(comment_dir)
+        print('{"success": "Successed, refreshing...", "refresh": true}')
+
+
+else:
+    print('Content-Type: application/json; charset=utf-8\n')
+    print('{"error": "Unsupported cmd"}')
 

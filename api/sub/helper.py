@@ -67,11 +67,11 @@ def new_comment_notify(url, comment_id):
         if comment_to['notify']:
             reply_email = decrypt(comment_to['m_cipher'])
 
-    if reply_email and reply_email != decrypt(comment['m_cipher']):
-        html = comment_notify_tpl({'name': comment_to['name'], 'url': url})
+    if reply_email:
+        html = comment_notify_tpl({'name': comment_to['name'], 'url': url, 'cid': comment_id})
         email_to(comment_to['name'], reply_email, "There is a new reply to your comment", html)
 
-    if gconf['notify'] != 'none' and gconf['admin'][1] != reply_email:
-        html = comment_notify_admin_tpl({'comment_id': comment_id, 'url': url})
+    if gconf['notify'] != 'none':
+        html = comment_notify_admin_tpl({'cid': comment_id, 'url': url})
         email_to(gconf['admin'][0], gconf['admin'][1], "New comment verified", html)
 

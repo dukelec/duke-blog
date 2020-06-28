@@ -46,6 +46,7 @@ if cmd == 'confirm':
         os.rename(f'{comments_dir}/{name}', f'{comments_dir}/{todo["cid"]}')
         sid = f'{str(time.time_ns())[:-9]}{random_string()}'
         session.add(todo['email'], sid)
+        new_comment_notify(todo['url'], todo['cid'])
         print(comment_verify_ok_tpl({'url': todo['url'], 'cid': todo['cid'], 'sid': sid, 'email': todo['email']}))
 
     elif todo['cmd'] == 'login':
@@ -74,4 +75,9 @@ elif cmd == 'login':
     html = login_verify_tpl({'pid': pid, 'admin': gconf['admin']})
     email_to(None, email, "Please verify your login", html)
     print('{"success": "Successed, pending for email verification."}')
+
+
+else:
+    print('Content-Type: application/json; charset=utf-8\n')
+    print('{"error": "Unsupported cmd"}')
 
