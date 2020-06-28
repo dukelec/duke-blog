@@ -58,7 +58,7 @@ let article_template = (article) => `
       <input id="comment.email" type="email" class="form-control" placeholder="Email" required>
     </div>
     <div class="col-sm-2">
-      <button type="submit" class="btn btn-default" onclick="login()">${sid ? 'Re-login' : 'Login'} (for subscription toggle)</button>
+      <button type="submit" class="btn btn-default" onclick="login()">${sid ? 'Re-login' : 'Login'} (Manage comments)</button>
     </div>
   </div>
   <div class="form-group">
@@ -98,7 +98,9 @@ let comment_template = (comment) => `
 	    ${comment.site ? '<a href="' + comment.site + '">' : ''}${comment.name}${comment.site ? '</a>' : ''}
 	    ${comment.notify ? '' : '<del>'}&lt;${comment.m_show}&gt;${comment.notify ? '' : '</del>'} wrote:</small>
 	    <button type="submit" class="btn btn-sm" onclick="set_notify('${comment.id}', !${comment.notify})"
-	     ${bkup.m_hash == comment.m_hash ? '' : 'style="display:none;"'}>Subscription toggle</button>
+	     ${sid && bkup.m_hash == comment.m_hash ? '' : 'style="display:none;"'}>${comment.notify ? 'Unsubscribe' : 'Subscribe'}</button>
+	    <button type="submit" class="btn btn-sm" onclick="delete_comment('${comment.id}')"
+	     ${sid && bkup.m_hash == comment.m_hash ? '' : 'style="display:none;"'}>Delete</button>
 	  </p>
 	  <p>${comment.body}</p>
   </div>`;
@@ -156,6 +158,7 @@ window.write_comment = async function()
     comment.sid = await db.get('var', 'sid');
     if (captcha_en && (!comment.captcha_id || !comment.captcha_code)) {
         alert('This operation requires a captcha.');
+        document.getElementById("comment.captcha").focus();
         return;
     }
 
@@ -194,6 +197,7 @@ window.set_notify = async function(id_, val)
     }
     if (captcha_en && (!todo.captcha_id || !todo.captcha_code)) {
         alert('This operation requires a captcha.');
+        document.getElementById("comment.captcha").focus();
         return;
     }
 
@@ -204,6 +208,48 @@ window.set_notify = async function(id_, val)
     let ret = await fetch_timo('/api/comment', {method: 'POST', body: JSON.stringify(todo)});
     if (ret == null) {
         alert('set_notify: error');
+        return;
+    }
+    if (ret.success)
+        alert(ret.success);
+    else if (ret.error)
+        alert(ret.error);
+    else
+        alert('Unknown error!');
+    if (ret.refresh)
+        location.reload();
+    else
+        load_captcha();
+}
+
+window.delete_comment = async function(id_)
+{
+    console.log(`delete_comment ${id_}`);
+    let todo = {};
+    todo.cmd = 'delete';
+    todo.cid = id_;
+    todo.url = window.location.pathname.slice(1);
+    todo.email = document.getElementById('comment.email').value.toLowerCase();
+    todo.captcha_id = captcha_id;
+    todo.captcha_code = document.getElementById('comment.captcha').value;
+    todo.sid = await db.get('var', 'sid');
+    if (!todo.email) {
+        alert('Please input your email!');
+        return;
+    }
+    if (captcha_en && (!todo.captcha_id || !todo.captcha_code)) {
+        alert('This operation requires a captcha.');
+        document.getElementById("comment.captcha").focus();
+        return;
+    }
+
+    bkup.email = todo.email;
+    await db.set('var', 'bkup', bkup);
+
+    console.log(todo);
+    let ret = await fetch_timo('/api/comment', {method: 'POST', body: JSON.stringify(todo)});
+    if (ret == null) {
+        alert('delete_comment: error');
         return;
     }
     if (ret.success)
@@ -235,6 +281,7 @@ window.login = async function()
     }
     if (captcha_en && (!todo.captcha_id || !todo.captcha_code)) {
         alert('This operation requires a captcha.');
+        document.getElementById("comment.captcha").focus();
         return;
     }
 

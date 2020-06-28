@@ -76,3 +76,8 @@ elif cmd == 'login':
     email_to(None, email, "Please verify your login", html)
     print('{"success": "Successed, pending for email verification."}')
 
+
+else:
+    print('Content-Type: application/json; charset=utf-8\n')
+    print('{"error": "Unsupported cmd"}')
+

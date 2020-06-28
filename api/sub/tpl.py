@@ -48,7 +48,7 @@ comment_notify_admin_tpl = lambda d : f"""\
 """
 
 
-# 'name', 'ms_s', 'code', 'admin'
+# 'sid', 'url', 'cid'
 comment_verify_ok_tpl = lambda d : f"""\
 <html>
 <body>
@@ -73,11 +73,11 @@ comment_verify_ok_tpl = lambda d : f"""\
 </html>
 """
 
-# 'name', 'ms_s', 'code', 'admin'
+# 'sid', 'url', 'pid'
 login_verify_tpl = lambda d : f"""\
 <html><body>
 
-<p>Hi {d['name']}, please click on the following link to complete login.</p>
+<p>Hi, please click on the following link to complete login.</p>
 
 <p><a href="{gconf['url']}/api/session?cmd=confirm&pid={d['pid']}">{gconf['url']}/api/session?cmd=confirm&pid={d['pid']}</a></p>
 
@@ -88,7 +88,7 @@ login_verify_tpl = lambda d : f"""\
 </body></html>
 """
 
-# 'name', 'ms_s', 'code', 'admin'
+# 'sid', 'email', 'url'
 login_verify_ok_tpl = lambda d : f"""\
 <html>
 <body>
