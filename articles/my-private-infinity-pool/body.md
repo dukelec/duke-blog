@@ -18,7 +18,7 @@ But there would need to be a villa to fit in first, but my idea is to convert a 
 <video src="sub/motor.mp4" style="max-width:100%" controls></video>
 
 
-Then the AI algorithm analyzes the data captured by the camera to analyze the current user's joint posture (the effect of the algorithm test):
+Then the AI algorithm analyzes the data captured by the camera to analyze the current user's joint posture (algorithm test results):
 
 <img src="sub/deep_learning.jpg" style="max-width:100%">
 
@@ -59,7 +59,7 @@ To sum up, here are the benefits of my little steel frame infinity pool.
 Disadvantages:
  - Deep enough for breaststroke, barely enough for freestyle, next time I will buy a deeper one.
 
-Size of pool I bought:
+Size of pool I bought (I am 1.83m (6.0ft) tall and I live on the 4th floor):
 
 <img src="sub/size.jpg" style="max-width:100%">
 
