@@ -7,20 +7,20 @@ I was planning to buy a steel frame pool a few years ago, but it was too big to 
 
 I've seen this type of pool lately and it's not bad:
 
-<img src="sub/target.jpg">
+<img src="sub/target.jpg" style="max-width:100%">
 
-<video src="sub/target.mp4" controls></video>
+<video src="sub/target.mp4" style="max-width:100%" controls></video>
 
 But there would need to be a villa to fit in first, but my idea is to convert a very small steel frame pool into an infinity pool, the solution is to use an underwater motor in front of the pool and spray water backwards:
 
-<img src="sub/motor.jpg">
+<img src="sub/motor.jpg" style="max-width:100%">
 
-<video src="sub/motor.mp4" controls></video>
+<video src="sub/motor.mp4" style="max-width:100%" controls></video>
 
 
 Then the AI algorithm analyzes the data captured by the camera to analyze the current user's joint posture (the effect of the algorithm test):
 
-<img src="sub/deep_learning.jpg">
+<img src="sub/deep_learning.jpg" style="max-width:100%">
 
 
 The final dynamic adjustment of the water spray intensity, so that people always remain in the middle of the pool.
@@ -33,17 +33,17 @@ In order to ensure tension and positioning, the cord is divided into two section
 
 The end result is as follows:
 
-<video src="sub/final_sm.mp4" poster="sub/final_poster.jpg" controls></video>
+<video src="sub/final_sm.mp4" poster="sub/final_poster.jpg" style="max-width:100%" controls></video>
 
-<img src="sub/final.jpg">
+<img src="sub/final.jpg" style="max-width:100%">
 
 There is a tendency for water to accumulate on the ground floor near the exit of the pool, so I also studied professional pools and used a strong fan to dry it:
 
-<img src="sub/fan.jpg">
+<img src="sub/fan.jpg" style="max-width:100%">
 
 For the pool, all the furniture from the living room was stuffed into the junk room.
 
-<img src="sub/sundries.jpg">
+<img src="sub/sundries.jpg" style="max-width:100%">
 
 To sum up, here are the benefits of my little steel frame infinity pool.
  - Clean.
@@ -61,6 +61,6 @@ Disadvantages:
 
 Size of pool I bought:
 
-<img src="sub/size.jpg">
+<img src="sub/size.jpg" style="max-width:100%">
 
 Finally, I'm going to give a name to this swimming method I invented: CD-SWIM.
