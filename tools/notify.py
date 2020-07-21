@@ -30,11 +30,17 @@ notify_tpl = lambda d : f"""\
 """
 
 url = sys.argv[1] if len(sys.argv) >= 2 else None
+test = (sys.argv[2] == '-t') if len(sys.argv) >= 3 else False
 article_dir = f'../articles/{url}'
-comments_dir = f'../articles/{url}/_comments'
+comments_dir = f'../articles/subscribe/_comments'
 
-if not url or not os.path.exists(comments_dir):
-    print(f'Usage: {sys.argv[0]} title_url')
+if not url:
+    print(f'Usage: {sys.argv[0]} new_url [-t]')
+    print(f' -t: test only')
+    exit(-1)
+
+if not os.path.exists(comments_dir):
+    print(f'No subscribe')
     exit(-1)
 
 with open(article_dir + '/_metadata', 'r') as file:
@@ -48,9 +54,14 @@ for id_ in os.listdir(comments_dir):
     with open(comment_dir + '/_metadata', 'r') as file:
         comment = json.loads(file.read())
     email = decrypt(comment['m_cipher'])
-    if email not in emails:
+    if email and email not in emails:
         emails.append(email)
-        print(f'{id_}: {email}')
+        print(f'{id_}: {email}, test: {test}')
         html = notify_tpl({'name': comment['name'], 'url': url, 'title': a_metadata['title']})
-        email_to(comment['name'], email, 'New Article Notice', html)
+        if test:
+            print('------------------------')
+            print(html)
+            print('------------------------\n')
+        else:
+            email_to(comment['name'], email, 'New Article Notice', html)
 
