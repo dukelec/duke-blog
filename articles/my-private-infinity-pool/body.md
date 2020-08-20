@@ -53,11 +53,12 @@ To sum up, here are the benefits of my little steel frame infinity pool.
  - Can switch between indoor and outdoor, depending on whether the door is open or not.
  - You can turn on the air conditioner when it's hot, or turn on the electricity when it's cold.
  - You can listen to audio, which is more convenient than underwater headphones.
- - LED ambient lighting can be added.
+ - Regular swimming is good for the skin, it softens the cuticles and reduces blackheads, acne and pimples.
  - You can swim naked.
 
 Disadvantages:
- - Deep enough for breaststroke, barely enough for freestyle, next time I will buy a deeper one.
+ - <del>Deep enough for breaststroke, barely enough for freestyle, next time I will buy a deeper one.</del>  
+   <ins>I don't know how to swim freestyle before, but now I find that the water is deep enough for freestyle. I am now focusing on freestyle for better training.</ins>
 
 Size of pool I bought (I am 1.83m (6.0ft) tall and I live on the 4th floor):
 
