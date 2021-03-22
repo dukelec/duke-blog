@@ -1,0 +1,1 @@
+Maybe you need to flash the firmware like this: https://github.com/dukelec/mb/issues/18

@@ -1,0 +1,1 @@
+Only the oldest machine needs the capacitor replacement: https://github.com/dukelec/mb/releases/tag/4.26_4.11

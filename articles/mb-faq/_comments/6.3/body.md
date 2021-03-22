@@ -1,0 +1,1 @@
+Yes, the white lights flash when turned on. After holding down print the lights turn green and static.

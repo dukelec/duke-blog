@@ -1,0 +1,1 @@
+Because there are other products under development, and there is nothing to change for the time being, the development may continue at any time in the future. In addition, a third party is currently developing native mobile apps for MBrush.

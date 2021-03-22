@@ -1,0 +1,1 @@
+The printer settings can be manually selected to print from left to right, or from right to left. It may be a matter of direction selection, try moving in reverse to see if the green light turns white.

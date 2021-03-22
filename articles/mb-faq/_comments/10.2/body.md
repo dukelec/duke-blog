@@ -1,0 +1,1 @@
+Great, left to right works. Somehow not the other way. Thanks so much for your help!

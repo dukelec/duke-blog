@@ -1,0 +1,1 @@
+Hi, my mbrush does not seem to be producing a WiFi signal and does not connect to the laptop either. Do you have any suggestions about what to do? I've tried charging it again and on different devices but it doesn't work.

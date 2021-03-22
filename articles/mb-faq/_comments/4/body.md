@@ -1,0 +1,1 @@
+I figured out how to change printing speed through the API! I'm still interested in how the firmware programing works for this device. Is it done through a Linux Kernel Module? I don't know Linux/Unix at all so any guides would be appreciated. Thanks! Oliver 

@@ -1,0 +1,1 @@
+Yes, the most important part controls printing: CPU running linux, and use FPGA as a bridge to communicate with the ink cartridge. In order to prompt the real-time performance as much as possible in the linux part, many things use driver code to work in the kernel space.
