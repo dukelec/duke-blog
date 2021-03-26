@@ -8,3 +8,8 @@
 <img src="1.jpg" width="400px" style="max-width:100%"> <img src="2.jpg" width="400px" style="max-width:100%">
 
 <img src="3.jpg" style="max-width:100%">
+
+添新成員 VX-6 手台（全身照是網上找的圖）：
+
+<img src="vx-6.jpg" style="max-width:100%">
+<img src="vx-6-f.jpg" style="max-width:100%">
