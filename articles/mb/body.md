@@ -16,6 +16,13 @@ New firmware release: https://github.com/dukelec/mb/releases
 
 FAQ (important): <a href="../mb-faq">../mb-faq</a>
 
+
+Multi-line printing demo:
+https://youtu.be/r6bBqGQhlzU
+
+<img src="multi-line.jpg" style="max-width:100%">
+
+
 ### Updates
 <p>
   PrinCube automation assembly tool (built on CDBUS).
