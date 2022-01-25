@@ -2,6 +2,14 @@ DIY a small SMT machine for scattered components, aimed for engineers, to solve 
 Here is a video of the initial run, the video shows the 0402 material (my target is 0201).
 It will be continuously optimised in the future.
 
+Open source:  
+https://github.com/dukelec/cd_pnp
+
+Last video:  
+https://youtu.be/zz6A2N83bC0  
+(or: https://www.bilibili.com/video/BV1wL4y1H7ot)
+
+
 The core architecture is:
 One small servo board per motor, one camera, actuator, etc.,
 using only one CDBUS (RS485) bus, the current baudrate is 10Mbps, currently only using less than 30% of the bandwidth,
@@ -28,3 +36,9 @@ This machine can also be used for PCB cutting:
     </video>
   </div>
 </p>
+
+
+Multi-line printing demo: https://youtu.be/r6bBqGQhlzU
+
+<img src="mb-multi-line.jpg" style="max-width:100%">
+

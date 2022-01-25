@@ -1,8 +1,9 @@
 {
     "title": "DIY SMT machine - CD-PnP",
     "date": "2021-06-10T12:54+08:00",
+    "last": "2021-12-06T12:00+08:00",
     "languages": ["en"],
     "categories": ["Project"],
     "tags": ["DIY"],
-    "summary": "Small and Smart SMT machine for engineer"
+    "summary": "small and smart open source SMT machine for engineer"
 }
