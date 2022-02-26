@@ -70,7 +70,7 @@ elif cmd == 'login':
         print('{"success": "Already logged in.", "refresh": true}')
         exit()
 
-    pid = f'{str(time.monotonic_ns())[:-6]}{random_string()}'
+    pid = f'{str(time.time_ns())[:-9]}{random_string()}'
     pend.add({'cmd': 'login', 'url': url, 'email': email}, pid)
     html = login_verify_tpl({'pid': pid, 'admin': gconf['admin']})
     email_to(None, email, "Please verify your login", html)

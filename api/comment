@@ -91,7 +91,7 @@ if cmd == 'new':
         file.write(json.dumps(comment, indent=2, ensure_ascii=False, sort_keys=False))
 
     if 'email' in gconf['comment']['review'] and not sid:
-        pid = f'{str(time.monotonic_ns())[:-6]}{random_string()}'
+        pid = f'{str(time.time_ns())[:-9]}{random_string()}'
         pend.add({'cmd': 'comment', 'url': url, 'cid': comment_id, 'email': email}, pid)
         html = comment_verify_tpl({'name': comment['name'], 'pid': pid, 'admin': gconf['admin']})
         email_to(comment['name'], email, "Please verify your comment", html)
