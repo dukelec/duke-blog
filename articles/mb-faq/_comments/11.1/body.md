@@ -1,0 +1,2 @@
+The color and black versions of the cartridges have completely different hardware interfaces.  
+If you want to print very pure black, you can currently do so by refilling the color cartridge with black ink.

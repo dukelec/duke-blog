@@ -1,0 +1,1 @@
+Hi i have a problem with colors, when i print the sample of pacman, the yellow of the pacman become pink in color no matter how many times i print it.

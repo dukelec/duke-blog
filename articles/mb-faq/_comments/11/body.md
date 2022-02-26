@@ -1,0 +1,1 @@
+I replaced the cartridge with a HP 62 black and nothing prints. Does it supports for black only? If not, can it be added via code?

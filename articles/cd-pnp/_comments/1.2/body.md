@@ -1,0 +1,1 @@
+I've just uploaded the KiCad library for this module to Github, not sure if it will help you, it's probably too late.

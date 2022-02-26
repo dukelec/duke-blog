@@ -1,0 +1,1 @@
+There is a CYM and CMY option in the app settings, try each one separately. After changing the settings, use the app to transfer the new image to the printer.

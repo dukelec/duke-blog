@@ -1,0 +1,1 @@
+I have replied to your email, the AliExpress shop is a third party and I do not occupy it. The module production files and the kicad original files are available, but at the moment there is a charge, the current price is 309 USD and it is for your own use only.
