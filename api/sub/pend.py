@@ -7,15 +7,13 @@ import sys, os, json, time, filelock
 from conf.gconf import gconf
 from .helper import random_string
 
-# code: random string
-# pid: ms_s + code (random string)
+# pid: sec_s (time when add) + code (random string)
 #
-# .pend:
+# file tmp/.pend:
 # {
-#    pid: {'cmd': cmd, 'url': url, 'id': comment_id}
+#    pid: {'cmd': cmd, 'url': url, 'id': comment_id},
 #    ...
 # }
-#
 
 
 def get(pid):
@@ -23,7 +21,7 @@ def get(pid):
         return False
 
     ret = None
-    ms_s = str(time.monotonic_ns())[:-6]
+    sec_s = str(time.time_ns())[:-9]
     lock = filelock.FileLock('tmp/.pend_lock', timeout=5)
     try:
         with lock:
@@ -31,7 +29,7 @@ def get(pid):
                 return False
             with open('tmp/.pend', 'r') as file:
                 pl_ori = json.loads(file.read())
-            since = max(int(ms_s) - gconf['comment']['timeout']*1000, 0)
+            since = max(int(sec_s) - gconf['comment']['timeout'], 0)
             pl = dict(filter(lambda elem: int(elem[0][:-6]) >= since, pl_ori.items()))
             if pid in pl:
                 ret = pl[pid]
@@ -46,7 +44,7 @@ def get(pid):
 
 
 def add(todo, pid):
-    ms_s = str(time.monotonic_ns())[:-6]
+    sec_s = str(time.time_ns())[:-9]
     lock = filelock.FileLock('tmp/.pend_lock', timeout=5)
     try:
         with lock:
@@ -55,7 +53,7 @@ def add(todo, pid):
             else:
                 with open('tmp/.pend', 'r') as file:
                     pl = json.loads(file.read())
-            since = max(int(ms_s) - gconf['comment']['timeout']*1000, 0)
+            since = max(int(sec_s) - gconf['comment']['timeout'], 0)
             pl = dict(filter(lambda elem: int(elem[0][:-6]) >= since, pl.items()))
             pl[pid] = todo
             with open('tmp/.pend', 'w') as file:
