@@ -1,0 +1,8 @@
+{
+    "title": "Auto-renew Let's Encrypt SSL certs",
+    "date": "2022-03-16T01:20+08:00",
+    "languages": ["en"],
+    "categories": ["Web"],
+    "tags": ["SSL"],
+    "summary": "A longer and more accurate auto-renew time can be specified and displayed with a progress bar."
+}
