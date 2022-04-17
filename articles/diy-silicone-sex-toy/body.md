@@ -114,7 +114,13 @@ The last ball is a little difficult to take out, the top is pulled while the bot
 
 <img src="pic2/14.jpg" style="max-width:100%">
 
+The same method is also suitable for making other silicone things in daily life.
+
 Blender file: [finished.tar.bz2](finished.tar.bz2)
+
+Finally, by the way, I would like to show the sex robot made with a desktop robot arm years ago:
+
+<img src="robot_arm.jpg" style="max-width:100%">
 
 <br>
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
