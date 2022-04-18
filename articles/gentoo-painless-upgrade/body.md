@@ -24,3 +24,10 @@ The script tool: [gentoo-fxck.sh](gentoo-fxck.sh), only one parameter: the path 
 Sometimes upgrading the world only reports errors and does not print the upgrade list.  
 You can try upgrading some software first. Any time that emerge has some errors and there is a printed upgrade list, you can use the script to upgrade.
 
+
+Updates:
+
+I found that Gentoo upgrade problems can be solved by emerge with the --nodeps parameter, which can install programs that have dependency problems and are not allowed to be installed. In turn, we can break the dependency loop and solve various problems including world upgrades.
+
+Also, the above script has been modified to use the --nodeps parameter instead of ebuild compile, install, etc.
+

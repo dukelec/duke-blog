@@ -10,18 +10,19 @@ do
     line="${line#*] }"
     pname="${line%% *}"
     pname="${pname%%:*}"
-    pfile="${pname##*/}.ebuild"
-    pname=$(echo "$pname" | sed 's/\(-[0-9]\).*//g')
+    ##pfile="${pname##*/}.ebuild"
+    ##pname=$(echo "$pname" | sed 's/\(-[0-9]\).*//g')
     echo ""
     echo ""
     echo "$pname | $pfile"
     echo ""
     #continue
-    cd /usr/portage/$pname
-    ebuild $pfile compile
-    ebuild $pfile install
-    ebuild $pfile qmerge
-    rm -rf /var/tmp/portage/*
+    emerge -v --nodeps --oneshot =$pname
+    ##cd /usr/portage/$pname
+    ##ebuild $pfile compile
+    ##ebuild $pfile install
+    ##ebuild $pfile qmerge
+    ##rm -rf /var/tmp/portage/*
     echo ""
     sleep 1
 done < "$input"
