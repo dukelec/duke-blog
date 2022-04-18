@@ -6,29 +6,65 @@ Then add Spheres and Cylinders, and press N to display the Transform panel to pr
 
 Moving the position is more easily done by using the G shortcut, then entering X Y or Z letters, and then using the keyboard to enter numbers for precise movement.  
 (When entering X Y Z letters, you can use the Shift key, for example, Shift + Z to select the XY plane.)  
-(Similar to the G shortcut, R is to rotate and S is to change the size.)
+(Similar to the G shortcut, S is to change the size and R or double R is to rotate.)
 
 <img src="pic1/1.jpg" style="max-width:100%">
 
-After the desired shape is assembled, the connected objects are combined into a whole by the boolean operation:
+The desired shape has been assembled below and you can switch to the Wireframe view at any time to see the hidden details with the Z shortcut.  
+(In the edit mode mentioned later, you can also switch to Wireframe view in order to select targets that are not visible from the current point of view.)
+
+<img src="pic1/_1.jpg" style="max-width:100%">
+
+<img src="pic1/_2.jpg" style="max-width:100%">
+
+Next we add a bevel to the base. First select the base, then switch to edit mode by the Tab key.  
+Hold down Ctrl + Alt and left-click to select the circle in the figure:
+
+<img src="pic1/_3.jpg" style="max-width:100%">
+
+Then use the Inset shortcut I to create a new small circle:
+
+<img src="pic1/_4.jpg" style="max-width:100%">
+
+Finally, you can move the original circle downward, using the G shortcut and then the letter Z to limit the direction of movement:
+
+<img src="pic1/_5.jpg" style="max-width:100%">
+
+There are many editing methods, the above is just one of them.  
+In fact, the easiest way is to select the circle and create a bevel directly via Ctrl + B.
+
+Another common method is: adding edges via the "Loop cut" shortcut: Ctrl + R.  
+By default one edge will be added, you can enter a number or scroll the mouse wheel to modify the number of additions.
+Moving the mouse allows you to select the direction of the added edges (horizontal or vertical).  
+("Loop cut" will normally cut as far across as it can. If you want to avoid cutting some poly, hide it first by press H, make the cuts, then unhide everything by press Alt + H.)
+
+<img src="pic1/_6.jpg" style="max-width:100%">
+
+
+
+
+Next, to facilitate subsequent operations, we need to combine the connected objects into a whole by Boolean operations:
 
 <img src="pic1/2.jpg" style="max-width:100%">
 
 <img src="pic1/3.jpg" style="max-width:100%">
 
-After apply, you need to delete the duplicate objects.
+After apply, we need to delete the duplicate objects.
 Repeating the above operation, the final result is:
 
 <img src="pic1/4.jpg" style="max-width:100%">
 
-Next, create a Cylinders and get the inverted model by the difference operation of boolean.
+Next, create a Cylinders and get the inverted mold by the difference operation of boolean.
 
 <img src="pic1/5.jpg" style="max-width:100%">
 
 <img src="pic1/6.jpg" style="max-width:100%">
 
 In order to facilitate the demoulding, we have to cut the inverted mold, which can be cut in half in radial direction.
-To make the edges smoother, I choose to cut them into 3 parts in the axial direction.
+To make the edges smoother, I choose to cut them into 3 parts in the axial direction.  
+
+Create three new solid Cylinders of the same size as in the previous step, but with different heights and positions, and then move to each of the three identical inverted molds.  
+(The same inverted molds are copied by Ctrl + C and Ctrl + V, and then shifted precisely by G with numbers.)
 
 <img src="pic1/7.jpg" style="max-width:100%">
 
@@ -37,12 +73,11 @@ To make the edges smoother, I choose to cut them into 3 parts in the axial direc
 <img src="pic1/9.jpg" style="max-width:100%">
 
 This time, the boolean difference operation is not the result we want, so we need to fix it manually.  
-Select the target, press the Tab key to enter edit mode, select and delete the faces in the picture:  
-(For shapes that are covered and not easy to select, the Z shortcut is often used to select the Wireframe view and then make the selection.)
+Select the target, press the Tab key to enter edit mode, select and delete the faces in the picture:
 
 <img src="pic1/10.jpg" style="max-width:100%">
 
-Then switch to the line selection tool, hold down Shift + Alt, and mouse left click on the target line to automatically select a full circle.
+Then switch to the edge selection tool, hold down Shift + Alt, and mouse left click on the target edge to automatically select a full circle.
 If you can only select a part of the circle, you have to use the "Merge by Distance" to fix it first.
 
 <img src="pic1/11.jpg" style="max-width:100%">
