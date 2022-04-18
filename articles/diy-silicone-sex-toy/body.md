@@ -4,7 +4,9 @@ After opening Blender, first press shortcut A to select all items, including the
 Then add Spheres and Cylinders, and press N to display the Transform panel to precisely set the coordinates and size of the selected object.
 (The unit is not important and can be specified when the final export is made.)
 
-Moving the position is more likely to be done by using the G shortcut, then entering X Y or Z letters, and then using the keyboard to enter numbers for precise movement.
+Moving the position is more easily done by using the G shortcut, then entering X Y or Z letters, and then using the keyboard to enter numbers for precise movement.  
+(When entering X Y Z letters, you can use the Shift key, for example, Shift + Z to select the XY plane.)  
+(Similar to the G shortcut, R is to rotate and S is to change the size.)
 
 <img src="pic1/1.jpg" style="max-width:100%">
 
@@ -34,8 +36,9 @@ To make the edges smoother, I choose to cut them into 3 parts in the axial direc
 
 <img src="pic1/9.jpg" style="max-width:100%">
 
-This time, the boolean difference operation is not the result we want, so we need to fix it manually.
-Select the target, press the Tab key to enter edit mode, select and delete the faces in the picture:
+This time, the boolean difference operation is not the result we want, so we need to fix it manually.  
+Select the target, press the Tab key to enter edit mode, select and delete the faces in the picture:  
+(For shapes that are covered and not easy to select, the Z shortcut is often used to select the Wireframe view and then make the selection.)
 
 <img src="pic1/10.jpg" style="max-width:100%">
 
@@ -89,7 +92,7 @@ After 10 hours, the remaining silicone material was formed.
 <img src="pic2/5.jpg" style="max-width:100%">
 
 The curing time of silicone material is 12~24 hours.
-The position of the small hole in the inverted mold does not seem to be dry, so in order to achieve better results,
+The area around the small hole in the pouring mold does not seem to be dry, so in order to achieve better results,
 wait 30 hours before starting the demolding operation.
 
 Silicone rubber removed from steel tubes:
@@ -117,6 +120,10 @@ The last ball is a little difficult to take out, the top is pulled while the bot
 The same method is also suitable for making other silicone things in daily life.
 
 Blender file: [finished.tar.bz2](finished.tar.bz2)
+
+To learn more about Blender you can watch Blender Guru's video tutorials,
+and I recommend downloading the "Blender Keyboard Shortcut Guide v2" pdf document summarized by Blender Guru.
+
 
 Finally, by the way, I would like to show the sex robot made with a desktop robot arm years ago:
 
