@@ -19,15 +19,50 @@ Additionally, try using the emerge upgrade world command again. Even if there ar
 
 <img src="copy-list.png" style="max-width:100%">
 
-The script tool: [gentoo-fxck.sh](gentoo-fxck.sh), only one parameter: the path to the text list file.
+The script has only one parameter: the path to the text list file.  
+The script content:
+```
+#!/bin/bash
+set -o pipefail
+set -o errexit
+
+input="$1"
+while IFS= read -r line
+do
+    [ "$line" == "" ] && break
+    [[ "$line" =~ ^'[ebuild' ]] || { echo -e "\n Skip: $line\n\n"; continue; }
+    line="${line#*] }"
+    pname="${line%% *}"
+    pname="${pname%%:*}"
+    ##pfile="${pname##*/}.ebuild"
+    ##pname=$(echo "$pname" | sed 's/\(-[0-9]\).*//g')
+    echo ""
+    echo ""
+    echo "$pname | $pfile"
+    echo ""
+    #continue
+    emerge -v --nodeps --oneshot =$pname
+    ##cd /usr/portage/$pname
+    ##ebuild $pfile compile
+    ##ebuild $pfile install
+    ##ebuild $pfile qmerge
+    ##rm -rf /var/tmp/portage/*
+    echo ""
+    sleep 1
+done < "$input"
+```
 
 Sometimes upgrading the world only reports errors and does not print the upgrade list.  
 You can try upgrading some software first. Any time that emerge has some errors and there is a printed upgrade list, you can use the script to upgrade.
 
 
-Updates:
+### Updates:
 
-I found that Gentoo upgrade problems can be solved by emerge with the --nodeps parameter, which can install programs that have dependency problems and are not allowed to be installed. In turn, we can break the dependency loop and solve various problems including world upgrades.
+I found that Gentoo upgrade problems can be solved by emerge with the `--nodeps` parameter, which can install programs that have dependency problems and are not allowed to be installed. In turn, we can break the dependency loop and solve various problems including world upgrades.
 
-Also, the above script has been modified to use the --nodeps parameter instead of ebuild compile, install, etc.
+Sometimes I also like to use `emerge -C` to delete unimportant programs in order to solve problems.
+
+Also, the above script has been modified to use the `--nodeps` parameter instead of ebuild compile, install, etc.
+
+
 

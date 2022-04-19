@@ -51,8 +51,7 @@ To sum up, here are the benefits of my little steel frame infinity pool.
  - Small footprint, low water consumption, easy to change water.
  - The sun shines on the inside of the pool at noon.
  - Can switch between indoor and outdoor, depending on whether the door is open or not.
- - You can turn on the air conditioner when it's hot, or turn on the electricity when it's cold.
- - You can listen to audio, which is more convenient than underwater headphones.
+ - The pool is small and the heating is more energy efficient when it is cold.
  - Regular swimming is good for the skin, it softens the cuticles and reduces blackheads, acne and pimples.
  - You can swim naked.
 
