@@ -62,3 +62,6 @@
 <img src="sub/size.jpg" style="max-width:100%">
 
 最後我要給我發明的這種游泳方法取一個名字：CD-SWIM.
+
+泳池更多維護技巧請看：<a href="../my-pool-maintenance-tips-zh">../my-pool-maintenance-tips-zh</a>
+

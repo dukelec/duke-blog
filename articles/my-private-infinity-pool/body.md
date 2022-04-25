@@ -64,3 +64,6 @@ Size of pool I bought (I am 1.83m (6.0ft) tall and I live on the 4th floor):
 <img src="sub/size.jpg" style="max-width:100%">
 
 Finally, I'm going to give a name to this swimming method I invented: CD-SWIM.
+
+For more pool maintenance tips, please have a look at: <a href="../my-pool-maintenance-tips">../my-pool-maintenance-tips</a>
+
