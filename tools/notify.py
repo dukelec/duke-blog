@@ -11,7 +11,7 @@ from api.sub.helper import *
 
 os.chdir(os.path.dirname(__file__))
 
-# 'comment_id', 'url', 'title'
+# 'name', 'url', 'title'
 notify_tpl = lambda d : f"""\
 <html><body>
 
