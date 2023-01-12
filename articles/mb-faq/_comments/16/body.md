@@ -1,0 +1,1 @@
+ I need to use MBrush to print high-resolution pictures resfrequently. Besides, I always use a script to automatically upload pictures. Yesterday I suddenly couldn't connect to the printer via Chrome. I decided to use Edge instead after that.  I guess probably this was caused by too many caches. If so, how to remove them? 

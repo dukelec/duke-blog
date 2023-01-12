@@ -1,0 +1,1 @@
+I just bought a new one. I've run through all your print head moistening methods and still cant get the printer to print.... nothing at all. Any clue, please?
