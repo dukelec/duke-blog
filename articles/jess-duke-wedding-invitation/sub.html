@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#BC8887">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jess & Duke 的婚禮請柬</title>
+
+<meta property="og:title" content="Jess & Duke 的婚禮請柬">
+<meta property="og:description" content="Jess & Duke 的婚禮請柬 - 2023 年 2 月 9 日，东莞樟木头三正半山酒店">
+<meta property="og:image" content="https://blog.d-l.io/jess-duke-wedding-invite/img/thumbnail.jpg">
+<meta property="og:url" content="https://blog.d-l.io/jess-duke-wedding-invite">
+
+<link rel="stylesheet" href="css/bulma-0.9.4.css">
+<link rel="stylesheet" type="text/css" href="css/index.css">
+<link rel="icon" type="image/png" href="img/favicon.png">
+
+<script>
+function gui_update() {
+    let height = document.getElementsByClassName('hero')[0].clientHeight - document.getElementsByClassName('hero-foot')[0].clientHeight;
+    document.getElementById('bg-div').style.height = `${height}px`;
+};
+  
+window.onresize = gui_update;
+
+window.addEventListener('DOMContentLoaded', () => {
+    gui_update();
+    
+    setInterval(() => {
+        let date_cur = new Date();
+        let date_tgt = new Date("02/09/2023 19:00");
+        let delta_sec = Math.round((date_tgt.getTime() - date_cur.getTime()) / 1000);
+        let days = Math.floor(delta_sec / (60 * 60 * 24));
+        let hours = Math.floor((delta_sec % (60 * 60 * 24)) / (60 * 60));
+        let minutes = Math.floor((delta_sec % (60 * 60)) / 60);
+        let seconds = Math.floor(delta_sec % 60);
+        document.getElementById('count_days').innerText = delta_sec >= 0 ? `${days}`.padStart(2, '0') : '00';
+        document.getElementById('count_hours').innerText = delta_sec >= 0 ? `${hours}`.padStart(2, '0') : '00';
+        document.getElementById('count_minutes').innerText = delta_sec >= 0 ? `${minutes}`.padStart(2, '0') : '00';
+        document.getElementById('count_seconds').innerText = delta_sec >= 0 ? `${seconds}`.padStart(2, '0') : '00';
+    }, 1000);
+    
+    document.getElementsByClassName('modal')[0].onclick = () => {
+        document.getElementsByClassName('modal')[0].classList.remove("is-active");
+    };
+    
+    let burger = document.querySelector('.burger');
+    let menu = document.querySelector('#' + burger.dataset.target);
+    burger.onclick = () => {
+        burger.classList.toggle('is-active');
+        menu.classList.toggle('is-active');
+    };
+
+    let img = new Image;
+    img.onload = img.onerror = () => {
+        document.body.classList.add(img.height > 0 ? 'avif' : 'no-avif');
+        
+        let wedding_photos = document.getElementsByClassName('wedding-photo');
+        for (let i = 0; i < wedding_photos.length; i++) {
+            let wedding_photo = wedding_photos[i];
+            let id = wedding_photo.dataset.id;
+            let type = wedding_photo.dataset.type;
+            if (img.height > 0)
+                wedding_photo.innerHTML = `<figure class="image ${type} foto-item" style="background-image: url('photo_sm/${id}.avif')"></figure>`;
+            else
+                wedding_photo.innerHTML = `<figure class="image ${type} foto-item" style="background-image: url('photo_sm_jpg/${id}.jpg')"></figure>`;
+            wedding_photo.onclick = () => { modal_open(`${id}`); };
+        }
+    };
+    img.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaW' +
+              'xvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAx' +
+              'hdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A=';
+    
+    let music_ctrl = document.getElementById('bg_music_ctrl');
+    music_ctrl.onclick = () => {
+        if (music_ctrl.classList.contains("playing")) {
+            document.getElementById('bg_music').pause();
+            music_ctrl.classList.remove('playing');
+        } else {
+            document.getElementById('bg_music').play();
+            music_ctrl.classList.add('playing');
+        }
+    };
+    if (Math.random() > 0.5)
+        document.getElementById('bg_music').src = "music/bg2.mp3";
+});
+
+function modal_open(name) {
+    document.getElementsByClassName('modal')[0].classList.add("is-active");
+    if (document.body.classList.contains('avif'))
+        document.getElementById('modal-img').src = `photo/${name}.avif`;
+    else
+        document.getElementById('modal-img').src = `photo_jpg/${name}.jpg`;
+}
+</script>
+</head>
+
+<body>
+<div class="bg-color"></div>
+<div id="bg-div" class="bg-div"></div>
+
+<div class="header-wrapper" id="home">
+  <section class="hero is-large">
+    
+    <nav class="navbar is-transparent is-hidden-desktop">
+      <div class="navbar-brand is-fixed-top">
+        <div class="navbar-burger burger" data-target="mobile-nav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div id="mobile-nav" class="navbar-menu">
+        <div class="navbar-end">
+          <div class="navbar-item"><a class="navbar-item" href="#intro">新人</a></div>
+          <div class="navbar-item"><a class="navbar-item" href="#location">地點</a></div>
+          <div class="navbar-item"><a class="navbar-item" href="#gallery">相冊</a></div>
+          <div class="navbar-item"><a class="navbar-item" href="#rsvp">敬請回覆</a></div>
+        </div>
+      </div>
+    </nav>
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="subtitle">婚禮請柬</h1>
+        <h2 class="title" style="white-space: nowrap;">Jess & Duke</h2>
+        <h4 class="subtitle tempatwaktu">
+            2023 年 2 月 9 日，星期四 &nbsp;|&nbsp; 農曆正月十九
+            <br>
+                 下午六点开始（正式开始时间为七点准）
+            <br>
+                 东莞樟木头三正半山酒店
+        </h4>
+      </div>
+      <div>
+        <ul id="countdown" >
+          <li><span id="count_days">--</span><p class="days_text">天</p></li>
+          <li class="separator">:</li>
+          <li><span id="count_hours">--</span><p class="hours_text">小時</p></li>
+          <li class="separator">:</li>
+          <li><span id="count_minutes">--</span><p class="minutes_text">分鐘</p></li>
+          <li class="separator">:</li>
+          <li><span id="count_seconds">--</span><p class="seconds_text">秒</p></li>
+        </ul>
+        <div class="spasi"></div>
+      </div>
+    </div>
+    <div class="hero-foot">
+      <div class="hero-foot--wrapper">
+        <div class="columns">
+          <div class="column is-12 hero-menu-desktop has-text-centered">
+            <ul>
+              <li><a href="#home">首頁</a></li>
+              <li><a href="#intro">新人</a></li>
+              <li><a href="#location">地點</a></li>
+              <li><a href="#gallery">相冊</a></li>
+              <li><a href="#rsvp">敬請回覆</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="main-content" style="background-color: white;">
+ <section class="section-light no-padding-top regular-section has-text-centered has-vertically-aligned-content">
+    
+    <span class="space24px"></span>
+    <div data-aos="fade-up" data-aos-easing="linear">WELCOME TO OUR WEDDING</div>
+    <br>
+    <p class="bodytext" data-aos="fade-up" data-aos-easing="linear">
+      Hi，这是一封<br>
+        心意满满的婚礼邀请函<br>
+        当你看到这里时<br>
+        我们的婚礼已经进入倒计时啦<br>
+      <br>
+        给亲爱的朋友们<br>
+        收到这份邀请函的你们<br>
+        都是我们人生中最重要的部分<br>
+        人的一生有三万多天<br>
+        很开心这一天<br>
+        您专程为我们而来
+    </p>
+    
+    <div data-aos="fade-up" data-aos-easing="linear">
+        <picture>
+          <source srcset="img/divider-leaves.avif" type="image/avif">
+          <img src="img/divider-leaves.png" class="divider has-text-centered" alt="~~~">
+        </picture>
+    </div>
+    <span class="space40px"></span>
+    <span class="space40px"></span>
+  </section>
+  
+  <section class="section-dark" id="intro">
+    <div class="container">
+
+      <div class="column is-12 regular-section" data-aos="fade-up" data-aos-easing="linear">
+        <h1 class="title has-text-centered section-title">新人</h1>
+      </div>
+      <div class="columns is-multiline is-mobile" data-aos="fade-up" data-aos-easing="linear">
+      
+        <div class="column is-6 has-vertically-aligned-content">
+          
+              <div class="waktu tanggal-hari has-text-centered">
+                <picture>
+                  <source srcset="img/jess.avif" type="image/avif">
+                  <img src="img/jess.jpg" alt="jess">
+                </picture>
+              </div> 
+              <div class="waktu tanggal-angka has-text-centered">
+                <p class="waktu is-larger has-text-centered" style="color: #996E6D">莊麗紅</p>
+              </div>
+        </div>
+        
+        <div class="column is-6 has-vertically-aligned-content">
+          <p class="is-larger has-text-centered">
+              <div class="waktu tanggal-hari has-text-centered">
+                <picture>
+                  <source srcset="img/duke.avif" type="image/avif">
+                  <img src="img/duke.jpg" alt="duke">
+                </picture>
+              </div> 
+              <div class="waktu tanggal-angka has-text-centered">
+                <p class="waktu is-larger has-text-centered" style="color: #996E6D">方圓澍</p>
+              </div>
+          </p>
+        
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section-darker" id="location" >
+    <div class="container">
+      <div class="column is-12 regular-section" data-aos="fade-up" data-aos-easing="linear">
+        <h1 class="title has-text-centered section-title">地點</h1>
+        <p class="tempat is-larger has-text-centered">
+          <strong>三正半山酒店</strong>
+          <br>
+              地址：东莞市樟木头镇石新路 22 号
+          <br>
+              酒店电话：0769-87799333
+          <br>
+        </p>
+      </div>
+      <div class="section-map" data-aos="fade-up" data-aos-easing="linear">
+        <picture>
+          <source srcset="img/map.avif" type="image/avif">
+          <img src="img/map.jpg" alt="map">
+        </picture>
+      </div>
+      <div class="space40px"></div>
+      <div class="has-text-centered" data-aos="fade-up" data-aos-easing="linear">
+        <a href="https://surl.amap.com/3lyI90L54ay" class="button btn-cta" target="_blank" data-aos="zoom-in">
+          <img src="img/directions-regular.svg" style="width:1em;">
+          &nbsp;&nbsp;高德地圖
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-light regular-section is-fullheight" id="gallery">
+    <div class="container">
+      <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
+      
+        <div class="column is-12">
+          <h1 class="title has-text-centered section-title">相冊</h1>
+          <p class="tempat is-larger has-text-centered">可点击查看大图</p>
+          <p class="tempat is-larger has-text-centered avif-tips">（当前浏览器不支持 avif 图片格式，建议您升级浏览器以观看更高质量照片，以及更快的加载速度，当前已为您切换 jpg 备用图片。）</p>
+        </div>
+        
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="8y1a8100" data-type="is-3by5"><!--figure class="image is-3by5 foto-item"></figure--></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="8y1a8137" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="8y1a8175" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="8y1a8180" data-type="is-5by3"></span>
+          <br>
+          <span class="wedding-photo" data-id="8y1a8281" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="8y1a8287" data-type="is-3by5"></span>
+        </div>
+        
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="8y1a8271" data-type="is-5by3"></span>
+          <br>
+          <span class="wedding-photo" data-id="8y1a8341" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="8y1a8414" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="8y1a8375" data-type="is-5by3"></span>
+          <br>
+          <span class="wedding-photo" data-id="8y1a8402" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-4">
+          <span class="wedding-photo" data-id="8y1a8538" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="8y1a8473" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="8y1a8636" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="8y1a8642" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="8y1a8670" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="8y1a8733" data-type="is-3by5"></span>
+        </div>
+        
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="8y1a8874" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-4">
+          <span class="wedding-photo" data-id="8y1a8842" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="8y1a9004" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="8y1a8915" data-type="is-5by3"></span>
+          <br>
+          <span class="wedding-photo" data-id="8y1a9087" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="8y1a9183" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="8y1a9037" data-type="is-5by3"></span>
+          <br>
+          <span class="wedding-photo" data-id="8y1a9155" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="8y1a9406" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="8y1a9457" data-type="is-5by3"></span>
+          <br>
+          <span class="wedding-photo" data-id="8y1a9692" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="8y1a9465" data-type="is-3by5"></span>
+        </div>
+        
+        <div class="column is-4">
+          <span class="wedding-photo" data-id="8y1a9724" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0725" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0729" data-type="is-5by3"></span>
+          <br>
+          <span class="wedding-photo" data-id="1c3a0741" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="1c3a0767_o" data-type="is-3by5"></span>
+        </div>
+        
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="1c3a0772_o" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="1c3a0782_o" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0804" data-type="is-5by3"></span>
+          <br>
+          <span class="wedding-photo" data-id="1c3a0817" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="1c3a0791_o" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0820_f" data-type="is-5by3"></span>
+          <br>
+          <span class="wedding-photo" data-id="1c3a0827_o" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0841" data-type="is-5by3"></span>
+          <br>
+          <span class="wedding-photo" data-id="1c3a0856" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-6">
+          <span class="wedding-photo" data-id="1c3a0885_f" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0866" data-type="is-5by3"></span>
+          <br>
+          <span class="wedding-photo" data-id="1c3a0887" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0890" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0897" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0903" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0910" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0913" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0914" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0917" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0937_o" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-2">
+          <span class="wedding-photo" data-id="1c3a0962" data-type="is-3by5"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a0994" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-4">
+          <span class="wedding-photo" data-id="1c3a1012" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1005" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1035_o" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1041" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1049_f" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1091" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1092" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1096" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1097_f" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1107" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1110" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1115" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1118_o" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1122_o" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-4">
+          <span class="wedding-photo" data-id="1c3a1139_o" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1132" data-type="is-5by3"></span>
+          <br>
+          <span class="wedding-photo" data-id="1c3a1146" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-5">
+          <span class="wedding-photo" data-id="1c3a1145_f" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1149" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1156" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1163" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1167" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1171" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1178" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1183" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1188_o" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-4">
+          <span class="wedding-photo" data-id="1c3a1213" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-4">
+          <span class="wedding-photo" data-id="1c3a1219" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-4">
+          <span class="wedding-photo" data-id="1c3a1282_o" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1295" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1306" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1307" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1313" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1321" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1c3a1347" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1dsc03164" data-type="is-5by3"></span>
+        </div>
+        <div class="column is-3">
+          <span class="wedding-photo" data-id="1dsc03165" data-type="is-5by3"></span>
+        </div>
+        
+        <div class="column is-4">
+          <span class="wedding-photo" data-id="1dsc03166" data-type="is-5by3"></span>
+        </div>
+    </div>
+    
+    
+      <div class="columns is-multiline">  
+       <div class="column has-text-centered is-12 prolog">
+
+        <div class="space40px"></div>
+        <div data-aos="fade-up" data-aos-easing="linear">
+            <picture>
+              <source srcset="img/divider-leaves.avif" type="image/avif">
+              <img src="img/divider-leaves.png" class="divider has-vertically-align" alt="~~~">
+            </picture>
+        </div>
+        <div class="space40px"></div>
+        <div class="space40px"></div>
+
+       </div>
+      </div>
+    
+  </section>
+
+  <section class="section-dark contact" id="rsvp">
+    <div class="container">
+      <div class="columns is-multiline">          
+        <div class="column is-12 prolog">
+          <h1 class="title has-text-centered section-title" data-aos="fade-up" data-aos-easing="linear">出席確認</h1>
+        </div>
+        <div class="column is-12 prolog has-text-centered" data-aos="fade-up" data-aos-easing="linear">
+          <p class="h2 subtitle">
+                 先生/夫人/兄弟姐妹願意出席祝福，我們將倍感榮幸。
+            <br>
+            <br>
+                 注意安全，保重身體 :)
+            </p>
+ 
+          <a href="tel:+86-1----------" class="button btn-whatsapp" target="_blank" data-aos="zoom-in">
+            <img src="img/phone-light.svg" style="width:1em;"> &nbsp; Jess 180xxxx5362
+          </a>
+          <a href="tel:+86-1----------" class="button btn-whatsapp" target="_blank" data-aos="zoom-in">
+            <img src="img/phone-light.svg" style="width:1em;"> &nbsp; Duke 185xxxx0518
+          </a >
+          <div class="space40px"></div>
+        </div>
+
+     </div>
+    </div>
+  </section>
+</div>
+
+<!-- Begin Footer -->
+<div class="footer">
+  <div class="container">
+    <a href="https://dukelec.com" class="has-vertically-align">
+      <p class="has-vertically-align">2023 &copy Dukelec</p>
+    </a>
+    <a href="https://bulma.io" class="has-vertically-align">
+        <picture>
+          <source srcset="img/made-with-bulma.avif" type="image/avif">
+          <img src="img/made-with-bulma.png" alt="Made with Bulma">
+        </picture>
+    </a>
+  </div>
+</div>
+<!-- End Footer -->
+
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content modal-is-image">
+    <p class="image"><img id="modal-img" src="" alt="Loading..."></p>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>
+
+<div class="tz-music-element">
+    <audio id="bg_music" controls autoplay preload="none" loop hidden>
+      <!--source src="music/bg1.mp3" type="audio/opus"-->
+      <source src="music/bg1.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <span class="" id="bg_music_ctrl"></span>
+</div>
+
+
+</body>
+</html>
