@@ -1,13 +1,13 @@
 DIY a small SMT machine for scattered components, aimed for engineers, to solve the pain of daily prototyping.
-Here is a video of the initial run, the video shows the 0402 material (my target is 0201).
-It will be continuously optimised in the future.
 
 Open source:  
 https://github.com/dukelec/cd_pnp
 
-Last video:  
-https://youtu.be/zz6A2N83bC0  
-(or: https://www.bilibili.com/video/BV1wL4y1H7ot)
+Last video (0201 SMT test):  
+https://youtu.be/3ZsayoO3BOo  
+(or: https://www.bilibili.com/video/BV1CY41167sX/)
+
+<img src="cdpnp_0201.jpg" style="max-width:100%">
 
 
 The core architecture is:
@@ -17,6 +17,9 @@ and can continue to increase the number of cameras in the future.
 One of the axes is driven by two motors together, which requires high synchronisation.
 The CDBUS multicast mechanism is used here to achieve perfect synchronisation.
 The stepper servo and jpeg bus camera have been open source projects for a long time.
+
+
+Here is a video of the initial run, the video shows the 0402 material:
 
 <p>
   <div class="embed-responsive embed-responsive-16by9">
