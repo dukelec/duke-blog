@@ -1,13 +1,13 @@
 DIY a small SMT machine for scattered components, aimed for engineers, to solve the pain of daily prototyping.
 
 Open source:  
-https://github.com/dukelec/cd_pnp
+https://github.com/dukelec/cdpnp
 
 Last video (0201 SMT test):  
 https://youtu.be/3ZsayoO3BOo  
 (or: https://www.bilibili.com/video/BV1CY41167sX/)
 
-<img src="cdpnp_0201.jpg" style="max-width:100%">
+<img src="cdpnp-0201.jpg" style="max-width:100%">
 
 
 The core architecture is:
@@ -24,7 +24,7 @@ Here is a video of the initial run, the video shows the 0402 material:
 <p>
   <div class="embed-responsive embed-responsive-16by9">
     <video class="embed-responsive-item" controls>
-      <source src="cd-pnp.mp4" type="video/mp4">
+      <source src="cdpnp-first.mp4" type="video/mp4">
     </video>
   </div>
 </p>
