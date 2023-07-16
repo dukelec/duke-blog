@@ -16,8 +16,8 @@ https://e.d-l.io/#MnjnvW3FFpB/yuOrkjGVlARp6BEoz6O1ah0FccFc5vQ=
 你只需要在首次使用時被提示輸入密碼，日後只要點開鏈接就可以看到內容，還能直接分享加密後的回覆。
 
 此工具還支持圖片、視頻和其它所有文件的打包加密（數據量大時，加密內容打包爲文件另行分享）。  
-還可以把文件上傳到一個文件服務器（要開啓 CORS 或使用第三方 CORS proxy 代理），然後只需要分享一個連接即可：`https://CDE_TOOL_URL/#+https://ENCRYPTED_FILE_URL`.
-（`#+` 後面的 `https://` 可以省略。）
+還可以把文件上傳到一個文件服務器（要開啓 CORS 或使用第三方 CORS proxy 代理），然後只需要分享一個連接即可：`https://CDE_TOOL_URL/#:https://ENCRYPTED_FILE_URL`.
+（`#:` 後面的 `https://` 可以省略。）
 
 ## 大文件免費空間
 
@@ -30,7 +30,7 @@ https://e.d-l.io/#MnjnvW3FFpB/yuOrkjGVlARp6BEoz6O1ah0FccFc5vQ=
 因为域名相同，没有 CORS 问题。（如果大家也想这么玩，需要自己同步一份 CDE 的库，才能确保域名相同。）
 
 譬如，我分享昨天在 1024 上面看到的文章给我妈，密码 8 个 8：  
-https://dukelec.gitee.io/cde/#+/nrf/nrf5x.bin  
+https://dukelec.gitee.io/cde/#:/nrf/nrf5x.bin  
 （因爲域名相同，文件地址可以省略重複的域名。）
 
 ## 技巧
@@ -52,9 +52,9 @@ https://dukelec.gitee.io/cde/#+/nrf/nrf5x.bin
 https://item.taobao.com/item.htm?id=552376962169&abtest=34&sid=5bc5c4aa08#MnjnvW3FFpB/yuOrkjGVlARp6BEoz6O1ah0FccFc5vQ=
 
 帶加密文件的方式：  
-https://item.taobao.com/item.htm?id=552376962169&abtest=34&sid=5bc5c4aa08#+dukelec.gitee.io/nrf/nrf5x.bin
+https://item.taobao.com/item.htm?id=552376962169&abtest=34&sid=5bc5c4aa08#:dukelec.gitee.io/nrf/nrf5x.bin
 
-如果覺得文件太明顯，可以把原始連接 `dukelec.gitee.io/cde/#+/nrf/nrf5x.bin` 當文本加密，生成帶加密數據的連接，再隱寫即可。
+如果覺得文件太明顯，可以把原始連接 `dukelec.gitee.io/cde/#:/nrf/nrf5x.bin` 當文本加密，生成帶加密數據的連接，再隱寫即可。
 
 ### 安全的分享密碼
 
