@@ -1,0 +1,8 @@
+{
+    "title": "解决 CDBUS Bridge 小概率死机的问题",
+    "date": "2023-10-16T13:50+08:00",
+    "languages": ["zh"],
+    "categories": ["Embeded"],
+    "tags": ["STM32G0", "HardFault"],
+    "summary": "STM32G0 hardfault 死机解决方法"
+}
