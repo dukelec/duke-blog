@@ -1,0 +1,8 @@
+{
+    "title": "SVPWM 原理思考",
+    "date": "2024-08-01T16:30+08:00",
+    "languages": ["zh"],
+    "categories": ["Hardware"],
+    "tags": ["FOC", "SVPWM", "Thought"],
+    "summary": "更简单的 SVPWM 原理和实现"
+}
