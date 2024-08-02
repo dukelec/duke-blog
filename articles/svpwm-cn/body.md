@@ -13,7 +13,7 @@ SVPWM 和 SPWM 的波形不太一样，譬如下图，标准的正弦波是 SPWM
 
 <img src="1.avif" style="max-width:100%" alt="Your browser may not support avif images!">
 
-两个波形叠加的效果图：
+两个波形重叠的效果图：
 
 <img src="2.avif" style="max-width:100%">
 
@@ -24,5 +24,5 @@ SVPWM 和 SPWM 的波形不太一样，譬如下图，标准的正弦波是 SPWM
 
 更多电机相关感悟，参见 CDFOC 开源电机控制器 Wiki 页面文章：
 
-https://github.com/dukelec/cdfoc/wiki/
+https://github.com/dukelec/cdfoc/wiki
 

@@ -1,0 +1,8 @@
+{
+    "title": "SVPWM Principle Thoughts",
+    "date": "2024-08-02T10:30+08:00",
+    "languages": ["en"],
+    "categories": ["Hardware"],
+    "tags": ["FOC", "SVPWM", "Thought"],
+    "summary": "A Simpler Explanation and Implementation of SVPWM"
+}
