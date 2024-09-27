@@ -18,7 +18,7 @@ The desired shape has been assembled below and you can switch to the Wireframe v
 <img src="pic1/_2.jpg" style="max-width:100%">
 
 Next we add a bevel to the base. First select the base, then switch to edit mode by the Tab key.  
-Hold down Ctrl + Alt and left-click to select the circle in the figure:
+Hold down Ctrl + Alt (or Shift + Alt) and left-click to select the circle in the figure:
 
 <img src="pic1/_3.jpg" style="max-width:100%">
 
