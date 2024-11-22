@@ -6,7 +6,7 @@ The principle is straightforward and doesn’t require following the complex pro
 
 As shown in the figure, with a maximum output limit of ±100%, we first increase the original SPWM output by 15%, causing the three-phase waveforms to exceed the maximum output range.
 
-At this point, we simply shift the three PWM values up or down so that all three values fall within the ±100% range. For the motor, what matters is the relative difference between the three-phase voltages, and the overall shift does not affect the motor.
+At this point, adjust the overall offset of the three PWM values up or down (with different offset values at different time points) to ensure that all three PWM values remain within the ±100% range. For the motor, what matters is the relative difference between the three-phase voltages. The overall offset has no effect on the motor.
 
 If we shift based on the midpoint (calculating the highest and lowest values to find the median, then shifting accordingly), the output will be a standard SVPWM waveform.
 
