@@ -1,0 +1,8 @@
+{
+    "title": "SPI 延迟补偿",
+    "date": "2025-01-12T16:30+08:00",
+    "languages": ["zh"],
+    "categories": ["Hardware"],
+    "tags": ["SPI", "Verilog", "FPGA"],
+    "summary": "高速 SPI SDO (MISO) 延迟补偿方法"
+}

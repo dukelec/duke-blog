@@ -1,0 +1,8 @@
+{
+    "title": "SPI delay compensation",
+    "date": "2025-01-12T16:30+08:30",
+    "languages": ["en"],
+    "categories": ["Hardware"],
+    "tags": ["SPI", "Verilog", "FPGA"],
+    "summary": "High-speed SPI SDO (MISO) delay compensation method"
+}
