@@ -26,3 +26,5 @@ SVPWM 和 SPWM 的波形不太一样，譬如下图，标准的正弦波是 SPWM
 
 https://github.com/dukelec/cdfoc/wiki
 
+<br>
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
