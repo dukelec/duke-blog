@@ -145,3 +145,37 @@ MCU 挂起后，输入 `where` 可以打印 backtrace, 查看函数调用关系�
 （我之所以还没用上新版本摄像头，是因为新摄像头要做 CDPNP 升级包赠送老客户，因为事情多，拖了比较久，已经联络了部分老客户，打算一个月内全部通知到位。）
 
 
+## 使用 Eclipse 单步调试
+
+首先要下载安装 `Eclipse IDE for Embedded C/C++ Developers` 版本的 Eclipse
+
+然后在 Eclipse 直接打开现有的 Makefile 工程，Toolchain 选择 `Arm Cross GCC`
+
+<img src="e1.avif" style="max-width:100%">
+
+然后在臭虫图标的倒三角图标的下拉列表选择 `Debug Configurations` 菜单
+
+然后双击 `GDB Hardware Debugging` 会自动在其下增加一个 `xxx Default`
+
+然后指定一下 gdb 工具的路径，和 gdb server 的端口（下面不同工具默认端口不同，启动 gdb server 的时候会打印端口信息；其它 table 还可以指定是否每次启动调试都烧录一下代码之类的）
+
+在外部启动 gdb server，譬如使用 `st-util` 命令（来自 `st-flash` 烧录工具）
+
+又或者是：
+```
+$ pyocd gdbserver --target gd32e230f6
+```
+
+pyocd 没有默认支持的芯片，只要在芯片官网下载 keil 支持包，然后指定一下包所在路径即可，不用安装或修改 pyocd 配置（烧录也是一样，调试 stm32、gd32、at32 等等我使用的都是 `st-link v2` 硬件）：
+
+```
+$ pyocd gdbserver --target at32f405cbt7 --pack=/path/to/ArteryTek.AT32F402_405_DFP.2.1.0.pack
+```
+
+<img src="e2.avif" style="max-width:100%">
+
+最后点编译按钮就可以完成编译，然后点臭虫图标，或者是上图最右下角的 `Debug` 按钮即可进入调试模式。（留意 gdbserver 终端的打印，开始烧录程序要等几秒。）
+
+
+<img src="e3.avif" style="max-width:100%">
+
