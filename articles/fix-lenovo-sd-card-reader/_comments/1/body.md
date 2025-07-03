@@ -1,0 +1,1 @@
+hello, I'm designing a card reader base on RTS5170, if you have the datasheet of RTS5170, could you please share me it, thank you.
