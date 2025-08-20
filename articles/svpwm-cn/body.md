@@ -20,7 +20,20 @@ SVPWM 和 SPWM 的波形不太一样，譬如下图，标准的正弦波是 SPWM
 
 生成该波形的脚本源码：
 
-[svpwm_wave.py](svpwm_wave.py)
+[svpwm_wave.py](svpwm_wave.py)  
+
+------------------------------
+
+进一步地，我们还可以始终向下平移波形，让至少一项电压为最低值，得到下面右图的波形：
+
+<img src="3.avif" style="max-width:100%">
+
+好处是：对于 2 电阻电流采样可以提高电压利用率，对于 3 电阻电流采样可以提前切换电流采样通道。
+
+源码：
+
+[svpwm_wave2.py](svpwm_wave2.py)
+
 
 更多电机相关感悟，参见 CDFOC 开源电机控制器 Wiki 页面文章：
 

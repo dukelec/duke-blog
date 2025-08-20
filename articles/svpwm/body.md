@@ -22,6 +22,22 @@ Script source code for generating the waveform:
 
 [svpwm_wave.py](svpwm_wave.py)
 
+
+------------------------------
+
+Additionally, we can shift the waveform downward so that at least one phase voltage is minimized, as shown in the right figure below:
+
+<img src="3.avif" style="max-width:100%">
+
+Benefits:
+ - For two-shunt current sampling, it improves voltage utilization.
+ - For three-shunt current sampling, it enables earlier current channel switching.
+
+Script:
+
+[svpwm_wave2.py](svpwm_wave2.py)
+
+
 For more information, please refer to the CDFOC open-source motor controller project:
 
 https://github.com/dukelec/cdfoc
