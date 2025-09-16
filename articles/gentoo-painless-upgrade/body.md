@@ -56,7 +56,7 @@ Sometimes upgrading the world only reports errors and does not print the upgrade
 You can try upgrading some software first. Any time that emerge has some errors and there is a printed upgrade list, you can use the script to upgrade.
 
 
-### Updates:
+### Update:
 
 I found that Gentoo upgrade problems can be solved by emerge with the `--nodeps` parameter, which can install programs that have dependency problems and are not allowed to be installed. In turn, we can break the dependency loop and solve various problems including world upgrades.
 
@@ -65,4 +65,12 @@ Sometimes I also like to use `emerge -C` to delete unimportant programs in order
 Also, the above script has been modified to use the `--nodeps` parameter instead of ebuild compile, install, etc.
 
 
+### Update 2:
 
+I found that the reason there are so many errors when preparing to upgrade the system is that the `world` list contains a lot of base libraries.
+In fact, the `world` list should only keep the final applications we explicitly want to install.
+This way, when upgrading, the dependencies of those applications will be updated to suitable versions automatically.
+But if the dependency libraries are also included in the `world` list, the system will try to upgrade them to the latest versions too,
+which often leads to conflicts and errors.
+
+We can fix this by directly editing `/var/lib/portage/world` to clean up the list.
