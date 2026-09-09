@@ -28,5 +28,8 @@ gconf = {
 
     "url": "https://blog.d-l.io",
     "admin": ["Duke", "d@d-l.io"],
-    "notify": "normal"          # "none", "normal", "verbose"
+    "notify": "normal",         # "none", "normal", "verbose"
+
+    # articles not listed on the index page, still reachable by their url
+    "hidden": []
 }

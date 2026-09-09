@@ -123,10 +123,14 @@ def update_link(html, url):
 
 
 print('Process Index...')
-articles = json.loads(subprocess.getoutput("../api/read-index --json"))
+p = subprocess.run("../api/read-index --all", shell=True, stdout=subprocess.PIPE)
+articles = json.loads(p.stdout.decode())
+hidden = gconf.get('hidden', [])
 
 app_body = ''
 for article in articles:
+    if article['url'] in hidden: # keep the article page, drop it from the index
+        continue
     article['summary'] = markdown.markdown(article['summary'], extensions=md_extensions, output_format='html5')
     article['summary'] = update_link(article['summary'], article['url'])
     app_body += index_tpl(article)
@@ -140,7 +144,8 @@ with open('index.html', 'w') as f:
 for a in articles:
     app_body = ''
     print(f"Process {a['url']}...")
-    article = json.loads(subprocess.getoutput(f"../api/read-article {a['url']}"))
+    p = subprocess.run(f"../api/read-article {a['url']}", shell=True, stdout=subprocess.PIPE)
+    article = json.loads(p.stdout.decode())
     article['url'] = a['url']
     article['body'] = markdown.markdown(article['body'], extensions=md_extensions, output_format='html5')
     article['body'] = update_link(article['body'], a['url'])
