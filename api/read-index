@@ -10,9 +10,14 @@ from conf.gconf import gconf
 if len(sys.argv) == 1:
     print('Content-Type: application/json; charset=utf-8\n')
 
+# '--all' also outputs the articles listed in gconf['hidden']
+hidden = [] if '--all' in sys.argv else gconf.get('hidden', [])
+
 articles = []
 
 for url in os.listdir('../articles'):
+    if url in hidden:
+        continue
     article_dir = '../articles/' + url
 
     with open(article_dir + '/_metadata', 'r') as file:
